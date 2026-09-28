@@ -1,8 +1,11 @@
-name: NIFTY Overnight Learning Research
+name: NIFTY Continuous Learning Research
 
 on:
+  # Re-evaluate historical patterns and closed-trade diagnostics continuously.
+  # This never emits a live BUY/SELL decision; decisions remain session-gated.
   schedule:
-    - cron: '0 11 * * 1-5'
+    - cron: '0 * * * 1-5'
+    - cron: '0 */6 * * 0,6'
   workflow_dispatch:
 
 permissions:
@@ -27,5 +30,5 @@ jobs:
           git config user.name 'Rupendra NIFTY Learning Bot'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add data/learning_state.json
-          git diff --cached --quiet || git commit -m 'Update overnight NIFTY learning diagnostics'
+          git diff --cached --quiet || git commit -m 'Update continuous NIFTY learning diagnostics'
           git push
