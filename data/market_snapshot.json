@@ -1,0 +1,8 @@
+{
+  "generated_at": null,
+  "source_quality": "PUBLIC_RESEARCH_FEEDS",
+  "live_broker_feed": false,
+  "decision": "NO TRADE",
+  "reason": "Waiting for the scheduled free market snapshot. No trade is issued from stale or incomplete data.",
+  "market": {}
+}
