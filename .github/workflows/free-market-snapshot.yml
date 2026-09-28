@@ -35,6 +35,11 @@ jobs:
         env:
           PYTHONPATH: ${{ github.workspace }}/scripts
         run: python intelligence_engine_v5.py
+      - name: Track validated recommendations and actual P/L
+        working-directory: ${{ github.workspace }}/scripts
+        env:
+          PYTHONPATH: ${{ github.workspace }}/scripts
+        run: python trade_tracker.py
       - name: Persist intelligence state safely
         run: |
           git config user.name 'Rupendra NIFTY Intelligence Bot'
