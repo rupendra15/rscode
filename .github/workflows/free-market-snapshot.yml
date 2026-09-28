@@ -5,9 +5,9 @@ on:
     paths-ignore:
       - 'data/**'
   schedule:
-    - cron: '45-59/5 3 * * 1-5'
-    - cron: '*/5 4-9 * * 1-5'
-    - cron: '0-40/5 10 * * 1-5'
+    # Keep the cloud evidence engine alive 24/7. The application itself
+    # decides whether a trading decision is permitted by NSE session/holiday rules.
+    - cron: '*/5 * * * 1-5'
   workflow_dispatch:
 
 permissions:
@@ -32,12 +32,12 @@ jobs:
           python-version: '3.12'
       - name: Install market dependencies
         run: pip install -r requirements-market.txt
-      - name: Run market-hours intelligence engine v3
+      - name: Run cloud intelligence engine
         run: python scripts/intelligence_engine_v3.py
       - name: Persist intelligence state
         run: |
           git config user.name 'Rupendra NIFTY Intelligence Bot'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add data/market_snapshot.json data/history.json data/trade_journal.json
-          git diff --cached --quiet || git commit -m 'Update market-hours intelligence v3'
+          git diff --cached --quiet || git commit -m 'Update cloud intelligence state'
           git push
