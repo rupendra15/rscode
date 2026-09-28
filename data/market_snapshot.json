@@ -1,23 +1,35 @@
 {
   "generated_at": "2026-09-29T00:00:00+00:00",
   "timestamp": "2026-09-29T00:00:00+00:00",
+  "owner": "Rupendra",
   "source_quality": "PUBLIC_RESEARCH_FEEDS",
   "live_broker_feed": false,
   "decision": "NO TRADE",
-  "reason": "No verified live derivatives/options feed is connected. The engine will not invent a CALL or PUT contract.",
+  "signal_strength": 84,
+  "model_score": -10.5,
+  "reason": "NO TRADE — last verified research snapshot shows bearish alignment, but an exact CALL/PUT contract is not safely available from a verified live options feed.",
   "nifty": 22780.25,
   "vix": 13.64,
   "regime": "DOWN",
   "market": {
-    "NIFTY": {"price": 22780.25, "change_pct": -1.56},
+    "NIFTY": {"price": 22780.25, "change_pct": -1.56, "rsi14": 36.67, "ema20": null, "ema50": null, "atr14": null, "vwap": null, "momentum5m_pct": null, "momentum15m_pct": null},
     "VIX": {"price": 13.64, "change_pct": 12.15},
     "GIFT_NIFTY": {"price": 22860.50, "change_pct": 0.16},
     "SPX": {"price": 7695.41, "change_pct": -0.62},
     "NASDAQ": {"price": 26879.98, "change_pct": -0.70},
+    "USDINR": {},
     "CRUDE": {"price": 94.50, "change_pct": 2.26},
     "GOLD": {"price": 4164.30, "change_pct": -3.63}
   },
+  "evidence": ["NIFTY weakness", "RSI bearish", "VIX rising with NIFTY weakness", "global risk-off context"],
+  "news": [],
+  "option_data": {"status": "BLOCKED", "reason": "No verified licensed live options feed is connected."},
   "contract": null,
   "plan": null,
-  "pnl": null
+  "pnl": null,
+  "journal": {"open": null, "closed_count": 0},
+  "validation": {"samples": 0, "hit_rate": null, "method": "Awaiting next cloud research run"},
+  "data_quality": {"core_complete": false, "options_ready": false, "news_count": 0, "snapshot_is_seed": true, "timestamp_utc": "2026-09-29T00:00:00+00:00"},
+  "research_plan": null,
+  "history_size": 1
 }
