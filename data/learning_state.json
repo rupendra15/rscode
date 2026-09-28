@@ -1,0 +1,13 @@
+{
+  "updated_at": null,
+  "status": "WAITING_FOR_FIRST_OVERNIGHT_RUN",
+  "window": "1 month of 5-minute NIFTY data",
+  "pattern_stats": {},
+  "direction_stats": {},
+  "learning_rules": [
+    "Do not trade during weak or contradictory regimes.",
+    "Prefer independent confirmation across trend, momentum, volatility and options.",
+    "Use historical hit-rate diagnostics to increase or decrease selectivity, never to guarantee an outcome.",
+    "Avoid optimizing rules on the same data used for validation."
+  ]
+}
