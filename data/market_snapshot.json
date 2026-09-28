@@ -1,35 +1,130 @@
 {
-  "generated_at": "2026-09-29T00:00:00+00:00",
-  "timestamp": "2026-09-29T00:00:00+00:00",
+  "generated_at": "2026-09-28T22:46:29.902026+00:00",
+  "timestamp": "2026-09-28T22:46:29.902026+00:00",
   "owner": "Rupendra",
   "source_quality": "PUBLIC_RESEARCH_FEEDS",
   "live_broker_feed": false,
   "decision": "NO TRADE",
-  "signal_strength": 84,
-  "model_score": -10.5,
-  "reason": "NO TRADE — last verified research snapshot shows bearish alignment, but an exact CALL/PUT contract is not safely available from a verified live options feed.",
-  "nifty": 22780.25,
-  "vix": 13.64,
-  "regime": "DOWN",
+  "signal_strength": 50,
+  "model_score": 0,
+  "reason": "NO TRADE \u2014 core market data incomplete; usable option chain unavailable; model score 0 below \u00b15 gate; validation sample insufficient.",
+  "nifty": null,
+  "vix": null,
+  "regime": "NEUTRAL",
   "market": {
-    "NIFTY": {"price": 22780.25, "change_pct": -1.56, "rsi14": 36.67, "ema20": null, "ema50": null, "atr14": null, "vwap": null, "momentum5m_pct": null, "momentum15m_pct": null},
-    "VIX": {"price": 13.64, "change_pct": 12.15},
-    "GIFT_NIFTY": {"price": 22860.50, "change_pct": 0.16},
-    "SPX": {"price": 7695.41, "change_pct": -0.62},
-    "NASDAQ": {"price": 26879.98, "change_pct": -0.70},
-    "USDINR": {},
-    "CRUDE": {"price": 94.50, "change_pct": 2.26},
-    "GOLD": {"price": 4164.30, "change_pct": -3.63}
+    "NIFTY": {
+      "error": "TypeError"
+    },
+    "VIX": {
+      "error": "TypeError"
+    },
+    "SPX": {
+      "error": "TypeError"
+    },
+    "NASDAQ": {
+      "error": "TypeError"
+    },
+    "USDINR": {
+      "error": "TypeError"
+    },
+    "CRUDE": {
+      "error": "TypeError"
+    },
+    "GOLD": {
+      "error": "TypeError"
+    }
   },
-  "evidence": ["NIFTY weakness", "RSI bearish", "VIX rising with NIFTY weakness", "global risk-off context"],
-  "news": [],
-  "option_data": {"status": "BLOCKED", "reason": "No verified licensed live options feed is connected."},
+  "evidence": [],
+  "news": [
+    {
+      "title": "Fed Rate Hike Impact on India: Why Oil and RBI Matter in October - NiftyTrader",
+      "published": "Wed, 23 Sep 2026 05:54:09 GMT"
+    },
+    {
+      "title": "US Fed, Bank of Japan and others impact on Indian stock markets: Global rate hike cycle begins - Sensex, Nifty outlook - livemint.com",
+      "published": "Mon, 21 Sep 2026 13:21:09 GMT"
+    },
+    {
+      "title": "Market recovery at risk: Will bond yield spike, interest rate fear deepen Sensex, Nifty losses after two years of negative returns? - fortuneindia.com",
+      "published": "Wed, 16 Sep 2026 07:00:00 GMT"
+    },
+    {
+      "title": "JP Morgan projects Nifty base case of 27,000 as investors shift to broader markets - CNBC TV18",
+      "published": "Mon, 21 Sep 2026 05:22:22 GMT"
+    },
+    {
+      "title": "India's stock benchmarks ascend towards new peaks on Fed, RBI rate cut optimism - reuters.com",
+      "published": "Tue, 25 Nov 2025 08:00:00 GMT"
+    },
+    {
+      "title": "The battle between India\u2019s stock exchanges is heating up again - The Economist",
+      "published": "Thu, 24 Sep 2026 09:42:29 GMT"
+    },
+    {
+      "title": "How India Built (and Broke) the World\u2019s Biggest Options Casino - Bloomberg.com",
+      "published": "Thu, 17 Sep 2026 07:00:00 GMT"
+    },
+    {
+      "title": "India's index-options trading faces near-term drag from new stock closing, Bernstein says - reuters.com",
+      "published": "Tue, 11 Aug 2026 07:00:00 GMT"
+    },
+    {
+      "title": "India should allow exchanges to list on own platform, NSE chairman says - thehindu.com",
+      "published": "Sat, 26 Sep 2026 01:21:56 GMT"
+    },
+    {
+      "title": "World\u2019s biggest derivatives exchange finally set for $46bn market debut - Financial Times",
+      "published": "Mon, 21 Sep 2026 21:00:07 GMT"
+    },
+    {
+      "title": "RBI to raise interest rates to 5.50% in October as inflation broadens: Reuters poll - reuters.com",
+      "published": "Mon, 28 Sep 2026 11:23:37 GMT"
+    },
+    {
+      "title": "Broadening inflation, robust growth, global hikes build case for India RBI tightening - reuters.com",
+      "published": "Mon, 28 Sep 2026 09:54:31 GMT"
+    },
+    {
+      "title": "RBI MPC October 2026: Sanjay Malhotra & co may raise interest rates to 5.50% as inflation broadens, poll - The Economic Times",
+      "published": "Mon, 28 Sep 2026 10:02:57 GMT"
+    },
+    {
+      "title": "Broadening inflation, robust growth, global hikes build case for India RBI tightening - The Economic Times",
+      "published": "Mon, 28 Sep 2026 09:15:21 GMT"
+    },
+    {
+      "title": "Broadening inflation, robust growth, global hikes build case for India RBI tightening - Moneycontrol.com",
+      "published": "Mon, 28 Sep 2026 10:37:28 GMT"
+    }
+  ],
+  "option_data": {
+    "status": "BLOCKED",
+    "source": null,
+    "delay_note": null
+  },
+  "option_analysis": null,
   "contract": null,
   "plan": null,
+  "validation": {
+    "samples": 0,
+    "hit_rate": null,
+    "method": "validation unavailable"
+  },
+  "data_quality": {
+    "core_complete": false,
+    "options_ready": false,
+    "news_count": 15
+  },
+  "journal": {
+    "open": null,
+    "closed": [],
+    "stats": {
+      "closed": 0,
+      "wins": 0,
+      "losses": 0,
+      "realized_pct": 0
+    }
+  },
   "pnl": null,
-  "journal": {"open": null, "closed_count": 0},
-  "validation": {"samples": 0, "hit_rate": null, "method": "Awaiting next cloud research run"},
-  "data_quality": {"core_complete": false, "options_ready": false, "news_count": 0, "snapshot_is_seed": true, "timestamp_utc": "2026-09-29T00:00:00+00:00"},
-  "research_plan": null,
-  "history_size": 1
+  "history_size": 2
 }
