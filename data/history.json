@@ -15,5 +15,14 @@
     "score": 0,
     "decision": "NO TRADE",
     "contract": null
+  },
+  {
+    "timestamp": "2026-09-28T22:47:30.962358+00:00",
+    "nifty": 22780.25,
+    "vix": 13.64,
+    "regime": "DOWN",
+    "score": -3.5,
+    "decision": "NO TRADE",
+    "contract": null
   }
 ]
