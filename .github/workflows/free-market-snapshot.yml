@@ -5,8 +5,8 @@ on:
     paths-ignore:
       - 'data/**'
   schedule:
-    # Keep the cloud evidence engine alive 24/7. The application itself
-    # decides whether a trading decision is permitted by NSE session/holiday rules.
+    # Cloud evidence collection stays alive on weekdays. The trading engine
+    # itself gates BUY/SELL/NO-TRADE decisions to the NSE trading session.
     - cron: '*/5 * * * 1-5'
   workflow_dispatch:
 
@@ -32,12 +32,14 @@ jobs:
           python-version: '3.12'
       - name: Install market dependencies
         run: pip install -r requirements-market.txt
-      - name: Run cloud intelligence engine
+      - name: Collect continuous evidence heartbeat
+        run: python scripts/evidence_heartbeat.py
+      - name: Run decision engine
         run: python scripts/intelligence_engine_v3.py
       - name: Persist intelligence state
         run: |
           git config user.name 'Rupendra NIFTY Intelligence Bot'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add data/market_snapshot.json data/history.json data/trade_journal.json
-          git diff --cached --quiet || git commit -m 'Update cloud intelligence state'
+          git add data/evidence_heartbeat.json data/market_snapshot.json data/history.json data/trade_journal.json
+          git diff --cached --quiet || git commit -m 'Update continuous evidence and market decision state'
           git push
