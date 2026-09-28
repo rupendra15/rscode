@@ -10,7 +10,6 @@ def chart(symbol,interval='5m',range_='5d'):
     r=requests.get(f'https://query1.finance.yahoo.com/v8/finance/chart/{symbol}',params={'interval':interval,'range':range_},headers=UA,timeout=20); r.raise_for_status(); z=(r.json().get('chart',{}).get('result') or [])
     if not z: raise RuntimeError('no chart')
     return z[0]
-
 def clean(a): return [float(x) for x in (a or []) if x is not None]
 def ema(a,n):
     if len(a)<n:return None
@@ -32,7 +31,6 @@ def vwap(h,l,c,v):
 def symbol_data(symbol):
     d=chart(symbol);q=d['indicators']['quote'][0];c=clean(q.get('close'));h=clean(q.get('high'));l=clean(q.get('low'));v=clean(q.get('volume'));ts=d.get('timestamp',[]);p=c[-1] if c else None;prev=c[-2] if len(c)>1 else None;rr=rsi(c);e20=ema(c,20);e50=ema(c,50);aa=atr(h,l,c);vw=vwap(h[-78:],l[-78:],c[-78:],v[-78:]) if len(c)>=20 else None
     return {'price':round(p,2) if p else None,'change_pct':round((p-prev)/prev*100,2) if p and prev else None,'rsi14':round(rr,2) if rr is not None else None,'ema20':round(e20,2) if e20 is not None else None,'ema50':round(e50,2) if e50 is not None else None,'atr14':round(aa,2) if aa is not None else None,'vwap':round(vw,2) if vw is not None else None,'momentum5m_pct':round((p/c[-6]-1)*100,2) if len(c)>6 else None,'momentum15m_pct':round((p/c[-16]-1)*100,2) if len(c)>16 else None,'volume':int(v[-1]) if v else None,'high_5d':round(max(h),2) if h else None,'low_5d':round(min(l),2) if l else None,'bar_epoch':ts[-1] if ts else None}
-
 def news():
     out=[];seen=set()
     for q in ['NIFTY India markets RBI Fed','India stock market options','India inflation RBI interest rates','India markets crude rupee global']:
@@ -43,22 +41,18 @@ def news():
                 if t and t not in seen:seen.add(t);out.append({'title':t,'published':p})
         except Exception:pass
     return out[:15]
-
 def cdf(x):return .5*(1+math.erf(x/math.sqrt(2)))
 def delta(spot,strike,iv,days,kind):
     if not iv or not days or spot<=0 or strike<=0:return None
     t=max(days/365,.00274)
     try:d1=(math.log(spot/strike)+(.065+.5*iv*iv)*t)/(iv*math.sqrt(t));return cdf(d1) if kind=='CE' else cdf(d1)-1
     except Exception:return None
-
 def options(spot,kind):
-    base='https://query2.finance.yahoo.com/v7/finance/options/%5ENSEI';r=requests.get(base,headers=UA,timeout=20);r.raise_for_status();z=(r.json().get('optionChain',{}).get('result') or [None])[0]
+    base='https://query1.finance.yahoo.com/v7/finance/options/%5ENSEI';r=requests.get(base,headers=UA,timeout=20);r.raise_for_status();z=(r.json().get('optionChain',{}).get('result') or [None])[0]
     if not z:raise RuntimeError('option chain unavailable')
     exp=int((z.get('expirationDates') or [0])[0]);r=requests.get(f'{base}&date={exp}',headers=UA,timeout=20);r.raise_for_status();z=(r.json().get('optionChain',{}).get('result') or [None])[0]
     if not z:raise RuntimeError('empty option chain')
-    raw=z.get('options',[{}])[0];calls=raw.get('calls',[]);puts=raw.get('puts',[]);side=calls if kind=='CALL' else puts
-    pcr=(sum((x.get('openInterest') or 0) for x in puts)/sum((x.get('openInterest') or 0) for x in calls)) if sum((x.get('openInterest') or 0) for x in calls) else None
-    strikes=sorted(set(x.get('strike') for x in calls+puts if x.get('strike') is not None));mp=None
+    raw=z.get('options',[{}])[0];calls=raw.get('calls',[]);puts=raw.get('puts',[]);side=calls if kind=='CALL' else puts;pcr=(sum((x.get('openInterest') or 0) for x in puts)/sum((x.get('openInterest') or 0) for x in calls)) if sum((x.get('openInterest') or 0) for x in calls) else None;strikes=sorted(set(x.get('strike') for x in calls+puts if x.get('strike') is not None));mp=None
     if strikes:
         pains=[]
         for s in strikes:pain=sum(max(0,s-x.get('strike',0))*(x.get('openInterest') or 0) for x in calls)+sum(max(0,x.get('strike',0)-s)*(x.get('openInterest') or 0) for x in puts);pains.append((pain,s))
@@ -75,7 +69,6 @@ def options(spot,kind):
     if not cand:return {'status':'UNAVAILABLE','reason':'No liquid option passed filters.','pcr':pcr,'max_pain':mp}
     cand.sort(key=lambda x:x[0],reverse=True);sc,x,d,spr=cand[0]
     return {'status':'READY','source':'Yahoo Finance public options data (delayed; not exchange-direct)','expiry_epoch':exp,'expiry_utc':datetime.fromtimestamp(exp,timezone.utc).isoformat(),'pcr':round(pcr,3) if pcr else None,'max_pain':mp,'candidate_score':round(sc,1),'candidate':{'contractSymbol':x.get('contractSymbol'),'strike':x.get('strike'),'last':x.get('lastPrice'),'bid':x.get('bid'),'ask':x.get('ask'),'volume':x.get('volume') or 0,'oi':x.get('openInterest') or 0,'iv':x.get('impliedVolatility'),'delta_est':round(d,3),'spread_pct':round(spr*100,2),'side':'CE' if kind=='CALL' else 'PE'},'delay_note':'Public Yahoo option quotes are delayed; this is not tick-by-tick exchange data.'}
-
 def score(m):
     n=m.get('NIFTY',{});v=m.get('VIX',{});s=0;r=[]
     if not n.get('price'):return 0,r
@@ -95,7 +88,6 @@ def score(m):
     for k in ['SPX','NASDAQ']:
         x=m.get(k,{}).get('change_pct');s+=(.5 if x is not None and x>.25 else -.5 if x is not None and x<-.25 else 0)
     return round(s,2),r
-
 def validation():
     try:
         c=clean(chart('^NSEI')['indicators']['quote'][0].get('close'));hits=samples=0
@@ -105,7 +97,6 @@ def validation():
             samples+=1;f=c[i+3]-c[i];hits+=int((d>0 and f>0) or (d<0 and f<0))
         return {'samples':samples,'hit_rate':round(hits/samples*100,1) if samples else None,'method':'5d 5m EMA20/EMA50 + RSI; 15m forward direction'}
     except Exception:return {'samples':0,'hit_rate':None,'method':'validation unavailable'}
-
 def load(p,d):
     try:
         with open(p,encoding='utf-8') as f:return json.load(f)
@@ -113,7 +104,6 @@ def load(p,d):
 def save(p,d):
     os.makedirs(os.path.dirname(p),exist_ok=True)
     with open(p,'w',encoding='utf-8') as f:json.dump(d,f,indent=2)
-
 def journal(res):
     j=load(JOURNAL,{'open':None,'closed':[]});c=(res.get('option_analysis') or {}).get('candidate');now=res['timestamp']
     if j.get('open') and c and c.get('last'):
@@ -124,7 +114,6 @@ def journal(res):
     if not j.get('open') and res['decision'] in ('BUY CALL','BUY PUT') and c and c.get('ask'):
         e=c['ask'];j['open']={'time':now,'symbol':c['contractSymbol'],'side':c['side'],'entry':e,'last':e,'stop':round(e*.72,2),'target1':round(e*1.30,2),'target2':round(e*1.60,2)}
     j['stats']={'closed':len(j['closed']),'wins':sum((x.get('realized_pct') or 0)>0 for x in j['closed']),'losses':sum((x.get('realized_pct') or 0)<0 for x in j['closed']),'realized_pct':round(sum(x.get('realized_pct') or 0 for x in j['closed']),2)};save(JOURNAL,j);return j
-
 def main():
     now=datetime.now(timezone.utc).isoformat();m={}
     for k,sym in {'NIFTY':'^NSEI','VIX':'^INDIAVIX','SPX':'^GSPC','NASDAQ':'^IXIC','USDINR':'INR=X','CRUDE':'CL=F','GOLD':'GC=F'}.items():
@@ -141,8 +130,7 @@ def main():
     if ready and cand.get('candidate_score',0)<72:block.append('option quality gate failed')
     if not valid:block.append('validation sample insufficient')
     if complete and ready and abs(s)>=5 and cand.get('candidate_score',0)>=72 and valid:decision='BUY CALL' if s>0 else 'BUY PUT'
-    reason=f'{decision}: score {s}; contract quality {cand["candidate_score"]}/100; research hit rate {val.get("hit_rate")}% on {val.get("samples")} samples.' if decision!='NO TRADE' else 'NO TRADE — '+'; '.join(block)+'.'
-    plan=None
+    reason=f'{decision}: score {s}; contract quality {cand["candidate_score"]}/100; research hit rate {val.get("hit_rate")}% on {val.get("samples")} samples.' if decision!='NO TRADE' else 'NO TRADE — '+'; '.join(block)+'.';plan=None
     if decision!='NO TRADE':
         e=cand.get('ask') or cand.get('last');plan={'entry':e,'stop':round(e*.72,2),'target1':round(e*1.30,2),'target2':round(e*1.60,2),'note':'Research plan using delayed public option quote.'}
     r={'generated_at':now,'timestamp':now,'owner':'Rupendra','source_quality':'PUBLIC_RESEARCH_FEEDS','live_broker_feed':False,'decision':decision,'signal_strength':min(99,int(50+abs(s)*5)),'model_score':s,'reason':reason,'nifty':n.get('price'),'vix':m.get('VIX',{}).get('price'),'regime':reg,'market':m,'evidence':reasons,'news':news(),'option_data':{'status':oa.get('status') if oa else 'BLOCKED','source':oa.get('source') if oa else None,'delay_note':oa.get('delay_note') if oa else None},'option_analysis':oa,'contract':(cand or {}).get('contractSymbol') if decision!='NO TRADE' else None,'plan':plan,'validation':val,'data_quality':{'core_complete':complete,'options_ready':ready}}
