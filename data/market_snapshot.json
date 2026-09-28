@@ -1,69 +1,10 @@
 {
-  "owner": "Rupendra",
-  "engine_version": "4.1",
-  "timestamp": "2026-09-29T04:35:00+05:30",
-  "ist_time": "2026-09-29T04:35:00+05:30",
-  "market_open": false,
-  "market_status": "MARKET CLOSED",
-  "decision": "MARKET CLOSED",
-  "decision_type": "SESSION_STATE",
-  "signal_strength": 0,
-  "model_score": "RESEARCH",
-  "reason": "Trading decision is hidden outside NSE equity-derivatives hours. Research data, global context, news, historical validation and previous P/L remain visible.",
-  "previous_decision": null,
-  "journal_stats": {"closed": 0, "wins": 0, "losses": 0, "realized_pct": 0},
-  "learning": {},
-  "nifty": 22780.25,
-  "vix": 13.64,
-  "regime": "BEARISH_BIAS",
-  "market": {
-    "NIFTY": {"price": 22780.25, "change_pct": -1.56, "high_5d": 23489.0, "low_5d": 22762.2, "fresh": false, "stale": true, "source_status": "LAST_PUBLIC_CLOSE_28_SEP_2026"},
-    "VIX": {"price": 13.64, "change_pct": 12.15, "fresh": false, "stale": true, "source_status": "LAST_PUBLIC_CLOSE_28_SEP_2026"},
-    "SPX": {"price": 7695.63, "change_pct": -0.62, "fresh": false, "stale": true, "source_status": "LAST_PUBLIC_CLOSE_28_SEP_2026"},
-    "NASDAQ": {"price": 26879.83, "change_pct": -0.70, "fresh": false, "stale": true, "source_status": "LAST_PUBLIC_CLOSE_28_SEP_2026"},
-    "USDINR": {"price": 95.89, "change_pct": 0.38, "fresh": false, "stale": true, "source_status": "PUBLIC_28_SEP_2026"},
-    "CRUDE": {"price": 93.51, "change_pct": 1.0, "fresh": false, "stale": true, "source_status": "PUBLIC_28_SEP_2026"},
-    "GOLD": {"price": 4219.0, "change_pct": -1.6, "fresh": false, "stale": true, "source_status": "PUBLIC_28_SEP_2026"}
-  },
-  "option_data": {
-    "status": "NOT_VERIFIED_NO_RELIABLE_FREE_CHAIN",
-    "source": "public-free-endpoint",
-    "calls": [],
-    "puts": [],
-    "pcr": null,
-    "max_pain": null,
-    "fresh": false,
-    "stale": true,
-    "count": 0
-  },
-  "candidate": {},
-  "plan": {},
-  "validation": {"samples": 0, "hit_rate": null, "method": "Next cloud run will recalculate rolling 5m validation"},
-  "news": [
-    {"title": "Indian markets closed 28 Sep: Nifty 22,780.25, down 1.56%", "published": "2026-09-28"},
-    {"title": "Crude oil and Treasury yields rose amid renewed geopolitical tension", "published": "2026-09-28"},
-    {"title": "USD/INR near 95.89 as rupee weakened modestly", "published": "2026-09-28"},
-    {"title": "US equities opened lower as oil and Treasury yields rose", "published": "2026-09-28"},
-    {"title": "India VIX closed at 13.64, up 12.15%", "published": "2026-09-28"}
-  ],
-  "evidence": [
-    "NIFTY last public close 22,780.25, -1.56% on 28 Sep 2026",
-    "NIFTY session range 22,762.20–23,080.25",
-    "India VIX 13.64, +12.15% on the last public close",
-    "S&P 500 last public close 7,695.63, -0.62%",
-    "NASDAQ last public close 26,879.83, -0.70%",
-    "USD/INR public level near 95.89",
-    "WTI crude public level near $93.51",
-    "Gold public level near $4,219",
-    "Research bias: bearish after a 1.56% NIFTY decline with VIX rising 12.15%",
-    "Option chain is explicitly unverified; no contract is fabricated"
-  ],
-  "research_state": {
-    "evidence_engine": "ACTIVE",
-    "decision_engine": "OFF_OUTSIDE_SESSION",
-    "last_evidence_update": "2026-09-29T04:35:00+05:30",
-    "global_summary": ["SPX: -0.62%", "NASDAQ: -0.70%", "USDINR: 0.38%", "CRUDE: 1.0%", "GOLD: -1.6%"]
-  },
-  "sources": {"public_market": "public research snapshot", "options": "NOT_VERIFIED_NO_RELIABLE_FREE_CHAIN", "news": "public market/news research"},
-  "data_quality": {"status": "LAST_AVAILABLE_PUBLIC_RESEARCH", "nifty_fresh": false, "nifty_stale": true, "options_fresh": false, "news_items": 5, "as_of": "28 Sep 2026 close/public reports"}
+  "owner":"Rupendra","engine_version":"4.1","timestamp":"2026-09-29T04:35:00+05:30","ist_time":"2026-09-29T04:35:00+05:30","market_open":false,"market_status":"MARKET CLOSED","decision":"MARKET CLOSED","decision_type":"SESSION_STATE","signal_strength":0,"model_score":"RESEARCH","reason":"Trading decision is hidden outside NSE equity-derivatives hours. Research data, global context, news, option-chain context, historical validation and previous P/L remain visible.","previous_decision":null,"journal_stats":{"closed":0,"wins":0,"losses":0,"realized_pct":0},"learning":{},"nifty":22780.25,"vix":13.64,"regime":"BEARISH_BIAS",
+  "market":{"NIFTY":{"price":22780.25,"change_pct":-1.56,"high_5d":23489.0,"low_5d":22762.2,"fresh":false,"stale":true,"source_status":"LAST_PUBLIC_CLOSE_28_SEP_2026"},"VIX":{"price":13.64,"change_pct":12.15,"fresh":false,"stale":true,"source_status":"LAST_PUBLIC_CLOSE_28_SEP_2026"},"SPX":{"price":7695.63,"change_pct":-0.62,"fresh":false,"stale":true,"source_status":"LAST_PUBLIC_CLOSE_28_SEP_2026"},"NASDAQ":{"price":26879.83,"change_pct":-0.70,"fresh":false,"stale":true,"source_status":"LAST_PUBLIC_CLOSE_28_SEP_2026"},"USDINR":{"price":95.89,"change_pct":0.38,"fresh":false,"stale":true,"source_status":"PUBLIC_28_SEP_2026"},"CRUDE":{"price":93.51,"change_pct":1.0,"fresh":false,"stale":true,"source_status":"PUBLIC_28_SEP_2026"},"GOLD":{"price":4219.0,"change_pct":-1.6,"fresh":false,"stale":true,"source_status":"PUBLIC_28_SEP_2026"}},
+  "option_data":{"status":"LAST_PUBLIC_OPTION_CHAIN","source":"public delayed option-chain research","expiry":"2026-09-29","spot":22780.25,"atm_strike":22800,"pcr":0.62,"max_pain":22950,"total_call_oi":29100000,"total_put_oi":18030000,"calls":[],"puts":[],"fresh":false,"stale":true,"count":0,"note":"Research-only last public chain context. No live contract recommendation is generated outside market hours."},
+  "candidate":{},"plan":{},"validation":{"samples":0,"hit_rate":null,"method":"Next cloud run recalculates rolling 5m validation"},
+  "news":[{"title":"Indian markets closed 28 Sep: Nifty 22,780.25, down 1.56%","published":"2026-09-28"},{"title":"Crude oil and Treasury yields rose amid renewed geopolitical tension","published":"2026-09-28"},{"title":"USD/INR near 95.89 as rupee weakened modestly","published":"2026-09-28"},{"title":"US equities opened lower as oil and Treasury yields rose","published":"2026-09-28"},{"title":"India VIX closed at 13.64, up 12.15%","published":"2026-09-28"}],
+  "evidence":["NIFTY last public close 22,780.25, -1.56% on 28 Sep 2026","NIFTY session range 22,762.20–23,080.25","India VIX 13.64, +12.15%","S&P 500 last public close 7,695.63, -0.62%","NASDAQ last public close 26,879.83, -0.70%","USD/INR public level near 95.89","WTI crude public level near $93.51","Gold public level near $4,219","Last public NIFTY option-chain context: PCR 0.62, max pain 22,950, expiry 29 Sep 2026","Option chain is research-only outside market hours; no trade is fabricated"],
+  "research_state":{"evidence_engine":"ACTIVE","decision_engine":"OFF_OUTSIDE_SESSION","last_evidence_update":"2026-09-29T04:35:00+05:30","global_summary":["SPX: -0.62%","NASDAQ: -0.70%","USDINR: 0.38%","CRUDE: 1.0%","GOLD: -1.6%"]},
+  "sources":{"public_market":"public research snapshot","options":"public delayed option-chain research","news":"public market/news research"},"data_quality":{"status":"LAST_AVAILABLE_PUBLIC_RESEARCH","nifty_fresh":false,"nifty_stale":true,"options_fresh":false,"news_items":5,"as_of":"28 Sep 2026 close/public reports"}
 }
