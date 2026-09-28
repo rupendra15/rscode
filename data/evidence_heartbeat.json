@@ -1,0 +1,127 @@
+{
+  "owner": "Rupendra",
+  "engine": "evidence-heartbeat-1.0",
+  "updated_at": "2026-09-28T23:01:32.906769+00:00",
+  "ist_time": "2026-09-29T04:31:32.906769+05:30",
+  "session": {
+    "trading_day": true,
+    "market_open": false,
+    "status": "MARKET CLOSED"
+  },
+  "markets": {
+    "NIFTY": {
+      "price": 22780.25,
+      "change_pct": 0.0,
+      "bars": 76,
+      "fresh": true
+    },
+    "VIX": {
+      "price": 13.64,
+      "change_pct": -0.782,
+      "bars": 76,
+      "fresh": true
+    },
+    "SPX": {
+      "price": 7683.69,
+      "change_pct": -0.011,
+      "bars": 79,
+      "fresh": true
+    },
+    "NASDAQ": {
+      "price": 26820.38,
+      "change_pct": -0.006,
+      "bars": 79,
+      "fresh": true
+    },
+    "USDINR": {
+      "price": null,
+      "change_pct": null,
+      "bars": 0,
+      "fresh": false
+    },
+    "CRUDE": {
+      "price": 93.34,
+      "change_pct": 0.0,
+      "bars": 215,
+      "fresh": true
+    },
+    "GOLD": {
+      "price": 4155.0,
+      "change_pct": 0.022,
+      "bars": 216,
+      "fresh": true
+    }
+  },
+  "news": [
+    {
+      "title": "Fed Rate Hike Impact on India: Why Oil and RBI Matter in October - NiftyTrader",
+      "published": "Wed, 23 Sep 2026 05:54:09 GMT"
+    },
+    {
+      "title": "US Fed, Bank of Japan and others impact on Indian stock markets: Global rate hike cycle begins - Sensex, Nifty outlook - Livemint",
+      "published": "Mon, 21 Sep 2026 13:21:09 GMT"
+    },
+    {
+      "title": "Market recovery at risk: Will bond yield spike, interest rate fear deepen Sensex, Nifty losses after two years of negative returns? - Fortune India",
+      "published": "Wed, 16 Sep 2026 07:00:00 GMT"
+    },
+    {
+      "title": "JP Morgan projects Nifty base case of 27,000 as investors shift to broader markets - CNBC TV18",
+      "published": "Mon, 21 Sep 2026 05:22:22 GMT"
+    },
+    {
+      "title": "India's stock benchmarks ascend towards new peaks on Fed, RBI rate cut optimism - Reuters",
+      "published": "Tue, 25 Nov 2025 08:00:00 GMT"
+    },
+    {
+      "title": "India's new closing auction stokes sharp Nifty swings, options volatility on weekly expiry - Reuters",
+      "published": "Tue, 04 Aug 2026 07:00:00 GMT"
+    },
+    {
+      "title": "Indian market volatility eases as traders adapt to new closing auction - sg.finance.yahoo.com",
+      "published": "Thu, 06 Aug 2026 07:00:00 GMT"
+    },
+    {
+      "title": "India's proposals to revamp derivatives settlement could alleviate expiry-day volatility, analysts say - Reuters",
+      "published": "Tue, 15 Sep 2026 07:00:00 GMT"
+    },
+    {
+      "title": "What Is India VIX, and How Does It Affect Options Pricing in India? - Alice Blue",
+      "published": "Sat, 18 Apr 2026 07:00:00 GMT"
+    },
+    {
+      "title": "4,000% options surge in 15 mins highlights India\u2019s wild closing auction system - The Economic Times",
+      "published": "Fri, 28 Aug 2026 07:00:00 GMT"
+    },
+    {
+      "title": "Crude Oil Above $100: How High Energy Prices And Rupee Weakness Impact Gold Prices In India - Business Today",
+      "published": "Sun, 20 Sep 2026 07:00:00 GMT"
+    },
+    {
+      "title": "Gold, silver rates to USD vs INR: Commodity heatmap amid soaring crude oil prices - Livemint",
+      "published": "Wed, 12 Aug 2026 07:00:00 GMT"
+    },
+    {
+      "title": "Damage is now evident: Market strategist Akshay Chinchalkar on oil, gold, rupee - India Today",
+      "published": "Thu, 14 May 2026 07:00:00 GMT"
+    },
+    {
+      "title": "Crude nears $102; global markets slide, rupee weakens, gold rises - DhanamOnline",
+      "published": "Thu, 10 Sep 2026 02:26:35 GMT"
+    },
+    {
+      "title": "Indian economy: Why Modi wants Indians to buy less gold and travel less - BBC",
+      "published": "Thu, 14 May 2026 07:00:00 GMT"
+    }
+  ],
+  "errors": {},
+  "option_feed": {
+    "status": "UNAVAILABLE_UNTIL_RELIABLE_PUBLIC_CHAIN",
+    "decision_policy": "Never invent an option contract when the chain is unavailable."
+  },
+  "learning_policy": {
+    "continuous_evidence": true,
+    "continuous_learning": true,
+    "live_decisions_only_in_session": true
+  }
+}
