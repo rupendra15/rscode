@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-09-28T22:47:30.962358+00:00",
-  "timestamp": "2026-09-28T22:47:30.962358+00:00",
+  "generated_at": "2026-09-28T22:48:23.872596+00:00",
+  "timestamp": "2026-09-28T22:48:23.872596+00:00",
   "owner": "Rupendra",
   "source_quality": "PUBLIC_RESEARCH_FEEDS",
   "live_broker_feed": false,
@@ -88,34 +88,34 @@
       "bar_epoch": 1790631454
     },
     "CRUDE": {
-      "price": 93.36,
-      "change_pct": 0.0,
-      "rsi14": 55.08,
+      "price": 93.37,
+      "change_pct": 0.02,
+      "rsi14": 55.46,
       "ema20": 93.2,
       "ema50": 93.17,
       "atr14": 0.16,
       "vwap": 94.02,
-      "momentum5m_pct": 0.26,
-      "momentum15m_pct": 0.14,
+      "momentum5m_pct": 0.27,
+      "momentum15m_pct": 0.15,
       "volume": 0,
       "high_5d": 96.78,
       "low_5d": 88.71,
-      "bar_epoch": 1790635009
+      "bar_epoch": 1790635084
     },
     "GOLD": {
-      "price": 4155.6,
-      "change_pct": -0.0,
-      "rsi14": 66.18,
-      "ema20": 4155.12,
-      "ema50": 4158.73,
-      "atr14": 2.91,
+      "price": 4156.2,
+      "change_pct": 0.0,
+      "rsi14": 67.3,
+      "ema20": 4155.22,
+      "ema50": 4158.78,
+      "atr14": 2.9,
       "vwap": 4160.52,
-      "momentum5m_pct": 0.0,
-      "momentum15m_pct": 0.12,
+      "momentum5m_pct": 0.02,
+      "momentum15m_pct": 0.13,
       "volume": 0,
       "high_5d": 4384.4,
       "low_5d": 4143.1,
-      "bar_epoch": 1790635046
+      "bar_epoch": 1790635092
     }
   },
   "evidence": [
@@ -128,11 +128,11 @@
       "published": "Wed, 23 Sep 2026 05:54:09 GMT"
     },
     {
-      "title": "US Fed, Bank of Japan and others impact on Indian stock markets: Global rate hike cycle begins - Sensex, Nifty outlook - Livemint",
+      "title": "US Fed, Bank of Japan and others impact on Indian stock markets: Global rate hike cycle begins - Sensex, Nifty outlook - livemint.com",
       "published": "Mon, 21 Sep 2026 13:21:09 GMT"
     },
     {
-      "title": "Market recovery at risk: Will bond yield spike, interest rate fear deepen Sensex, Nifty losses after two years of negative returns? - Fortune India",
+      "title": "Market recovery at risk: Will bond yield spike, interest rate fear deepen Sensex, Nifty losses after two years of negative returns? - fortuneindia.com",
       "published": "Wed, 16 Sep 2026 07:00:00 GMT"
     },
     {
@@ -140,7 +140,7 @@
       "published": "Mon, 21 Sep 2026 05:22:22 GMT"
     },
     {
-      "title": "India's stock benchmarks ascend towards new peaks on Fed, RBI rate cut optimism - Reuters",
+      "title": "India's stock benchmarks ascend towards new peaks on Fed, RBI rate cut optimism - reuters.com",
       "published": "Tue, 25 Nov 2025 08:00:00 GMT"
     },
     {
@@ -152,7 +152,7 @@
       "published": "Thu, 17 Sep 2026 07:00:00 GMT"
     },
     {
-      "title": "India's index-options trading faces near-term drag from new stock closing, Bernstein says - Reuters",
+      "title": "India's index-options trading faces near-term drag from new stock closing, Bernstein says - reuters.com",
       "published": "Tue, 11 Aug 2026 07:00:00 GMT"
     },
     {
@@ -164,11 +164,11 @@
       "published": "Mon, 21 Sep 2026 21:00:07 GMT"
     },
     {
-      "title": "RBI to raise interest rates to 5.50% in October as inflation broadens: Reuters poll - Reuters",
+      "title": "RBI to raise interest rates to 5.50% in October as inflation broadens: Reuters poll - reuters.com",
       "published": "Mon, 28 Sep 2026 11:23:37 GMT"
     },
     {
-      "title": "Broadening inflation, robust growth, global hikes build case for India RBI tightening - Reuters",
+      "title": "Broadening inflation, robust growth, global hikes build case for India RBI tightening - reuters.com",
       "published": "Mon, 28 Sep 2026 09:54:31 GMT"
     },
     {
@@ -215,5 +215,5 @@
     }
   },
   "pnl": null,
-  "history_size": 3
+  "history_size": 4
 }
