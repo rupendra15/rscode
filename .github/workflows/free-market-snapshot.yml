@@ -5,8 +5,6 @@ on:
     paths-ignore:
       - 'data/**'
   schedule:
-    # Research/evidence runs continuously on weekdays. Trading decisions are
-    # permitted only inside the NSE equity-derivatives regular session.
     - cron: '*/5 * * * 1-5'
   workflow_dispatch:
 
@@ -20,7 +18,7 @@ concurrency:
 jobs:
   snapshot:
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 8
     steps:
       - name: Checkout latest state
         uses: actions/checkout@v4
@@ -32,11 +30,11 @@ jobs:
           python-version: '3.12'
       - name: Install market dependencies
         run: pip install -r requirements-market.txt
-      - name: Run cloud intelligence engine
+      - name: Run v5 ensemble intelligence engine
         working-directory: ${{ github.workspace }}/scripts
         env:
           PYTHONPATH: ${{ github.workspace }}/scripts
-        run: python intelligence_engine_v4.py
+        run: python intelligence_engine_v5.py
       - name: Persist intelligence state safely
         run: |
           git config user.name 'Rupendra NIFTY Intelligence Bot'
@@ -46,14 +44,12 @@ jobs:
             echo 'No intelligence-state changes to persist.'
             exit 0
           fi
-          git commit -m 'Update cloud intelligence state'
-          for attempt in 1 2 3; do
+          git commit -m 'Update v5 cloud intelligence state'
+          for attempt in 1 2 3 4; do
             git fetch origin master
-            git rebase origin/master && git push origin HEAD:master && exit 0
+            if git rebase origin/master && git push origin HEAD:master; then exit 0; fi
             git rebase --abort || true
-            sleep 3
-            git fetch origin master
-            git rebase origin/master
+            sleep 4
           done
-          echo 'Unable to push intelligence state after retries.'
+          echo 'Unable to push intelligence-state changes after retries.'
           exit 1
