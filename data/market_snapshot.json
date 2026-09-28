@@ -1,15 +1,16 @@
 {
   "owner": "Rupendra",
-  "timestamp": "2026-09-28T22:55:04.015359+00:00",
-  "ist_time": "2026-09-29T04:25:04.015351+05:30",
+  "engine_version": "3.0",
+  "timestamp": "2026-09-28T22:56:57.994301+00:00",
+  "ist_time": "2026-09-29T04:26:57.994291+05:30",
   "market_open": false,
   "market_status": "MARKET CLOSED",
   "decision": "MARKET CLOSED",
+  "decision_type": "SESSION_STATE",
   "signal_strength": 0,
   "model_score": null,
-  "reason": "NIFTY option decisions are generated only during NSE regular derivatives hours, 09:15\u201315:40 IST, on trading days.",
-  "source_quality": "PUBLIC_RESEARCH_FEEDS",
-  "live_broker_feed": false,
+  "reason": "Trading decisions are generated only during NSE regular derivatives hours, 09:15\u201315:40 IST, on trading days. Historical decisions remain available as audit only.",
+  "previous_decision": null,
   "journal_stats": {
     "closed": 0,
     "wins": 0,
@@ -17,5 +18,12 @@
     "realized_pct": 0
   },
   "learning": {},
-  "previous_decision": null
+  "sources": {
+    "public_market": "scheduled",
+    "options": "blocked_until_reliable_chain",
+    "news": "public_rss"
+  },
+  "data_quality": {
+    "status": "SESSION_CLOSED"
+  }
 }
