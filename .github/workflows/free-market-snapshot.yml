@@ -1,9 +1,10 @@
 name: Free NIFTY Intelligence Engine
 
 on:
+  push:
+    paths-ignore:
+      - 'data/**'
   schedule:
-    # GitHub scheduled workflows use UTC. This covers the Indian market window
-    # plus a small pre/post-market buffer on weekdays. Minimum interval is 5m.
     - cron: '*/5 3-10 * * 1-5'
   workflow_dispatch:
 
@@ -17,28 +18,24 @@ concurrency:
 jobs:
   snapshot:
     runs-on: ubuntu-latest
-    timeout-minutes: 3
+    timeout-minutes: 5
     steps:
       - name: Checkout latest state
         uses: actions/checkout@v4
         with:
           fetch-depth: 1
-
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-
       - name: Install market dependencies
         run: pip install -r requirements-market.txt
-
       - name: Run intelligence engine
         run: python scripts/free_market_snapshot.py
-
       - name: Persist snapshot and research history
         run: |
           git config user.name 'Rupendra NIFTY Intelligence Bot'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add data/market_snapshot.json data/history.json
+          git add data/market_snapshot.json data/history.json data/trade_journal.json
           git diff --cached --quiet || git commit -m 'Update NIFTY intelligence snapshot'
           git push
