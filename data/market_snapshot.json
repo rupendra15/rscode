@@ -1,8 +1,23 @@
 {
-  "generated_at": null,
+  "generated_at": "2026-09-29T00:00:00+00:00",
+  "timestamp": "2026-09-29T00:00:00+00:00",
   "source_quality": "PUBLIC_RESEARCH_FEEDS",
   "live_broker_feed": false,
   "decision": "NO TRADE",
-  "reason": "Waiting for the scheduled free market snapshot. No trade is issued from stale or incomplete data.",
-  "market": {}
+  "reason": "No verified live derivatives/options feed is connected. The engine will not invent a CALL or PUT contract.",
+  "nifty": 22780.25,
+  "vix": 13.64,
+  "regime": "DOWN",
+  "market": {
+    "NIFTY": {"price": 22780.25, "change_pct": -1.56},
+    "VIX": {"price": 13.64, "change_pct": 12.15},
+    "GIFT_NIFTY": {"price": 22860.50, "change_pct": 0.16},
+    "SPX": {"price": 7695.41, "change_pct": -0.62},
+    "NASDAQ": {"price": 26879.98, "change_pct": -0.70},
+    "CRUDE": {"price": 94.50, "change_pct": 2.26},
+    "GOLD": {"price": 4164.30, "change_pct": -3.63}
+  },
+  "contract": null,
+  "plan": null,
+  "pnl": null
 }
