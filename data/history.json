@@ -42,5 +42,14 @@
     "score": -4.5,
     "option_status": "BLOCKED_NO_RELIABLE_FREE_CHAIN",
     "engine_version": "5.0"
+  },
+  {
+    "ist_time": "2026-09-29T10:35:54.977294+05:30",
+    "nifty": 22594.3,
+    "decision": "NO TRADE",
+    "contract": null,
+    "score": -6.75,
+    "option_status": "BLOCKED_NO_RELIABLE_FREE_CHAIN",
+    "engine_version": "5.0"
   }
 ]
