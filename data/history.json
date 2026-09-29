@@ -33,5 +33,14 @@
     "score": -3.5,
     "decision": "NO TRADE",
     "contract": null
+  },
+  {
+    "ist_time": "2026-09-29T10:24:46.014684+05:30",
+    "nifty": 22585.7,
+    "decision": "NO TRADE",
+    "contract": null,
+    "score": -4.5,
+    "option_status": "BLOCKED_NO_RELIABLE_FREE_CHAIN",
+    "engine_version": "5.0"
   }
 ]

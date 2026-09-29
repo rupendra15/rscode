@@ -5,6 +5,13 @@
     "closed": 0,
     "wins": 0,
     "losses": 0,
-    "realized_pct": 0
+    "win_rate": null,
+    "realized_pct": 0,
+    "max_drawdown_pct": 0
+  },
+  "learning_summary": {
+    "lessons": {},
+    "last_updated": "2026-09-29T04:54:48.452116+00:00",
+    "method": "Outcome audit by validated signal, exit reason, market regime and option-contract liquidity. No self-modifying rule is allowed to silently change live criteria."
   }
 }
