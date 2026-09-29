@@ -1,0 +1,21 @@
+name: NSE Live Evidence
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '*/5 * * * 1-5'
+permissions:
+  contents: write
+jobs:
+  live:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Poll NSE public live data
+        run: python3 scripts/live_loop.py
+      - name: Commit live state
+        run: |
+          git config user.name 'rscode-live-bot'
+          git config user.email 'actions@users.noreply.github.com'
+          git add data/nse_live.json data/market_snapshot.json
+          git diff --cached --quiet || git commit -m 'Update NSE live market state'
+          git push
