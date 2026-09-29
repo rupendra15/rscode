@@ -34,6 +34,10 @@ jobs:
         env:
           PYTHONPATH: ${{ github.workspace }}/scripts
         run: python scripts/intelligence_engine_v5.py
+      - name: Build 5m OHLC chart snapshot
+        env:
+          PYTHONPATH: ${{ github.workspace }}/scripts
+        run: python scripts/chart_snapshot.py
       - name: Track validated recommendations and actual P/L
         env:
           PYTHONPATH: ${{ github.workspace }}/scripts
@@ -44,26 +48,29 @@ jobs:
           import json
           from pathlib import Path
           p=Path('data/market_snapshot.json')
+          c=Path('data/chart_snapshot.json')
           d=json.loads(p.read_text())
+          ch=json.loads(c.read_text())
           print('engine_version=', d.get('engine_version'))
           print('ist_time=', d.get('ist_time'))
           print('market_status=', d.get('market_status'))
           print('nifty=', d.get('nifty'))
           print('vix=', d.get('vix'))
-          print('data_quality=', d.get('data_quality'))
-          if not d.get('ist_time'):
-              raise SystemExit('Snapshot timestamp missing')
+          print('chart_bars=', len(ch.get('bars', [])))
+          print('chart_updated=', ch.get('updated_at'))
+          if not d.get('ist_time') or not ch.get('bars'):
+              raise SystemExit('Market or chart snapshot missing')
           PY
       - name: Persist intelligence state safely
         run: |
           git config user.name 'Rupendra NIFTY Intelligence Bot'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add data/market_snapshot.json data/history.json data/trade_journal.json
+          git add data/market_snapshot.json data/chart_snapshot.json data/history.json data/trade_journal.json
           if git diff --cached --quiet; then
             echo 'No intelligence-state changes to persist.'
             exit 0
           fi
-          git commit -m 'Update v5 cloud intelligence state'
+          git commit -m 'Update v5 intelligence and 5m chart data'
           for attempt in 1 2 3 4; do
             git fetch origin master
             if git rebase origin/master && git push origin HEAD:master; then exit 0; fi
