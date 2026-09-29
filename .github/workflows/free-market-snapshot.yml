@@ -31,15 +31,29 @@ jobs:
       - name: Install market dependencies
         run: pip install -r requirements-market.txt
       - name: Run v5 ensemble intelligence engine
-        working-directory: ${{ github.workspace }}/scripts
         env:
           PYTHONPATH: ${{ github.workspace }}/scripts
-        run: python intelligence_engine_v5.py
+        run: python scripts/intelligence_engine_v5.py
       - name: Track validated recommendations and actual P/L
-        working-directory: ${{ github.workspace }}/scripts
         env:
           PYTHONPATH: ${{ github.workspace }}/scripts
-        run: python trade_tracker.py
+        run: python scripts/trade_tracker.py
+      - name: Verify live snapshot
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path('data/market_snapshot.json')
+          d=json.loads(p.read_text())
+          print('engine_version=', d.get('engine_version'))
+          print('ist_time=', d.get('ist_time'))
+          print('market_status=', d.get('market_status'))
+          print('nifty=', d.get('nifty'))
+          print('vix=', d.get('vix'))
+          print('data_quality=', d.get('data_quality'))
+          if not d.get('ist_time'):
+              raise SystemExit('Snapshot timestamp missing')
+          PY
       - name: Persist intelligence state safely
         run: |
           git config user.name 'Rupendra NIFTY Intelligence Bot'
