@@ -1,8 +1,8 @@
 {
   "owner": "Rupendra",
   "engine_version": "5.0",
-  "timestamp": "2026-09-30T20:17:39.037866+00:00",
-  "ist_time": "2026-10-01T01:47:39.037849+05:30",
+  "timestamp": "2026-09-30T23:57:17.324248+00:00",
+  "ist_time": "2026-10-01T05:27:17.324242+05:30",
   "market_open": false,
   "market_status": "MARKET CLOSED",
   "decision": "MARKET CLOSED",
@@ -22,7 +22,7 @@
   },
   "learning": {
     "lessons": {},
-    "last_updated": "2026-09-30T20:17:42.960317+00:00",
+    "last_updated": "2026-09-30T23:57:20.402062+00:00",
     "method": "Outcome audit by validated signal, exit reason, market regime and option-contract liquidity. No self-modifying rule is allowed to silently change live criteria."
   },
   "nifty": 22620.45,
@@ -110,41 +110,41 @@
       "high_5d": 96.15,
       "low_5d": 95.73,
       "volume": 0,
-      "bars": 518,
+      "bars": 416,
       "fresh": true,
       "source_status": "LIVE_OR_LATEST_PUBLIC"
     },
     "CRUDE": {
-      "price": 90.61,
-      "change_pct": 0.0,
-      "ema20": 90.61,
-      "ema50": 90.76,
-      "rsi14": 52.44,
-      "atr14": 0.11,
-      "vwap": 91.08,
-      "momentum5m_pct": 0.0,
-      "momentum15m_pct": 0.088,
+      "price": 89.88,
+      "change_pct": -0.06,
+      "ema20": 90.09,
+      "ema50": 90.3,
+      "rsi14": 32.14,
+      "atr14": 0.07,
+      "vwap": 90.97,
+      "momentum5m_pct": -0.056,
+      "momentum15m_pct": -0.156,
       "high_5d": 96.54,
       "low_5d": 88.58,
       "volume": 0,
-      "bars": 1021,
+      "bars": 1053,
       "fresh": true,
       "source_status": "LIVE_OR_LATEST_PUBLIC"
     },
     "GOLD": {
-      "price": 4186.4,
-      "change_pct": 0.01,
-      "ema20": 4185.51,
-      "ema50": 4187.97,
-      "rsi14": 55.86,
-      "atr14": 3.43,
-      "vwap": 4193.63,
-      "momentum5m_pct": 0.007,
-      "momentum15m_pct": -0.036,
+      "price": 4185.9,
+      "change_pct": 0.0,
+      "ema20": 4185.22,
+      "ema50": 4186.45,
+      "rsi14": 55.67,
+      "atr14": 1.35,
+      "vwap": 4185.41,
+      "momentum5m_pct": 0.005,
+      "momentum15m_pct": 0.024,
       "high_5d": 4351.6,
       "low_5d": 4143.1,
       "volume": 0,
-      "bars": 1021,
+      "bars": 1053,
       "fresh": true,
       "source_status": "LIVE_OR_LATEST_PUBLIC"
     }
@@ -214,12 +214,12 @@
       "published": "Mon, 13 Jul 2026 07:00:00 GMT"
     },
     {
-      "title": "Nifty's late swings punish longs and shorts as thin liquidity creates havoc - Rediff",
-      "published": "Wed, 09 Sep 2026 07:00:00 GMT"
+      "title": "SEBI proposes new rules to keep options trading smooth during sharp market swings - firstpost.com",
+      "published": "Tue, 26 May 2026 07:00:00 GMT"
     },
     {
-      "title": "SEBI proposes new rules to keep options trading smooth during sharp market swings - Firstpost",
-      "published": "Tue, 26 May 2026 07:00:00 GMT"
+      "title": "Nifty's late swings punish longs and shorts as thin liquidity creates havoc - Rediff",
+      "published": "Wed, 09 Sep 2026 07:00:00 GMT"
     },
     {
       "title": "RBI MPC October 2026: Sanjay Malhotra & co may raise interest rates to 5.50% as inflation broadens, poll - The Economic Times",
@@ -234,11 +234,11 @@
       "published": "Mon, 28 Sep 2026 09:14:30 GMT"
     },
     {
-      "title": "India: Waiting on the world to change – RBI Aug 2026 Meeting - 5 August 2026 - MUFG Research",
+      "title": "India: Waiting on the world to change \u2013 RBI Aug 2026 Meeting - 5 August 2026 - MUFG Research",
       "published": "Wed, 05 Aug 2026 07:00:00 GMT"
     },
     {
-      "title": "India's cenbank cuts growth outlook, raises inflation forecast as it keeps rates steady at 5.25% - CNBC",
+      "title": "India's cenbank cuts growth outlook, raises inflation forecast as it keeps rates steady at 5.25% - cnbc.com",
       "published": "Fri, 05 Jun 2026 07:00:00 GMT"
     }
   ],
@@ -248,7 +248,7 @@
     "Pattern engine: bearish trend / pullback zone, indecision candle, volatility low",
     "Volatility regime: LOW | ATR14 19.77",
     "Options: BLOCKED_NO_RELIABLE_FREE_CHAIN | PCR None | Max pain None",
-    "Option candidate: none | score — | spread —%",
+    "Option candidate: none | score \u2014 | spread \u2014%",
     "Validation: 50.8% across 193 samples | rolling 5m EMA20/EMA50 + RSI, 3-bar forward direction",
     "News/event filter: ELEVATED | bias BEARISH | risk terms rbi, fed, inflation, war, rate hike, rate cut",
     "Time-of-day: None",
@@ -306,7 +306,7 @@
     "pattern_engine": "ACTIVE",
     "validation_engine": "ACTIVE",
     "learning_engine": "ACTIVE",
-    "last_evidence_update": "2026-09-30T20:17:39.037866+00:00"
+    "last_evidence_update": "2026-09-30T23:57:17.324248+00:00"
   },
   "sources": {
     "public_market": "Yahoo Finance public chart endpoint",
@@ -318,13 +318,5 @@
     "fresh_sources": 7,
     "required_for_signal": 5
   },
-  "open_trade": null,
-  "nse_live": {
-    "source": "NSE CM Market MCP",
-    "status": "error",
-    "error": "HTTP Error 400: Bad Request",
-    "retrieved_at": "2026-09-30T21:17:42Z"
-  },
-  "live_data_source": "NSE CM Market MCP",
-  "live_data_note": "NSE states CM Market Live is typically 1-3 minutes behind real-time."
+  "open_trade": null
 }
