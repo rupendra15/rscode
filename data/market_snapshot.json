@@ -234,7 +234,7 @@
       "published": "Mon, 28 Sep 2026 09:14:30 GMT"
     },
     {
-      "title": "India: Waiting on the world to change \u2013 RBI Aug 2026 Meeting - 5 August 2026 - MUFG Research",
+      "title": "India: Waiting on the world to change – RBI Aug 2026 Meeting - 5 August 2026 - MUFG Research",
       "published": "Wed, 05 Aug 2026 07:00:00 GMT"
     },
     {
@@ -248,7 +248,7 @@
     "Pattern engine: bullish trend / pullback zone, indecision candle, overbought momentum, volatility low",
     "Volatility regime: LOW | ATR14 17.9",
     "Options: BLOCKED_NO_RELIABLE_FREE_CHAIN | PCR None | Max pain None",
-    "Option candidate: none | score \u2014 | spread \u2014%",
+    "Option candidate: none | score — | spread —%",
     "Validation: 53.5% across 200 samples | rolling 5m EMA20/EMA50 + RSI, 3-bar forward direction",
     "News/event filter: ELEVATED | bias BEARISH | risk terms rbi, fed, inflation, war, rate hike, rate cut",
     "Time-of-day: None",
@@ -319,5 +319,13 @@
     "fresh_sources": 7,
     "required_for_signal": 5
   },
-  "open_trade": null
+  "open_trade": null,
+  "nse_live": {
+    "source": "NSE CM Market MCP",
+    "status": "error",
+    "error": "HTTP Error 504: Gateway Time-out",
+    "retrieved_at": "2026-09-30T00:33:32Z"
+  },
+  "live_data_source": "NSE CM Market MCP",
+  "live_data_note": "NSE states CM Market Live is typically 1-3 minutes behind real-time."
 }
