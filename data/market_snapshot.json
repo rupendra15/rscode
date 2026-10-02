@@ -1,8 +1,8 @@
 {
   "owner": "Rupendra",
   "engine_version": "5.0",
-  "timestamp": "2026-10-02T01:29:24.634352+00:00",
-  "ist_time": "2026-10-02T06:59:24.634345+05:30",
+  "timestamp": "2026-10-02T07:28:20.080135+00:00",
+  "ist_time": "2026-10-02T12:58:20.080124+05:30",
   "market_open": false,
   "market_status": "MARKET CLOSED",
   "decision": "MARKET CLOSED",
@@ -22,7 +22,7 @@
   },
   "learning": {
     "lessons": {},
-    "last_updated": "2026-10-02T01:29:28.210709+00:00",
+    "last_updated": "2026-10-02T07:28:24.291583+00:00",
     "method": "Outcome audit by validated signal, exit reason, market regime and option-contract liquidity. No self-modifying rule is allowed to silently change live criteria."
   },
   "nifty": 22421.95,
@@ -39,10 +39,10 @@
       "vwap": null,
       "momentum5m_pct": 0.0,
       "momentum15m_pct": -0.107,
-      "high_5d": 23162.55,
+      "high_5d": 23079.75,
       "low_5d": 22217.65,
       "volume": 0,
-      "bars": 376,
+      "bars": 301,
       "fresh": true,
       "source_status": "LIVE_OR_LATEST_PUBLIC"
     },
@@ -57,9 +57,9 @@
       "momentum5m_pct": 0.139,
       "momentum15m_pct": 0.609,
       "high_5d": 15.69,
-      "low_5d": 11.77,
+      "low_5d": 12.16,
       "volume": 0,
-      "bars": 376,
+      "bars": 301,
       "fresh": true,
       "source_status": "LIVE_OR_LATEST_PUBLIC"
     },
@@ -98,53 +98,53 @@
       "source_status": "LIVE_OR_LATEST_PUBLIC"
     },
     "USDINR": {
-      "price": 96.31,
-      "change_pct": 0.01,
-      "ema20": 96.25,
-      "ema50": 96.18,
-      "rsi14": 71.23,
-      "atr14": 0.03,
+      "price": 96.3,
+      "change_pct": 0.0,
+      "ema20": 96.28,
+      "ema50": 96.2,
+      "rsi14": 80.49,
+      "atr14": 0.01,
       "vwap": null,
-      "momentum5m_pct": 0.005,
-      "momentum15m_pct": 0.005,
+      "momentum5m_pct": 0.0,
+      "momentum15m_pct": 0.0,
       "high_5d": 96.33,
       "low_5d": 95.73,
       "volume": 0,
-      "bars": 392,
+      "bars": 398,
       "fresh": true,
       "source_status": "LIVE_OR_LATEST_PUBLIC"
     },
     "CRUDE": {
-      "price": 92.98,
-      "change_pct": -0.04,
-      "ema20": 93.01,
-      "ema50": 92.97,
-      "rsi14": 50.0,
-      "atr14": 0.14,
-      "vwap": 93.01,
-      "momentum5m_pct": -0.043,
-      "momentum15m_pct": 0.14,
+      "price": 91.32,
+      "change_pct": 0.03,
+      "ema20": 91.87,
+      "ema50": 92.23,
+      "rsi14": 23.17,
+      "atr14": 0.21,
+      "vwap": 92.26,
+      "momentum5m_pct": 0.033,
+      "momentum15m_pct": -0.327,
       "high_5d": 96.54,
       "low_5d": 88.58,
       "volume": 0,
-      "bars": 1143,
+      "bars": 1145,
       "fresh": true,
       "source_status": "LIVE_OR_LATEST_PUBLIC"
     },
     "GOLD": {
-      "price": 4172.0,
-      "change_pct": -0.04,
-      "ema20": 4187.56,
-      "ema50": 4196.54,
-      "rsi14": 11.98,
-      "atr14": 5.21,
-      "vwap": 4194.14,
-      "momentum5m_pct": -0.036,
-      "momentum15m_pct": 0.055,
-      "high_5d": 4310.0,
+      "price": 4213.9,
+      "change_pct": -0.03,
+      "ema20": 4214.29,
+      "ema50": 4211.36,
+      "rsi14": 36.03,
+      "atr14": 4.31,
+      "vwap": 4199.77,
+      "momentum5m_pct": -0.033,
+      "momentum15m_pct": 0.093,
+      "high_5d": 4251.1,
       "low_5d": 4143.1,
       "volume": 0,
-      "bars": 1143,
+      "bars": 1145,
       "fresh": true,
       "source_status": "LIVE_OR_LATEST_PUBLIC"
     }
@@ -166,17 +166,17 @@
   "candidate": {},
   "plan": {},
   "validation": {
-    "samples": 211,
-    "hit_rate": 55.9,
+    "samples": 160,
+    "hit_rate": 54.4,
     "method": "rolling 5m EMA20/EMA50 + RSI, 3-bar forward direction",
     "by_regime": {
-      "BULL": {
-        "samples": 51,
-        "hit_rate": 51.0
-      },
       "BEAR": {
-        "samples": 160,
-        "hit_rate": 57.5
+        "samples": 122,
+        "hit_rate": 55.7
+      },
+      "BULL": {
+        "samples": 38,
+        "hit_rate": 50.0
       }
     }
   },
@@ -194,7 +194,7 @@
       "published": "Mon, 21 Sep 2026 07:00:00 GMT"
     },
     {
-      "title": "Market recovery at risk: Will bond yield spike, interest rate fear deepen Sensex, Nifty losses after two years of negative returns? - Fortune India",
+      "title": "Market recovery at risk: Will bond yield spike, interest rate fear deepen Sensex, Nifty losses after two years of negative returns? - fortuneindia.com",
       "published": "Wed, 16 Sep 2026 07:00:00 GMT"
     },
     {
@@ -210,31 +210,31 @@
       "published": "Thu, 06 Aug 2026 07:00:00 GMT"
     },
     {
-      "title": "Indian options market grows at 56% CAGR over FY20-26; contributes 70% of exchanges' revenue: Jefferies - Fortune India",
+      "title": "Indian options market grows at 56% CAGR over FY20-26; contributes 70% of exchanges' revenue: Jefferies - fortuneindia.com",
       "published": "Mon, 13 Jul 2026 07:00:00 GMT"
     },
     {
-      "title": "SEBI proposes new rules to keep options trading smooth during sharp market swings - Firstpost",
-      "published": "Tue, 26 May 2026 07:00:00 GMT"
-    },
-    {
-      "title": "Nifty's late swings punish longs and shorts as thin liquidity creates havoc - rediff.com",
+      "title": "Nifty's late swings punish longs and shorts as thin liquidity creates havoc - Rediff",
       "published": "Wed, 09 Sep 2026 07:00:00 GMT"
     },
     {
-      "title": "RBI’s success on dollar flows raises stakes in inflation fight & clamour for rate hike - The Economic Times",
-      "published": "Thu, 01 Oct 2026 04:10:10 GMT"
+      "title": "India markets regulator proposes changes to smooth options trading during volatility - Reuters",
+      "published": "Tue, 26 May 2026 07:00:00 GMT"
     },
     {
       "title": "Rupee declines to one-week low as oil rally fans global rate hike worries - Reuters",
       "published": "Thu, 24 Sep 2026 11:12:52 GMT"
     },
     {
+      "title": "RBI\u2019s success on dollar flows raises stakes in inflation fight & clamour for rate hike - The Economic Times",
+      "published": "Thu, 01 Oct 2026 04:10:10 GMT"
+    },
+    {
       "title": "Indian Rupee draws support from consistent RBI intervention, lower oil prices - tmgm.com",
       "published": "Wed, 30 Sep 2026 08:20:05 GMT"
     },
     {
-      "title": "India: Waiting on the world to change – RBI Aug 2026 Meeting - 5 August 2026 - MUFG Research",
+      "title": "India: Waiting on the world to change \u2013 RBI Aug 2026 Meeting - 5 August 2026 - MUFG Research",
       "published": "Wed, 05 Aug 2026 07:00:00 GMT"
     },
     {
@@ -248,8 +248,8 @@
     "Pattern engine: indecision candle, overbought momentum, volatility low",
     "Volatility regime: LOW | ATR14 26.37",
     "Options: BLOCKED_NO_RELIABLE_FREE_CHAIN | PCR None | Max pain None",
-    "Option candidate: none | score — | spread —%",
-    "Validation: 55.9% across 211 samples | rolling 5m EMA20/EMA50 + RSI, 3-bar forward direction",
+    "Option candidate: none | score \u2014 | spread \u2014%",
+    "Validation: 54.4% across 160 samples | rolling 5m EMA20/EMA50 + RSI, 3-bar forward direction",
     "News/event filter: ELEVATED | bias BEARISH | risk terms rbi, fed, inflation, war, rate hike, rate cut",
     "Time-of-day: None",
     "Decision gates: Trend: mixed | RSI: 81.07 | S&P 500 confirmation -0.03% | NASDAQ confirmation -0.03% | Pattern: breakout | Pattern: trend_pullback | Pattern: rsi_extreme | Pattern: volatility | Macro/event risk elevated; requiring stronger confirmation | Abstention gate: at least one independent confirmation/validation/liquidity/freshness condition is not strong enough."
@@ -270,8 +270,8 @@
     },
     "volatility_regime": "LOW",
     "time_of_day": null,
-    "ema20": 22388.043426406228,
-    "ema50": 22412.643039916456,
+    "ema20": 22388.043426406213,
+    "ema50": 22412.641851432858,
     "rsi": 81.06748891124046,
     "atr": 26.374860491071427
   },
@@ -306,7 +306,7 @@
     "pattern_engine": "ACTIVE",
     "validation_engine": "ACTIVE",
     "learning_engine": "ACTIVE",
-    "last_evidence_update": "2026-10-02T01:29:24.634352+00:00"
+    "last_evidence_update": "2026-10-02T07:28:20.080135+00:00"
   },
   "sources": {
     "public_market": "Yahoo Finance public chart endpoint",
@@ -318,13 +318,5 @@
     "fresh_sources": 7,
     "required_for_signal": 5
   },
-  "open_trade": null,
-  "nse_live": {
-    "source": "NSE CM Market MCP",
-    "status": "error",
-    "error": "HTTP Error 400: Bad Request",
-    "retrieved_at": "2026-10-02T02:09:21Z"
-  },
-  "live_data_source": "NSE CM Market MCP",
-  "live_data_note": "NSE states CM Market Live is typically 1-3 minutes behind real-time."
+  "open_trade": null
 }
