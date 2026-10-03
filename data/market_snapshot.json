@@ -1,16 +1,16 @@
 {
   "owner": "Rupendra",
-  "engine_version": "5.0",
-  "timestamp": "2026-10-03T10:00:51.256719+00:00",
-  "ist_time": "2026-10-03T15:30:51.256708+05:30",
+  "engine_version": "6.0",
+  "timestamp": "2026-10-03T10:19:59.218992+00:00",
+  "ist_time": "2026-10-03T15:49:59.218984+05:30",
   "market_open": false,
   "market_status": "MARKET CLOSED",
   "decision": "MARKET CLOSED",
   "decision_type": "SESSION_STATE",
   "signal_strength": 0,
-  "model_score": -2.0,
+  "model_score": null,
   "confidence": null,
-  "reason": "Trend: mixed RSI: 80.98 S&P 500 confirmation -0.01% NASDAQ confirmation 0.02% Pattern: breakout Pattern: trend_pullback Pattern: rsi_extreme Pattern: volatility Macro/event risk elevated; requiring stronger confirmation Abstention gate: at least one independent confirmation/validation/liquidity/freshness condition is not strong enough.",
+  "reason": "Research continues outside session; final trade decision disabled.",
   "previous_decision": null,
   "journal_stats": {
     "closed": 0,
@@ -22,300 +22,19 @@
   },
   "learning": {
     "lessons": {},
-    "last_updated": "2026-10-03T10:00:54.848221+00:00",
+    "last_updated": "2026-10-03T10:19:59.556936+00:00",
     "method": "Outcome audit by validated signal, exit reason, market regime and option-contract liquidity. No self-modifying rule is allowed to silently change live criteria."
-  },
-  "nifty": 22421.95,
-  "vix": 14.44,
-  "regime": "MIXED",
-  "market": {
-    "NIFTY": {
-      "price": 22421.95,
-      "change_pct": -0.11,
-      "ema20": 22384.47,
-      "ema50": 22412.26,
-      "rsi14": 80.98,
-      "atr14": 27.56,
-      "vwap": null,
-      "momentum5m_pct": -0.107,
-      "momentum15m_pct": -0.105,
-      "high_5d": 23079.75,
-      "low_5d": 22217.65,
-      "volume": 0,
-      "bars": 300,
-      "fresh": true,
-      "source_status": "LIVE_OR_LATEST_PUBLIC"
-    },
-    "VIX": {
-      "price": 14.44,
-      "change_pct": 0.23,
-      "ema20": 14.72,
-      "ema50": 14.55,
-      "rsi14": 18.92,
-      "atr14": 0.17,
-      "vwap": null,
-      "momentum5m_pct": 0.226,
-      "momentum15m_pct": -0.311,
-      "high_5d": 15.69,
-      "low_5d": 12.16,
-      "volume": 0,
-      "bars": 300,
-      "fresh": true,
-      "source_status": "LIVE_OR_LATEST_PUBLIC"
-    },
-    "SPX": {
-      "price": 7722.72,
-      "change_pct": -0.01,
-      "ema20": 7722.27,
-      "ema50": 7719.87,
-      "rsi14": 53.61,
-      "atr14": 3.39,
-      "vwap": 7727.29,
-      "momentum5m_pct": -0.01,
-      "momentum15m_pct": -0.018,
-      "high_5d": 7754.67,
-      "low_5d": 7616.78,
-      "volume": 0,
-      "bars": 391,
-      "fresh": true,
-      "source_status": "LIVE_OR_LATEST_PUBLIC"
-    },
-    "NASDAQ": {
-      "price": 27190.86,
-      "change_pct": 0.02,
-      "ema20": 27182.04,
-      "ema50": 27174.59,
-      "rsi14": 54.93,
-      "atr14": 14.62,
-      "vwap": 27219.08,
-      "momentum5m_pct": 0.015,
-      "momentum15m_pct": -0.011,
-      "high_5d": 27353.38,
-      "low_5d": 26710.69,
-      "volume": 0,
-      "bars": 391,
-      "fresh": true,
-      "source_status": "LIVE_OR_LATEST_PUBLIC"
-    },
-    "USDINR": {
-      "price": 96.3,
-      "change_pct": 0.0,
-      "ema20": 96.29,
-      "ema50": 96.24,
-      "rsi14": 50.0,
-      "atr14": 0.0,
-      "vwap": null,
-      "momentum5m_pct": 0.0,
-      "momentum15m_pct": -0.01,
-      "high_5d": 96.33,
-      "low_5d": 95.73,
-      "volume": 0,
-      "bars": 408,
-      "fresh": true,
-      "source_status": "LIVE_OR_LATEST_PUBLIC"
-    },
-    "CRUDE": {
-      "price": 91.11,
-      "change_pct": -0.09,
-      "ema20": 91.33,
-      "ema50": 91.19,
-      "rsi14": 29.63,
-      "atr14": 0.14,
-      "vwap": null,
-      "momentum5m_pct": -0.088,
-      "momentum15m_pct": -0.274,
-      "high_5d": 96.54,
-      "low_5d": 88.06,
-      "volume": 0,
-      "bars": 1308,
-      "fresh": true,
-      "source_status": "LIVE_OR_LATEST_PUBLIC"
-    },
-    "GOLD": {
-      "price": 4162.3,
-      "change_pct": -0.14,
-      "ema20": 4170.05,
-      "ema50": 4172.8,
-      "rsi14": 34.65,
-      "atr14": 3.39,
-      "vwap": null,
-      "momentum5m_pct": -0.137,
-      "momentum15m_pct": -0.115,
-      "high_5d": 4259.0,
-      "low_5d": 4143.1,
-      "volume": 0,
-      "bars": 1308,
-      "fresh": true,
-      "source_status": "LIVE_OR_LATEST_PUBLIC"
-    }
-  },
-  "option_data": {
-    "status": "BLOCKED_NO_RELIABLE_FREE_CHAIN",
-    "source": "public-free-fallback",
-    "calls": [],
-    "puts": [],
-    "pcr": null,
-    "max_pain": null,
-    "count": 0,
-    "fresh": false,
-    "errors": [
-      "query1.finance.yahoo.com: 401 Client Error: Unauthorized for url: https://query1.finance.yahoo.com/v7/finance/options/%5ENSEI",
-      "query2.finance.yahoo.com: 401 Client Error: Unauthorized for url: https://query2.finance.yahoo.com/v7/finance/options/%5ENSEI",
-      "nse_public: 404 Client Error: Not Found for url: https://www.nseindia.com/api/option-chain-indices?symbol=NIFTY"
-    ]
-  },
-  "candidate": {},
-  "plan": {},
-  "validation": {
-    "samples": 160,
-    "hit_rate": 54.4,
-    "method": "rolling 5m EMA20/EMA50 + RSI, 3-bar forward direction",
-    "by_regime": {
-      "BEAR": {
-        "samples": 122,
-        "hit_rate": 55.7
-      },
-      "BULL": {
-        "samples": 38,
-        "hit_rate": 50.0
-      }
-    }
-  },
-  "news": [
-    {
-      "title": "Experts' view: Why would bears cheer Nifty's breakdown below 22,000? - livemint.com",
-      "published": "Fri, 02 Oct 2026 12:36:14 GMT"
-    },
-    {
-      "title": "Fed Rate Hike Impact on India: Why Oil and RBI Matter in October - NiftyTrader",
-      "published": "Wed, 23 Sep 2026 05:54:09 GMT"
-    },
-    {
-      "title": "JP Morgan projects Nifty base case of 27,000 as investors shift to broader markets - CNBC TV18",
-      "published": "Mon, 21 Sep 2026 07:00:00 GMT"
-    },
-    {
-      "title": "Market recovery at risk: Will bond yield spike, interest rate fear deepen Sensex, Nifty losses after two years of negative returns? - Fortune India",
-      "published": "Wed, 16 Sep 2026 07:00:00 GMT"
-    },
-    {
-      "title": "India's stock benchmarks ascend towards new peaks on Fed, RBI rate cut optimism - Reuters",
-      "published": "Tue, 25 Nov 2025 08:00:00 GMT"
-    },
-    {
-      "title": "India's proposals to revamp derivatives settlement could alleviate expiry-day volatility, analysts say - Reuters",
-      "published": "Tue, 15 Sep 2026 07:00:00 GMT"
-    },
-    {
-      "title": "Indian market volatility eases as traders adapt to new closing auction - Yahoo Finance Singapore",
-      "published": "Thu, 06 Aug 2026 07:00:00 GMT"
-    },
-    {
-      "title": "Indian options market grows at 56% CAGR over FY20-26; contributes 70% of exchanges' revenue: Jefferies - Fortune India",
-      "published": "Mon, 13 Jul 2026 07:00:00 GMT"
-    },
-    {
-      "title": "SEBI proposes new rules to keep options trading smooth during sharp market swings - Firstpost",
-      "published": "Tue, 26 May 2026 07:00:00 GMT"
-    },
-    {
-      "title": "India markets regulator proposes changes to smooth options trading during volatility - Reuters",
-      "published": "Tue, 26 May 2026 07:00:00 GMT"
-    },
-    {
-      "title": "RBI Rate Hike Ahead? SBI Research Flags Inflation, Rupee Risks For October MPC - NDTV Profit",
-      "published": "Fri, 02 Oct 2026 16:30:20 GMT"
-    },
-    {
-      "title": "ETMarkets Smart Talk: Rupee under pressure, inflation sticky: Will RBI be forced to rethink rates? Ankita - The Economic Times",
-      "published": "Fri, 02 Oct 2026 07:14:12 GMT"
-    },
-    {
-      "title": "Rupee declines to one-week low as oil rally fans global rate hike worries - Reuters",
-      "published": "Thu, 24 Sep 2026 07:00:00 GMT"
-    },
-    {
-      "title": "Indian Rupee draws support from consistent RBI intervention, lower oil prices - tmgm.com",
-      "published": "Wed, 30 Sep 2026 08:20:05 GMT"
-    },
-    {
-      "title": "India: Waiting on the world to change \u2013 RBI Aug 2026 Meeting - 5 August 2026 - MUFG Research",
-      "published": "Wed, 05 Aug 2026 07:00:00 GMT"
-    }
-  ],
-  "evidence": [
-    "Trend/structure: EMA20 22384.47 | EMA50 22412.26 | VWAP None",
-    "Momentum: RSI14 80.98 | 5m -0.107% | 15m -0.105%",
-    "Pattern engine: overbought momentum, volatility low",
-    "Volatility regime: LOW | ATR14 27.56",
-    "Options: BLOCKED_NO_RELIABLE_FREE_CHAIN | PCR None | Max pain None",
-    "Option candidate: none | score \u2014 | spread \u2014%",
-    "Validation: 54.4% across 160 samples | rolling 5m EMA20/EMA50 + RSI, 3-bar forward direction",
-    "News/event filter: ELEVATED | bias BEARISH | risk terms rbi, fed, inflation, war, rate hike, rate cut",
-    "Time-of-day: None",
-    "Decision gates: Trend: mixed | RSI: 80.98 | S&P 500 confirmation -0.01% | NASDAQ confirmation 0.02% | Pattern: breakout | Pattern: trend_pullback | Pattern: rsi_extreme | Pattern: volatility | Macro/event risk elevated; requiring stronger confirmation | Abstention gate: at least one independent confirmation/validation/liquidity/freshness condition is not strong enough."
-  ],
-  "patterns": {
-    "status": "OK",
-    "patterns": [
-      "overbought momentum",
-      "volatility low"
-    ],
-    "scores": {
-      "breakout": 0,
-      "trend_pullback": 0,
-      "rsi_extreme": -0.75,
-      "volatility": -0.25
-    },
-    "volatility_regime": "LOW",
-    "time_of_day": null,
-    "ema20": 22384.47439563318,
-    "ema50": 22412.2619588893,
-    "rsi": 80.98202961572038,
-    "atr": 27.560546875
-  },
-  "news_risk": {
-    "risk_terms": [
-      "rbi",
-      "fed",
-      "inflation",
-      "war",
-      "rate hike",
-      "rate cut"
-    ],
-    "risk_level": "ELEVATED",
-    "headline_bias": "BEARISH",
-    "bull_terms": 1,
-    "bear_terms": 6
-  },
-  "factor_scores": {
-    "trend": 0,
-    "rsi": 0,
-    "SPX": 0,
-    "NASDAQ": 0,
-    "pattern_breakout": 0,
-    "pattern_trend_pullback": 0,
-    "pattern_rsi_extreme": -0.75,
-    "pattern_volatility": -0.25,
-    "event_risk": -1.0
   },
   "research_state": {
     "evidence_engine": "ACTIVE",
-    "decision_engine": "OFF_OUTSIDE_SESSION",
     "pattern_engine": "ACTIVE",
-    "validation_engine": "ACTIVE",
+    "sentiment_engine": "ACTIVE",
+    "fundamental_engine": "ACTIVE_PUBLIC_BACKGROUND",
     "learning_engine": "ACTIVE",
-    "last_evidence_update": "2026-10-03T10:00:51.256719+00:00"
-  },
-  "sources": {
-    "public_market": "Yahoo Finance public chart endpoint",
-    "options": "BLOCKED_NO_RELIABLE_FREE_CHAIN",
-    "news": "Google News public RSS"
+    "decision_engine": "OFF_OUTSIDE_SESSION"
   },
   "data_quality": {
-    "status": "OK",
-    "fresh_sources": 7,
-    "required_for_signal": 5
+    "status": "SESSION_CLOSED"
   },
   "open_trade": null
 }
