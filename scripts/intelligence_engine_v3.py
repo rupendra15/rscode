@@ -48,7 +48,11 @@ def chart(symbol,interval='5m',range_='5d'):
     return z[0]
 def market_series(symbol):
     d=chart(symbol);q=d['indicators']['quote'][0];c=clean(q.get('close'));h=clean(q.get('high'));l=clean(q.get('low'));v=clean(q.get('volume'));p=c[-1] if c else None;prev=c[-2] if len(c)>1 else None
-    return {'price':round(p,2) if p else None,'change_pct':round((p-prev)/prev*100,2) if p and prev else None,'ema20':round(ema(c,20),2) if ema(c,20) else None,'ema50':round(ema(c,50),2) if ema(c,50) else None,'rsi14':round(rsi(c),2) if rsi(c) is not None else None,'atr14':round(atr(h,l,c),2) if atr(h,l,c) else None,'vwap':round(vwap(h[-78:],l[-78:],c[-78:],v[-78:]),2) if len(c)>=20 and vwap(h[-78:],l[-78:],c[-78:],v[-78:]) else None,'momentum5m_pct':round((p/c[-2]-1)*100,3) if len(c)>2 else None,'momentum15m_pct':round((p/c[-4]-1)*100,3) if len(c)>4 else None,'high_5d':round(max(h),2) if h else None,'low_5d':round(min(l),2) if l else None,'volume':int(v[-1]) if v else None,'bars':len(c),'fresh':True}
+    bar_ts=(d.get('timestamp') or [None])[-1]
+    age_sec=None
+    try: age_sec=max(0,datetime.now(timezone.utc).timestamp()-float(bar_ts)) if bar_ts else None
+    except Exception: pass
+    return {'price':round(p,2) if p else None,'change_pct':round((p-prev)/prev*100,2) if p and prev else None,'ema20':round(ema(c,20),2) if ema(c,20) else None,'ema50':round(ema(c,50),2) if ema(c,50) else None,'rsi14':round(rsi(c),2) if rsi(c) is not None else None,'atr14':round(atr(h,l,c),2) if atr(h,l,c) else None,'vwap':round(vwap(h[-78:],l[-78:],c[-78:],v[-78:]),2) if len(c)>=20 and vwap(h[-78:],l[-78:],c[-78:],v[-78:]) else None,'momentum5m_pct':round((p/c[-2]-1)*100,3) if len(c)>2 else None,'momentum15m_pct':round((p/c[-4]-1)*100,3) if len(c)>4 else None,'high_5d':round(max(h),2) if h else None,'low_5d':round(min(l),2) if l else None,'volume':int(v[-1]) if v else None,'bars':len(c),'bar_epoch':bar_ts,'age_seconds':round(age_sec,1) if age_sec is not None else None,'fresh':bool(age_sec is not None and age_sec<=120)}
 def news():
     out=[];seen=set()
     for q in ['NIFTY India markets RBI Fed','India options market volatility','India inflation RBI rates rupee','NIFTY global markets crude gold']:
