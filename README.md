@@ -4,24 +4,24 @@ Human-controlled NIFTY 50 research and decision-support terminal.
 
 ## Intelligence stack
 
-The cloud engine runs a conservative multi-evidence pipeline covering:
-- multi-timeframe price structure, EMA/SMA, RSI, MACD, ADX, ATR, Bollinger Bands, VWAP and momentum
-- candlestick and classical chart-pattern detection
-- support/resistance, breakout/breakdown, compression and trend structure
+The cloud engine uses a conservative multi-evidence pipeline covering:
+- multi-timeframe 1m/5m/15m/30m price structure and confluence
+- EMA 9/20/50/200, RSI, MACD, ADX, ATR, Bollinger Bands, VWAP and momentum
+- candlestick patterns plus conservative classical-pattern candidates: breakouts/breakdowns, double/triple tops/bottoms, triangles, flags/pennants and compression
+- support/resistance and market structure
 - NIFTY breadth
-- NIFTY option-chain intelligence: OI, change in OI, volume, IV, bid/ask, PCR, max pain and liquidity filters when the public chain is accessible
-- news/event sentiment
-- global context: S&P 500, NASDAQ, USD/INR, crude and gold
-- public fundamental/background context
-- rolling historical validation
+- NIFTY option-chain intelligence when legitimately accessible: LTP, bid/ask, volume, OI, change in OI, IV, PCR, max pain, liquidity and estimated Greeks
+- news/event sentiment and global context: S&P 500, NASDAQ, USD/INR, crude and gold
+- public fundamental/macro background context; it is explicitly not presented as company-by-company earnings/valuation research
+- 5m/15m walk-forward validation
 - decision history, P/L diagnostics and learning state
-- strict data-quality and abstention gates
+- strict freshness, confluence, liquidity and abstention gates
 
 ## Runtime
 
 The hosted research site is updated by GitHub Actions. Research/learning remains available outside market hours; the final trading decision is disabled outside NSE regular derivatives hours.
 
-The current free deployment uses public web data. It does not claim exchange tick-by-tick/1-second data. NSE distinguishes public/snapshot access from its authorized real-time Level 1/2/3 and tick-by-tick feeds. A genuine tick-live adapter must be connected before the tick-live gate can become true.
+The free deployment uses public web data and is **not** an exchange tick-by-tick or guaranteed 1-second feed. NSE's current documentation says genuine Level 1/2/3 and tick-by-tick feeds are provided through NSE Data & Analytics / authorized vendors, while snapshot products are separate. A verified realtime provider adapter must be connected before the terminal can truthfully claim tick-live monitoring.
 
 ## Safety
 
