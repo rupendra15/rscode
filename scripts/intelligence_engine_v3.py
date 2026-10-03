@@ -59,6 +59,43 @@ def news():
                 if t and t not in seen:seen.add(t);out.append({'title':t,'published':p})
         except Exception: pass
     return out[:15]
+def nse_option_chain():
+    """Best-effort public NSE website option-chain reader. Not an exchange tick feed."""
+    s=requests.Session()
+    h={**UA,'Accept':'application/json,text/plain,*/*','Accept-Language':'en-IN,en;q=0.9','Referer':'https://www.nseindia.com/option-chain'}
+    s.headers.update(h)
+    s.get('https://www.nseindia.com/',timeout=12)
+    s.get('https://www.nseindia.com/option-chain',timeout=12)
+    r=s.get('https://www.nseindia.com/api/option-chain-indices',params={'symbol':'NIFTY'},timeout=15)
+    r.raise_for_status()
+    z=r.json(); records=z.get('records',{}); expiries=records.get('expiryDates') or []
+    if not expiries: raise RuntimeError('NSE returned no expiry')
+    rows=[]
+    for rec in records.get('data',[]):
+        strike=rec.get('strikePrice')
+        for side in ('CE','PE'):
+            x=rec.get(side)
+            if not x: continue
+            rows.append({'contractSymbol':x.get('identifier'),'strike':strike,'lastPrice':x.get('lastPrice'),
+              'bid':x.get('bidprice'),'ask':x.get('askPrice'),'volume':x.get('totalTradedVolume') or 0,
+              'openInterest':x.get('openInterest') or 0,'changeinOpenInterest':x.get('changeinOpenInterest') or 0,
+              'impliedVolatility':x.get('impliedVolatility') or 0,'side':side,
+              'totalBuyQuantity':x.get('totalBuyQuantity') or 0,'totalSellQuantity':x.get('totalSellQuantity') or 0,
+              'timestamp':x.get('lastUpdateTime')})
+    calls=[x for x in rows if x['side']=='CE']; puts=[x for x in rows if x['side']=='PE']
+    coi=sum(x['openInterest'] or 0 for x in calls); poi=sum(x['openInterest'] or 0 for x in puts)
+    pcr=poi/coi if coi else None
+    strikes=sorted(set(x['strike'] for x in rows if x.get('strike') is not None)); mp=None
+    if strikes:
+        pains=[]
+        for s0 in strikes:
+            pain=sum(max(0,s0-x['strike'])*(x['openInterest'] or 0) for x in calls)+sum(max(0,x['strike']-s0)*(x['openInterest'] or 0) for x in puts)
+            pains.append((pain,s0))
+        mp=min(pains)[1] if pains else None
+    return {'status':'NSE_PUBLIC_OPTION_CHAIN','source':'NSE public option-chain endpoint','expiry':expiries[0],
+      'calls':calls,'puts':puts,'pcr':round(pcr,3) if pcr else None,'max_pain':mp,'count':len(rows),'fresh':True,
+      'retrieved_at':datetime.now(timezone.utc).isoformat(),'note':'Public NSE webpage data; not exchange-direct tick-by-tick.'}
+
 def try_option_chain(spot):
     errors=[]
     for host in ['query1.finance.yahoo.com','query2.finance.yahoo.com']:
@@ -79,6 +116,10 @@ def try_option_chain(spot):
                 maxpain=min(pains)[1]
             return {'status':'LIVE_PUBLIC_OPTIONS','source':host,'expiry_epoch':exp,'expiry':datetime.fromtimestamp(exp,timezone.utc).date().isoformat(),'calls':calls,'puts':puts,'pcr':round(pcr,3) if pcr else None,'max_pain':maxpain,'count':len(calls)+len(puts),'fresh':True}
         except Exception as e: errors.append(host+': '+str(e))
+    try:
+        return nse_option_chain()
+    except Exception as e:
+        errors.append('nse_public: '+str(e))
     return {'status':'BLOCKED_NO_RELIABLE_FREE_CHAIN','source':'public-free-fallback','calls':[],'puts':[],'pcr':None,'max_pain':None,'count':0,'fresh':False,'errors':errors}
 def bs_delta(spot,strike,iv,days,kind):
     if not iv or not days or spot<=0 or strike<=0:return None
