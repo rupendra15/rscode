@@ -1,8 +1,8 @@
 {
   "owner": "Rupendra",
   "engine_version": "5.0",
-  "timestamp": "2026-10-02T22:58:49.582012+00:00",
-  "ist_time": "2026-10-03T04:28:49.582002+05:30",
+  "timestamp": "2026-10-03T01:51:37.855255+00:00",
+  "ist_time": "2026-10-03T07:21:37.855250+05:30",
   "market_open": false,
   "market_status": "MARKET CLOSED",
   "decision": "MARKET CLOSED",
@@ -22,7 +22,7 @@
   },
   "learning": {
     "lessons": {},
-    "last_updated": "2026-10-02T22:58:53.601869+00:00",
+    "last_updated": "2026-10-03T01:51:41.302602+00:00",
     "method": "Outcome audit by validated signal, exit reason, market regime and option-contract liquidity. No self-modifying rule is allowed to silently change live criteria."
   },
   "nifty": 22421.95,
@@ -106,11 +106,11 @@
       "atr14": 0.0,
       "vwap": null,
       "momentum5m_pct": 0.0,
-      "momentum15m_pct": 0.0,
+      "momentum15m_pct": -0.01,
       "high_5d": 96.33,
       "low_5d": 95.73,
       "volume": 0,
-      "bars": 409,
+      "bars": 408,
       "fresh": true,
       "source_status": "LIVE_OR_LATEST_PUBLIC"
     },
@@ -198,11 +198,11 @@
       "published": "Wed, 16 Sep 2026 07:00:00 GMT"
     },
     {
-      "title": "India's stock benchmarks ascend towards new peaks on Fed, RBI rate cut optimism - Reuters",
+      "title": "India's stock benchmarks ascend towards new peaks on Fed, RBI rate cut optimism - reuters.com",
       "published": "Tue, 25 Nov 2025 08:00:00 GMT"
     },
     {
-      "title": "India's proposals to revamp derivatives settlement could alleviate expiry-day volatility, analysts say - Reuters",
+      "title": "India's proposals to revamp derivatives settlement could alleviate expiry-day volatility, analysts say - reuters.com",
       "published": "Tue, 15 Sep 2026 07:00:00 GMT"
     },
     {
@@ -210,16 +210,16 @@
       "published": "Thu, 06 Aug 2026 07:00:00 GMT"
     },
     {
-      "title": "Nifty's late swings punish longs and shorts as thin liquidity creates havoc - Rediff",
-      "published": "Wed, 09 Sep 2026 07:00:00 GMT"
-    },
-    {
-      "title": "Closing auction leaves retail options traders caught both ways - Business Standard",
-      "published": "Tue, 08 Sep 2026 07:00:00 GMT"
-    },
-    {
       "title": "Indian options market grows at 56% CAGR over FY20-26; contributes 70% of exchanges' revenue: Jefferies - Fortune India",
       "published": "Mon, 13 Jul 2026 07:00:00 GMT"
+    },
+    {
+      "title": "SEBI proposes new rules to keep options trading smooth during sharp market swings - Firstpost",
+      "published": "Tue, 26 May 2026 07:00:00 GMT"
+    },
+    {
+      "title": "India markets regulator proposes changes to smooth options trading during volatility - reuters.com",
+      "published": "Tue, 26 May 2026 07:00:00 GMT"
     },
     {
       "title": "RBI Rate Hike Ahead? SBI Research Flags Inflation, Rupee Risks For October MPC - NDTV Profit",
@@ -230,7 +230,7 @@
       "published": "Fri, 02 Oct 2026 07:14:12 GMT"
     },
     {
-      "title": "Rupee declines to one-week low as oil rally fans global rate hike worries - Reuters",
+      "title": "Rupee declines to one-week low as oil rally fans global rate hike worries - reuters.com",
       "published": "Thu, 24 Sep 2026 07:00:00 GMT"
     },
     {
@@ -238,7 +238,7 @@
       "published": "Wed, 30 Sep 2026 08:20:05 GMT"
     },
     {
-      "title": "India: Waiting on the world to change – RBI Aug 2026 Meeting - 5 August 2026 - MUFG Research",
+      "title": "India: Waiting on the world to change \u2013 RBI Aug 2026 Meeting - 5 August 2026 - MUFG Research",
       "published": "Wed, 05 Aug 2026 07:00:00 GMT"
     }
   ],
@@ -248,7 +248,7 @@
     "Pattern engine: overbought momentum, volatility low",
     "Volatility regime: LOW | ATR14 27.56",
     "Options: BLOCKED_NO_RELIABLE_FREE_CHAIN | PCR None | Max pain None",
-    "Option candidate: none | score — | spread —%",
+    "Option candidate: none | score \u2014 | spread \u2014%",
     "Validation: 54.4% across 160 samples | rolling 5m EMA20/EMA50 + RSI, 3-bar forward direction",
     "News/event filter: ELEVATED | bias BEARISH | risk terms rbi, fed, inflation, war, rate hike, rate cut",
     "Time-of-day: None",
@@ -304,7 +304,7 @@
     "pattern_engine": "ACTIVE",
     "validation_engine": "ACTIVE",
     "learning_engine": "ACTIVE",
-    "last_evidence_update": "2026-10-02T22:58:49.582012+00:00"
+    "last_evidence_update": "2026-10-03T01:51:37.855255+00:00"
   },
   "sources": {
     "public_market": "Yahoo Finance public chart endpoint",
@@ -316,13 +316,5 @@
     "fresh_sources": 7,
     "required_for_signal": 5
   },
-  "open_trade": null,
-  "nse_live": {
-    "source": "NSE CM Market MCP",
-    "status": "error",
-    "error": "HTTP Error 400: Bad Request",
-    "retrieved_at": "2026-10-02T23:13:22Z"
-  },
-  "live_data_source": "NSE CM Market MCP",
-  "live_data_note": "NSE states CM Market Live is typically 1-3 minutes behind real-time."
+  "open_trade": null
 }
