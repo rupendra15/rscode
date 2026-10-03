@@ -1,8 +1,8 @@
 {
   "owner": "Rupendra",
   "engine_version": "5.0",
-  "timestamp": "2026-10-03T09:53:51.017746+00:00",
-  "ist_time": "2026-10-03T15:23:51.017735+05:30",
+  "timestamp": "2026-10-03T09:54:06.239307+00:00",
+  "ist_time": "2026-10-03T15:24:06.239296+05:30",
   "market_open": false,
   "market_status": "MARKET CLOSED",
   "decision": "MARKET CLOSED",
@@ -22,7 +22,7 @@
   },
   "learning": {
     "lessons": {},
-    "last_updated": "2026-10-03T09:53:53.938471+00:00",
+    "last_updated": "2026-10-03T09:54:08.834702+00:00",
     "method": "Outcome audit by validated signal, exit reason, market regime and option-contract liquidity. No self-modifying rule is allowed to silently change live criteria."
   },
   "nifty": 22421.95,
@@ -304,7 +304,7 @@
     "pattern_engine": "ACTIVE",
     "validation_engine": "ACTIVE",
     "learning_engine": "ACTIVE",
-    "last_evidence_update": "2026-10-03T09:53:51.017746+00:00"
+    "last_evidence_update": "2026-10-03T09:54:06.239307+00:00"
   },
   "sources": {
     "public_market": "Yahoo Finance public chart endpoint",
