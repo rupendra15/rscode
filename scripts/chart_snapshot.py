@@ -10,7 +10,10 @@ def clean(xs):
     return [float(x) if x is not None else None for x in (xs or [])]
 
 def main():
-    \n    try:\n        d=v3.chart('^NSEI',interval='1m',range_='7d'); interval='1m'\n    except Exception:\n        d=v3.chart('^NSEI',interval='5m',range_='5d'); interval='5m'
+    try:
+        d=v3.chart('^NSEI',interval='1m',range_='7d'); interval='1m'
+    except Exception:
+        d=v3.chart('^NSEI',interval='5m',range_='5d'); interval='5m'
     q=d['indicators']['quote'][0]
     ts=d.get('timestamp') or []
     o,h,l,c,v=[clean(q.get(k)) for k in ('open','high','low','close','volume')]
