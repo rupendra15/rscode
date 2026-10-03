@@ -30,10 +30,10 @@ jobs:
           python-version: '3.12'
       - name: Install market dependencies
         run: pip install -r requirements-market.txt
-      - name: Run v5 ensemble intelligence engine
+      - name: Run v6 comprehensive multi-evidence intelligence engine
         env:
           PYTHONPATH: ${{ github.workspace }}/scripts
-        run: python scripts/intelligence_engine_v5.py
+        run: python scripts/intelligence_engine_v6.py
       - name: Build 5m OHLC chart snapshot
         env:
           PYTHONPATH: ${{ github.workspace }}/scripts
