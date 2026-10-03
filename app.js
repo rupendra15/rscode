@@ -3,13 +3,36 @@ function row(label,value,cls=''){return `<div class="row"><span>${esc(label)}</s
 function currentIST(){const parts=new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Kolkata',year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false}).formatToParts(new Date());const o={};parts.forEach(p=>o[p.type]=p.value);return o}
 function sessionState(){const p=currentIST(),key=`${p.year}-${p.month}-${p.day}`,mins=Number(p.hour)*60+Number(p.minute);const weekday=new Date(`${key}T00:00:00+05:30`).getUTCDay();return {open:weekday>=1&&weekday<=5&&!HOLIDAYS.has(key)&&mins>=555&&mins<=940,key,time:`${p.hour}:${p.minute}:${p.second}`}}
 async function getJson(path){const r=await fetch(path+'?build='+BUILD+'&t='+Date.now(),{cache:'no-store',headers:{'Cache-Control':'no-cache','Pragma':'no-cache'}});if(!r.ok)throw Error(path+' '+r.status);return r.json()}
+function mountAudit(d){
+ if(document.getElementById('deepAudit'))return;
+ const box=document.createElement('section');box.id='deepAudit';box.className='section panel';
+ box.innerHTML='<h2>Deep evidence audit — v6</h2><div id="deepAuditBody" class="sourcegrid"></div>';
+ const anchor=document.getElementById('embeddedTraderChart');if(anchor)anchor.parentNode.insertBefore(box,anchor);
+}
+function renderAudit(d){
+ mountAudit(d);const st=d.structure||{},oi=d.option_intelligence||{},br=d.breadth||{},se=d.sentiment||{},fu=d.fundamental||{},dq=d.data_quality||{},rs=d.research_state||{};
+ const items=[
+ ['Technical','EMA9 '+fmt(st.ema9)+' • EMA20 '+fmt(st.ema20)+' • EMA50 '+fmt(st.ema50)+' • EMA200 '+fmt(st.ema200)+' • RSI '+fmt(st.rsi14)+' • MACD '+fmt(st.macd)+' • ADX '+fmt(st.adx14)+' • ATR '+fmt(st.atr14)],
+ ['Chart patterns',(d.patterns||[]).join(', ')||'No detected pattern'],
+ ['Support / resistance','S20 '+fmt(st.support_20)+' • R20 '+fmt(st.resistance_20)+' • S50 '+fmt(st.support_50)+' • R50 '+fmt(st.resistance_50)],
+ ['Options','Status '+(oi.status||d.option_data?.status||'—')+' • PCR '+fmt(oi.pcr)+' • expiry '+(oi.expiry||'—')],
+ ['OI / ΔOI','Calls OI '+fmt(oi.call?.oi)+' ΔOI '+fmt(oi.call?.doi)+' • Puts OI '+fmt(oi.put?.oi)+' ΔOI '+fmt(oi.put?.doi)],
+ ['Breadth',br.status==='READY'?br.advances+' advances / '+br.declines+' declines / '+br.unchanged+' unchanged':'Unavailable'],
+ ['Sentiment',se.bias+' • positive '+fmt(se.positive_terms)+' • negative '+fmt(se.negative_terms)+' • risk '+se.risk_level],
+ ['Fundamental / macro',fu.status+' • background filter only'],
+ ['Validation','Samples '+fmt(d.validation?.samples)+' • hit rate '+pct(d.validation?.hit_rate)],
+ ['Data gate','Public data only • tick-live '+String(!!dq.tick_live).toUpperCase()+' • options verified '+String(!!dq.options_verified).toUpperCase()],
+ ['Research engines',Object.entries(rs).filter(([k])=>k.endsWith('engine')).map(([k,v])=>k+': '+v).join(' • ')||'—']
+ ];
+ $('deepAuditBody').innerHTML=items.map(([a,b])=>'<div class="source"><b>'+esc(a)+'</b><span class="small">'+esc(b)+'</span></div>').join('');
+}
 function mountChart(){if(document.getElementById('embeddedTraderChart'))return;const box=document.createElement('section');box.id='embeddedTraderChart';box.className='section panel';box.innerHTML='<h2>NIFTY 50 — cloud research chart</h2><div style="height:620px;border:1px solid #203643;border-radius:12px;overflow:hidden;background:#071018"><iframe src="charts/realtime.html?v=11" title="NIFTY research chart" style="width:100%;height:100%;border:0" loading="eager"></iframe></div><div class="notice">DATA INTEGRITY: this chart is driven by the cloud snapshot currently available to this site. It is not labelled tick-live. A verified exchange/vendor stream must be connected before the terminal can claim 1-second or tick-by-tick data.</div>';const decision=document.querySelector('.decision');decision.parentNode.insertBefore(box,decision.nextSibling)}
 function sourceFreshness(d){const ts=d.ist_time||d.timestamp||d.generated_at; if(!ts)return {age:null,label:'UNKNOWN'};const t=Date.parse(ts);if(!Number.isFinite(t))return {age:null,label:'UNKNOWN'};const age=Math.max(0,Date.now()-t)/1000;return {age,label:age<=2?'TICK-LIVE':age<=90?'RECENT SNAPSHOT':age<=600?'DELAYED SNAPSHOT':'STALE SNAPSHOT'}}
 async function load(){
  mountChart();$('refreshState').textContent='SYNCING';
  try{
   const [d,h,j,learn]=await Promise.all([getJson('data/market_snapshot.json'),getJson('data/history.json').catch(()=>[]),getJson('data/trade_journal.json').catch(()=>({})),getJson('data/learning_state.json').catch(()=>({}))]);
-  const live=sessionState();const fresh=sourceFreshness(d);const m=d.market||{},n=m.NIFTY||{};const vixObj=m.VIX||{};const opt=d.option_data||{},cand=d.candidate||{},plan=d.plan||{},stats=j.stats||d.journal_stats||{},closed=j.closed||[];
+  renderAudit(d); const live=sessionState();const fresh=sourceFreshness(d);const m=d.market||{},n=m.NIFTY||{};const vixObj=m.VIX||{};const opt=d.option_data||{},cand=d.candidate||{},plan=d.plan||{},stats=j.stats||d.journal_stats||{},closed=j.closed||[];
   const nifty=d.nifty??n.price,vix=d.vix??vixObj.price,regime=d.regime||'RESEARCH MIXED',score=d.model_score??'RESEARCH';
   $('spot').textContent=fmt(nifty);$('vix').textContent=fmt(vix);$('regime').textContent=regime;$('score').textContent=fmt(score);$('marketTime').textContent=live.time;$('session').textContent=live.open?'MARKET OPEN':'MARKET CLOSED';
   const decisionEnabled=live.open&&fresh.label==='TICK-LIVE'&&d.data_integrity?.tick_live===true;
