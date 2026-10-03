@@ -73,7 +73,14 @@ def classical_patterns(o,h,l,c):
     # Wedge/triangle proxy using narrowing high-low envelope.
     hi1=max(h[-20:-10]);hi2=max(h[-10:]);lo1=min(l[-20:-10]);lo2=min(l[-10:])
     if hi2<hi1 and lo2>lo1:out.append("converging_triangle_candidate")
-    return out
+    # Additional conservative classical-pattern candidates.
+    mid=max(h[-30:-15]); mid2=max(h[-15:-3]); lowmid=min(l[-30:-15]); low2=min(l[-15:-3])
+    if abs(mid-mid2)/max(last,1)<.004 and last<min(mid,mid2)*.999: out.append("triple_top_candidate")
+    if abs(lowmid-low2)/max(last,1)<.004 and last>max(lowmid,low2)*1.001: out.append("triple_bottom_candidate")
+    if mid2<mid and low2>lowmid: out.append("symmetrical_triangle_candidate")
+    if mid2>mid and low2>lowmid: out.append("ascending_triangle_candidate")
+    if mid2<mid and low2<lowmid: out.append("descending_triangle_candidate")
+    return list(dict.fromkeys(out))
 
 def structure(o,h,l,c):
     e20=v3.ema(c,20);e50=v3.ema(c,50);e200=v3.ema(c,200);r=v3.rsi(c);a=v3.atr(h,l,c);m=macd(c);bb=bollinger(c);d=adx(h,l,c)
@@ -145,8 +152,8 @@ def score_all(m,st,opts,breadth,sent):
     if st.get("macd") is not None:add(.75 if st["macd"]>0 else -.75,"MACD "+("positive" if st["macd"]>0 else "negative"))
     if st.get("adx14") is not None and st["adx14"]>=22:add(.5 if n.get("price",0)>st.get("ema20",0) else -.5,"ADX confirms directional strength")
     if st.get("patterns"):
-        bull={"breakout","bullish_engulfing","hammer","double_bottom_candidate","morning_star_like"}
-        bear={"breakdown","bearish_engulfing","shooting_star","double_top_candidate","evening_star_like"}
+        bull={"breakout","bullish_engulfing","hammer","double_bottom_candidate","triple_bottom_candidate","morning_star_like","ascending_triangle_candidate"}
+        bear={"breakdown","bearish_engulfing","shooting_star","double_top_candidate","triple_top_candidate","evening_star_like","descending_triangle_candidate"}
         add(.75*sum(1 for x in st["patterns"] if x in bull), "bullish chart-pattern evidence" if any(x in bull for x in st["patterns"]) else "")
         add(-.75*sum(1 for x in st["patterns"] if x in bear), "bearish chart-pattern evidence" if any(x in bear for x in st["patterns"]) else "")
     if breadth.get("status")=="READY":
@@ -170,15 +177,74 @@ def candidate(chain,spot,side):
         if spread>.12 or abs(strike-spot)>spot*.04:continue
         score=100*(.35*max(0,1-spread/.12)+.25*min(1,math.log10(1+oi)/7)+.2*min(1,math.log10(1+vol)/6)+.2*max(0,1-abs(strike-spot)/(spot*.04)))
         z={k:x.get(k) for k in ["contractSymbol","strike","lastPrice","bid","ask","volume","openInterest","changeinOpenInterest","impliedVolatility","totalBuyQuantity","totalSellQuantity"]}
-        z.update({"candidate_score":round(score,1),"side":side,"spread_pct":round(spread*100,2),"expiry":chain.get("expiry")})
+        days=None
+        try:
+            days=max((datetime.fromisoformat(str(chain.get("expiry"))).replace(tzinfo=timezone.utc)-datetime.now(timezone.utc)).total_seconds()/86400,.5)
+        except Exception: pass
+        z.update({"candidate_score":round(score,1),"side":side,"spread_pct":round(spread*100,2),"expiry":chain.get("expiry"),
+                  "greeks":option_greeks(spot,strike,iv,days,side) if days else {}})
         if best is None or score>best["candidate_score"]:best=z
     return best
+
+
+def timeframe_analysis():
+    """Multi-timeframe confirmation using public OHLC bars. Never claims tick data."""
+    specs=[("1m","1d"),("5m","5d"),("15m","10d"),("30m","1mo")]
+    out={}
+    for tf,rg in specs:
+        try:
+            d=v3.chart("^NSEI",interval=tf,range_=rg); q=d["indicators"]["quote"][0]
+            o,h,l,cl=[clean(q.get(k)) for k in ("open","high","low","close")]
+            if len(cl)<55: raise RuntimeError("insufficient bars")
+            e20=v3.ema(cl,20); e50=v3.ema(cl,50); rr=v3.rsi(cl); mm=macd(cl); aa=adx(h,l,cl)
+            direction="BULLISH" if e20 and e50 and cl[-1]>e20>e50 else "BEARISH" if e20 and e50 and cl[-1]<e20<e50 else "MIXED"
+            out[tf]={"status":"READY","close":round(cl[-1],2),"ema20":round(e20,2) if e20 else None,"ema50":round(e50,2) if e50 else None,
+                     "rsi":round(rr,2) if rr is not None else None,"macd":round(mm,4) if mm is not None else None,
+                     "adx":round(aa,2) if aa is not None else None,"direction":direction,
+                     "patterns":candle_patterns(o,h,l,cl)+classical_patterns(o,h,l,cl),
+                     "bar_epoch":(d.get("timestamp") or [None])[-1]}
+        except Exception as e: out[tf]={"status":"UNAVAILABLE","error":str(e)}
+    ready=[x for x in out.values() if x.get("status")=="READY"]
+    bull=sum(x.get("direction")=="BULLISH" for x in ready); bear=sum(x.get("direction")=="BEARISH" for x in ready)
+    out["confluence"]={"ready":len(ready),"bullish":bull,"bearish":bear,
+                       "direction":"BULLISH" if bull>=3 and bull>bear else "BEARISH" if bear>=3 and bear>bull else "MIXED"}
+    return out
+
+def option_greeks(spot,strike,iv,days,kind,rate=.065):
+    if not all(isinstance(x,(int,float)) for x in (spot,strike,iv,days)) or spot<=0 or strike<=0 or iv<=0 or days<=0:return {}
+    t=max(days/365,1/365); vol=max(iv,.0001); sq=math.sqrt(t)
+    d1=(math.log(spot/strike)+(rate+.5*vol*vol)*t)/(vol*sq); d2=d1-vol*sq
+    nd1=math.exp(-d1*d1/2)/math.sqrt(2*math.pi); cdf=lambda z:.5*(1+math.erf(z/math.sqrt(2)))
+    sign=1 if kind=="CE" else -1
+    delta=cdf(d1) if kind=="CE" else cdf(d1)-1
+    gamma=nd1/(spot*vol*sq)
+    vega=spot*nd1*sq/100
+    theta=(-(spot*nd1*vol)/(2*sq)-sign*rate*strike*math.exp(-rate*t)*cdf(sign*d2))/365
+    return {"delta":round(delta,4),"gamma":round(gamma,6),"vega_per_1pct":round(vega,4),"theta_per_day":round(theta,4)}
+
+def validation_multi():
+    vals={}
+    for tf,rg in [("5m","5d"),("15m","10d")]:
+        try:
+            d=v3.chart("^NSEI",interval=tf,range_=rg); c=clean(d["indicators"]["quote"][0].get("close"))
+            hits=samples=0
+            for i in range(55,len(c)-4):
+                e20,e50=v3.ema(c[:i],20),v3.ema(c[:i],50); rr=v3.rsi(c[:i])
+                direction=1 if e20 and e50 and rr and e20>e50 and rr>52 else -1 if e20 and e50 and rr and e20<e50 and rr<48 else 0
+                if not direction: continue
+                samples+=1; future=c[i+3]-c[i]
+                hits+=int((direction>0 and future>0) or (direction<0 and future<0))
+            vals[tf]={"samples":samples,"hit_rate":round(hits/samples*100,1) if samples else None}
+        except Exception as e: vals[tf]={"samples":0,"hit_rate":None,"error":str(e)}
+    samples=sum(x["samples"] for x in vals.values()); hits=sum(round(x["samples"]*x["hit_rate"]/100) for x in vals.values() if x.get("hit_rate") is not None)
+    vals["combined"]={"samples":samples,"hit_rate":round(hits/samples*100,1) if samples else None,"method":"walk-forward EMA20/EMA50 + RSI on 5m and 15m"}
+    return vals
 
 def main():
     ist=v3.now_ist();ts=datetime.now(timezone.utc).isoformat()
     j=v3.load(JOURNAL,{"open":None,"closed":[],"stats":{},"lessons":{}})
     if not v3.market_open(ist):
-        save(OUT,{"owner":"Rupendra","engine_version":"6.0","timestamp":ts,"ist_time":ist.isoformat(),"market_open":False,"market_status":"MARKET CLOSED","decision":"MARKET CLOSED","decision_type":"SESSION_STATE","signal_strength":0,"model_score":None,"confidence":None,"reason":"Research continues outside session; final trade decision disabled.","previous_decision":j.get("closed",[])[-1] if j.get("closed") else None,"journal_stats":j.get("stats",{}),"learning":j.get("learning_summary",{}),"research_state":{"evidence_engine":"ACTIVE","pattern_engine":"ACTIVE","sentiment_engine":"ACTIVE","fundamental_engine":"ACTIVE_PUBLIC_BACKGROUND","learning_engine":"ACTIVE","decision_engine":"OFF_OUTSIDE_SESSION"},"data_quality":{"status":"SESSION_CLOSED"}});return
+        save(OUT,{"owner":"Rupendra","engine_version":"7.0","timestamp":ts,"ist_time":ist.isoformat(),"market_open":False,"market_status":"MARKET CLOSED","decision":"MARKET CLOSED","decision_type":"SESSION_STATE","signal_strength":0,"model_score":None,"confidence":None,"reason":"Research continues outside session; final trade decision disabled.","previous_decision":j.get("closed",[])[-1] if j.get("closed") else None,"journal_stats":j.get("stats",{}),"learning":j.get("learning_summary",{}),"research_state":{"evidence_engine":"ACTIVE","pattern_engine":"ACTIVE","sentiment_engine":"ACTIVE","fundamental_engine":"ACTIVE_PUBLIC_BACKGROUND","learning_engine":"ACTIVE","decision_engine":"OFF_OUTSIDE_SESSION"},"data_quality":{"status":"SESSION_CLOSED"}});return
     symbols={"NIFTY":"^NSEI","VIX":"^INDIAVIX","SPX":"^GSPC","NASDAQ":"^IXIC","USDINR":"INR=X","CRUDE":"CL=F","GOLD":"GC=F"}
     m={}
     for k,sym in symbols.items():
@@ -194,16 +260,19 @@ def main():
     chain=v3.try_option_chain(spot) if spot else {"status":"NO_SPOT","fresh":False}
     opts=option_intelligence(chain,spot) if spot else {"status":"NO_SPOT"}
     breadth=nse_index_breadth(); items=v3.news(); sent=sentiment(items); fund=fundamental_context()
+    mtf=timeframe_analysis()
     score,why=score_all(m,st,opts,breadth,sent)
     validation=v3.validation()
-    validation_ok=validation.get("samples",0)>=30 and (validation.get("hit_rate") or 0)>=55
+    validation_detail=validation_multi()
+    validation_ok=validation.get("samples",0)>=30 and (validation.get("hit_rate") or 0)>=55 and (validation_detail.get("combined",{}).get("hit_rate") or 0)>=52
     freshness=sum(1 for k in symbols if m.get(k,{}).get("fresh"))
     chain_ok=chain.get("fresh") and chain.get("count",0)>50
     side="CE" if score>0 else "PE"
     cand=candidate(chain,spot,side) if chain_ok else None
-    option_ok=bool(cand and cand.get("candidate_score",0)>=65)
+    option_ok=bool(cand and cand.get("candidate_score",0)>=65 and cand.get("greeks",{}).get("delta") is not None)
     # Stronger confluence gate: direction + validation + breadth/options/news/data.
-    action="BUY CALL" if score>=6.5 and validation_ok and option_ok and freshness>=5 and sent["risk_level"]=="NORMAL" else "BUY PUT" if score<=-6.5 and validation_ok and option_ok and freshness>=5 and sent["risk_level"]=="NORMAL" else "NO TRADE"
+    mtf_ok=mtf.get("confluence",{}).get("direction") in ("BULLISH","BEARISH")
+    action="BUY CALL" if score>=6.5 and validation_ok and option_ok and freshness>=5 and sent["risk_level"]=="NORMAL" and mtf_ok and mtf["confluence"]["direction"]=="BULLISH" else "BUY PUT" if score<=-6.5 and validation_ok and option_ok and freshness>=5 and sent["risk_level"]=="NORMAL" and mtf_ok and mtf["confluence"]["direction"]=="BEARISH" else "NO TRADE"
     blockers=[]
     if freshness<5:blockers.append("insufficient synchronized public market inputs")
     if not chain_ok:blockers.append("options chain unavailable/not fresh")
@@ -211,6 +280,7 @@ def main():
     if not validation_ok:blockers.append("historical validation gate not met")
     if sent["risk_level"]!="NORMAL":blockers.append("elevated event risk")
     if abs(score)<6.5:blockers.append("evidence confluence below trade threshold")
+    if not mtf_ok:blockers.append("multi-timeframe direction is not aligned")
     confidence=max(0,min(99,50+score*4+(8 if validation_ok else -12)+(8 if option_ok else -15)+(4 if breadth.get("status")=="READY" else -4)))
     plan={}
     if action!="NO TRADE" and cand:
@@ -225,9 +295,11 @@ def main():
       "Sentiment: "+str(sent),
       "Fundamental/background: "+str(fund),
       "Validation: "+str(validation),
+      "Multi-timeframe: "+str(mtf),
+      "Option Greeks: "+str(cand.get("greeks") if cand else {}),
       "Global: "+str({k:m.get(k,{}).get("change_pct") for k in ["SPX","NASDAQ","USDINR","CRUDE","GOLD"]})
     ]
-    result={"owner":"Rupendra","engine_version":"6.0","timestamp":ts,"ist_time":ist.isoformat(),"market_open":True,"market_status":"MARKET OPEN","decision":action,"decision_type":"TRADE_SIGNAL" if action!="NO TRADE" else "ABSTAIN","signal_strength":round(confidence,1),"model_score":score,"confidence":round(confidence/100,3),"reason":("Trade gate passed: "+", ".join(why) if action!="NO TRADE" else "NO TRADE — "+"; ".join(blockers)),"nifty":spot,"vix":m.get("VIX",{}).get("price"),"regime":"BULLISH" if score>2 else "BEARISH" if score<-2 else "MIXED","market":m,"structure":st,"patterns":st.get("patterns",[]),"option_data":chain,"option_intelligence":opts,"candidate":cand,"breadth":breadth,"sentiment":sent,"fundamental":fund,"news":items,"validation":validation,"plan":plan,"evidence":ev,"previous_decision":j.get("closed",[])[-1] if j.get("closed") else None,"journal_stats":j.get("stats",{}),"learning":j.get("learning_summary",{}),"data_quality":{"fresh_sources":freshness,"public_data_only":True,"tick_live":False,"options_verified":chain_ok,"trade_gate":action!="NO TRADE"},"research_state":{"evidence_engine":"ACTIVE","technical_engine":"ACTIVE","chart_pattern_engine":"ACTIVE","options_engine":"ACTIVE" if chain_ok else "WAITING","sentiment_engine":"ACTIVE","fundamental_engine":"ACTIVE_PUBLIC_BACKGROUND","breadth_engine":"ACTIVE" if breadth.get("status")=="READY" else "WAITING","validation_engine":"ACTIVE","learning_engine":"ACTIVE","decision_engine":"ACTIVE"}}
+    result={"owner":"Rupendra","engine_version":"6.0","timestamp":ts,"ist_time":ist.isoformat(),"market_open":True,"market_status":"MARKET OPEN","decision":action,"decision_type":"TRADE_SIGNAL" if action!="NO TRADE" else "ABSTAIN","signal_strength":round(confidence,1),"model_score":score,"confidence":round(confidence/100,3),"reason":("Trade gate passed: "+", ".join(why) if action!="NO TRADE" else "NO TRADE — "+"; ".join(blockers)),"nifty":spot,"vix":m.get("VIX",{}).get("price"),"regime":"BULLISH" if score>2 else "BEARISH" if score<-2 else "MIXED","market":m,"structure":st,"patterns":st.get("patterns",[]),"option_data":chain,"option_intelligence":opts,"candidate":cand,"breadth":breadth,"sentiment":sent,"fundamental":fund,"news":items,"validation":validation,"validation_detail":validation_detail,"multi_timeframe":mtf,"plan":plan,"evidence":ev,"previous_decision":j.get("closed",[])[-1] if j.get("closed") else None,"journal_stats":j.get("stats",{}),"learning":j.get("learning_summary",{}),"data_quality":{"fresh_sources":freshness,"public_data_only":True,"tick_live":False,"options_verified":chain_ok,"trade_gate":action!="NO TRADE","multi_timeframe_verified":mtf_ok,"greeks_verified":bool(cand and cand.get("greeks"))},"research_state":{"evidence_engine":"ACTIVE","technical_engine":"ACTIVE","multi_timeframe_engine":"ACTIVE","chart_pattern_engine":"ACTIVE","greeks_engine":"ACTIVE","options_engine":"ACTIVE" if chain_ok else "WAITING","sentiment_engine":"ACTIVE","fundamental_engine":"ACTIVE_PUBLIC_BACKGROUND","breadth_engine":"ACTIVE" if breadth.get("status")=="READY" else "WAITING","validation_engine":"ACTIVE","fundamental_engine":"ACTIVE_PUBLIC_BACKGROUND","learning_engine":"ACTIVE","decision_engine":"ACTIVE"}}
     hist=v3.load(HISTORY,[]);hist.append({"timestamp":ts,"ist_time":ist.isoformat(),"nifty":spot,"decision":action,"contract":cand.get("contractSymbol") if cand else None,"score":score,"confidence":round(confidence,1),"option_status":chain.get("status")});v3.save(HISTORY,hist[-500:])
     v3.update_learning(j,result);save(OUT,result)
 
