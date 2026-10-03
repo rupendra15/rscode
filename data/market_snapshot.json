@@ -1,8 +1,8 @@
 {
   "owner": "Rupendra",
-  "engine_version": "6.0",
-  "timestamp": "2026-10-03T10:19:59.218992+00:00",
-  "ist_time": "2026-10-03T15:49:59.218984+05:30",
+  "engine_version": "7.0",
+  "timestamp": "2026-10-03T10:21:46.896982+00:00",
+  "ist_time": "2026-10-03T15:51:46.896975+05:30",
   "market_open": false,
   "market_status": "MARKET CLOSED",
   "decision": "MARKET CLOSED",
@@ -22,7 +22,7 @@
   },
   "learning": {
     "lessons": {},
-    "last_updated": "2026-10-03T10:19:59.556936+00:00",
+    "last_updated": "2026-10-03T10:21:47.306979+00:00",
     "method": "Outcome audit by validated signal, exit reason, market regime and option-contract liquidity. No self-modifying rule is allowed to silently change live criteria."
   },
   "research_state": {
