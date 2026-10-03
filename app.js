@@ -14,14 +14,14 @@ function renderAudit(d){
  const items=[
  ['Technical','EMA9 '+fmt(st.ema9)+' • EMA20 '+fmt(st.ema20)+' • EMA50 '+fmt(st.ema50)+' • EMA200 '+fmt(st.ema200)+' • RSI '+fmt(st.rsi14)+' • MACD '+fmt(st.macd)+' • ADX '+fmt(st.adx14)+' • ATR '+fmt(st.atr14)],
  ['Chart patterns',(d.patterns||[]).join(', ')||'No detected pattern'],
- ['Support / resistance','S20 '+fmt(st.support_20)+' • R20 '+fmt(st.resistance_20)+' • S50 '+fmt(st.support_50)+' • R50 '+fmt(st.resistance_50)],
- ['Options','Status '+(oi.status||d.option_data?.status||'—')+' • PCR '+fmt(oi.pcr)+' • expiry '+(oi.expiry||'—')],
+ ['Support / resistance','S20 '+fmt(st.support_20)+' • R20 '+fmt(st.resistance_20)+' • S50 '+fmt(st.support_50)+' • R50 '+fmt(st.resistance_50)],\n ['Multi-timeframe',(()=>{const x=d.multi_timeframe?.confluence||{};return '1m/5m/15m/30m • bullish '+fmt(x.bullish)+' • bearish '+fmt(x.bearish)+' • direction '+(x.direction||'—')})()],
+ ['Options','Status '+(oi.status||d.option_data?.status||'—')+' • PCR '+fmt(oi.pcr)+' • expiry '+(oi.expiry||'—')+' • max pain '+fmt(d.option_data?.max_pain)],
  ['OI / ΔOI','Calls OI '+fmt(oi.call?.oi)+' ΔOI '+fmt(oi.call?.doi)+' • Puts OI '+fmt(oi.put?.oi)+' ΔOI '+fmt(oi.put?.doi)],
  ['Breadth',br.status==='READY'?br.advances+' advances / '+br.declines+' declines / '+br.unchanged+' unchanged':'Unavailable'],
  ['Sentiment',se.bias+' • positive '+fmt(se.positive_terms)+' • negative '+fmt(se.negative_terms)+' • risk '+se.risk_level],
  ['Fundamental / macro',fu.status+' • background filter only'],
- ['Validation','Samples '+fmt(d.validation?.samples)+' • hit rate '+pct(d.validation?.hit_rate)],
- ['Data gate','Public data only • tick-live '+String(!!dq.tick_live).toUpperCase()+' • options verified '+String(!!dq.options_verified).toUpperCase()],
+ ['Validation','5m/15m walk-forward • combined samples '+fmt(d.validation_detail?.combined?.samples)+' • hit rate '+pct(d.validation_detail?.combined?.hit_rate)],
+ ['Data gate','Public data only • tick-live '+String(!!dq.tick_live).toUpperCase()+' • options verified '+String(!!dq.options_verified).toUpperCase()+' • MTF '+String(!!dq.multi_timeframe_verified).toUpperCase()+' • Greeks '+String(!!dq.greeks_verified).toUpperCase()],
  ['Research engines',Object.entries(rs).filter(([k])=>k.endsWith('engine')).map(([k,v])=>k+': '+v).join(' • ')||'—']
  ];
  $('deepAuditBody').innerHTML=items.map(([a,b])=>'<div class="source"><b>'+esc(a)+'</b><span class="small">'+esc(b)+'</span></div>').join('');
