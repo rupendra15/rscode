@@ -1,19 +1,31 @@
 # NIFTY Intelligence Terminal
 
-Human-controlled NIFTY 50 decision-support dashboard. It produces BUY, SELL or NO TRADE and never places orders.
+Human-controlled NIFTY 50 research and decision-support terminal.
 
-## Current mode
+## Intelligence stack
 
-This first hosted build is **research/paper mode**. It does not pretend to have a live exchange feed until an authorized data source is connected. The app includes a conservative signal engine, risk gates, audit-friendly evidence and a manual market-input API.
+The cloud engine runs a conservative multi-evidence pipeline covering:
+- multi-timeframe price structure, EMA/SMA, RSI, MACD, ADX, ATR, Bollinger Bands, VWAP and momentum
+- candlestick and classical chart-pattern detection
+- support/resistance, breakout/breakdown, compression and trend structure
+- NIFTY breadth
+- NIFTY option-chain intelligence: OI, change in OI, volume, IV, bid/ask, PCR, max pain and liquidity filters when the public chain is accessible
+- news/event sentiment
+- global context: S&P 500, NASDAQ, USD/INR, crude and gold
+- public fundamental/background context
+- rolling historical validation
+- decision history, P/L diagnostics and learning state
+- strict data-quality and abstention gates
 
-## Deploy
+## Runtime
 
-- Build: `pip install -r requirements.txt`
-- Start: `gunicorn app:app`
-- Health: `/health`
-- Dashboard: `/`
-- Signal API: `/api/signal`
+The hosted research site is updated by GitHub Actions. Research/learning remains available outside market hours; the final trading decision is disabled outside NSE regular derivatives hours.
+
+The current free deployment uses public web data. It does not claim exchange tick-by-tick/1-second data. NSE distinguishes public/snapshot access from its authorized real-time Level 1/2/3 and tick-by-tick feeds. A genuine tick-live adapter must be connected before the tick-live gate can become true.
 
 ## Safety
 
-No broker credentials, OTPs, PINs or order-execution endpoints are used. A production live-data adapter must be connected separately and must preserve source timestamps and point-in-time data.
+- Signal-only; no order execution.
+- No broker credentials, OTPs, PINs or order endpoints.
+- No guarantee of profit or correctness.
+- If required evidence is stale, missing, contradictory or insufficient, the engine returns NO TRADE rather than inventing a signal.
