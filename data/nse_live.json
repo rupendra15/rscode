@@ -1,6 +1,6 @@
 {
   "source": "NSE CM Market MCP",
   "status": "error",
-  "error": "HTTP Error 400: Bad Request",
-  "retrieved_at": "2026-10-05T03:21:51Z"
+  "error": "The read operation timed out",
+  "retrieved_at": "2026-10-05T10:40:06Z"
 }
