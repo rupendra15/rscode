@@ -1,0 +1,2 @@
+import {NextResponse} from "next/server";
+export async function GET(request:Request){const cookie=request.headers.get("cookie")||"",m=cookie.match(/(?:^|;\\s*)vistaar_google_data=([^;]+)/),l=cookie.match(/(?:^|;\\s*)vistaar_google_locations=([^;]+)/);if(!m)return NextResponse.json({connected:false});try{return NextResponse.json({connected:true,data:JSON.parse(decodeURIComponent(m[1])),locations:l?JSON.parse(decodeURIComponent(l[1])):[]});}catch{return NextResponse.json({connected:false,error:"Google Business Profile data is unavailable."},{status:401});}}
