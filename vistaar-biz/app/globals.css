@@ -1957,3 +1957,105 @@ body{background:#f7f7fb;color:#17172b}
 @media(prefers-reduced-motion:reduce){
  .modernSite .aiV5Stage,.aiV5RunCta,.modernSite .storySelector button{transition:none!important}
 }
+
+
+/* V7 — product-grade visual language and readable type scale */
+.modernSite .aiV5PanelMeta span{font-size:8px}
+.modernSite .aiV5PanelMeta b{font-size:9px}
+.modernSite .aiV5PanelMeta small{font-size:7px}
+.modernSite .aiV5Core{width:118px;height:118px;border-radius:31px;gap:4px}
+.modernSite .aiV5Core svg{width:30px;height:30px}
+.modernSite .aiV5Core b{font-size:9px;letter-spacing:.11em}
+.modernSite .aiV5Core small{font-size:8px}
+.modernSite .aiV5Node{min-width:145px;max-width:190px;padding:10px 12px;border-radius:11px}
+.modernSite .aiV5Node i{width:6px;height:6px}
+.modernSite .aiV5Node span{font-size:7px}
+.modernSite .aiV5Node b{font-size:9px;line-height:1.4}
+.modernSite .aiV5Trace b{font-size:7px}
+.modernSite .aiV5Insight{grid-template-columns:38px 1fr 18px;gap:11px;padding:13px 15px}
+.modernSite .aiV5InsightIcon{width:38px;height:38px;border-radius:11px}
+.modernSite .aiV5Insight small{font-size:7px}
+.modernSite .aiV5Insight b{font-size:12px;margin-top:4px}
+.modernSite .aiV5Insight p{font-size:9px}
+.modernSite .aiV5SideHead span,.modernSite .aiV5SideHead b{font-size:8px}
+.modernSite .aiV5Signal{grid-template-columns:28px 1fr 16px;gap:9px;padding:13px 5px}
+.modernSite .aiV5Signal>span{font-size:8px}
+.modernSite .aiV5Signal b{font-size:9px}
+.modernSite .aiV5Signal small{font-size:7px}
+.modernSite .aiV5Decision{padding:14px;margin-top:12px}
+.modernSite .aiV5Decision>span{font-size:7px}
+.modernSite .aiV5Decision>b{font-size:12px}
+.modernSite .aiV5Decision>small{font-size:8px}
+.modernSite .aiV5Decision button{font-size:9px;padding:9px 11px}
+.modernSite .aiV5Stages{gap:10px;padding:0 14px 15px}
+.modernSite .aiV5Stage{min-height:116px;grid-template-columns:25px 43px 1fr 34px 16px;grid-template-rows:1fr 3px;gap:0 9px;padding:13px 12px 16px;border-radius:16px}
+.modernSite .aiV5StageNo{font-size:8px}
+.modernSite .aiV5StageIcon{width:43px;height:43px;border-radius:13px}
+.modernSite .aiV5StageWords b{font-size:11px}
+.modernSite .aiV5StageWords small{font-size:7.5px;margin-top:4px}
+.modernSite .aiV5StageWords em{font-size:6.5px;margin-top:7px}
+.modernSite .aiV5Stage>svg{position:relative}
+.aiV5StageArt{position:relative;width:34px;height:38px;display:flex;align-items:flex-end;justify-content:center;gap:3px;opacity:.9}
+.aiV5StageArt i{display:block;width:5px;border-radius:4px 4px 2px 2px;background:var(--stage);box-shadow:0 0 10px color-mix(in srgb,var(--stage) 28%,transparent)}
+.stageArt-0 i:nth-child(1){height:11px}.stageArt-0 i:nth-child(2){height:20px}.stageArt-0 i:nth-child(3){height:16px}.stageArt-0 i:nth-child(4){height:27px}
+.stageArt-1{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:3px}.stageArt-1 i{width:auto;height:auto;border-radius:4px;background:var(--stage-bg);border:1px solid color-mix(in srgb,var(--stage) 50%,transparent);position:relative}.stageArt-1 i:after{content:"";position:absolute;width:5px;height:5px;border-radius:50%;background:var(--stage);left:50%;top:50%;transform:translate(-50%,-50%)}
+.stageArt-2 i{width:24px;height:24px;border:1px solid color-mix(in srgb,var(--stage) 55%,transparent);background:var(--stage-bg);border-radius:50%;position:relative}.stageArt-2 i:nth-child(n+2){position:absolute;width:5px;height:5px;border:0;background:var(--stage)}.stageArt-2 i:nth-child(2){right:0;top:5px}.stageArt-2 i:nth-child(3){left:2px;bottom:3px}.stageArt-2 i:nth-child(4){right:2px;bottom:2px}
+.stageArt-3 i{height:4px;width:4px;border-radius:50%;background:var(--stage);box-shadow:0 0 8px var(--stage)}.stageArt-3:before{content:"";position:absolute;width:32px;height:20px;left:1px;bottom:5px;border-left:1px solid color-mix(in srgb,var(--stage) 35%,transparent);border-bottom:1px solid color-mix(in srgb,var(--stage) 35%,transparent);transform:skewY(-24deg)}
+.modernSite .aiV5Footer{padding:14px 15px}
+.modernSite .aiV5Control b{font-size:9px}
+.modernSite .aiV5Control small{font-size:7px}
+.modernSite .aiV5FlowLabel{font-size:7px}
+.modernSite .aiV5RunCta{min-height:68px;width:min(100%,340px);padding:10px 12px 10px 17px!important;border-radius:14px!important}
+.modernSite .aiV5RunCta b{font-size:12px}
+.modernSite .aiV5RunCta small{font-size:8px}
+.modernSite .aiV5RunCta strong{width:40px;height:40px;border-radius:10px}
+
+/* Replace the generic approach illustration with a real product surface. */
+.approachV2Visual{min-height:438px;background:linear-gradient(145deg,#11131f 0%,#17152b 55%,#101d28 100%)}
+.approachCommandCanvas{position:absolute;inset:67px 20px 20px;border:1px solid #ffffff12;border-radius:18px;background:linear-gradient(145deg,#151827e8,#0e1720f5);overflow:hidden;box-shadow:inset 0 1px #ffffff0b}
+.approachCanvasGrid{position:absolute;inset:0;background-image:linear-gradient(#8d80ff0c 1px,transparent 1px),linear-gradient(90deg,#8d80ff0c 1px,transparent 1px);background-size:27px 27px;mask-image:radial-gradient(circle at 45% 48%,#000,transparent 80%)}
+.approachCanvasTitle{position:absolute;left:20px;right:20px;top:16px;display:flex;justify-content:space-between;align-items:center}
+.approachCanvasTitle span{font-size:8px;font-weight:900;letter-spacing:.14em;color:#b9b1ff}
+.approachCanvasTitle small{font-size:6px;letter-spacing:.1em;color:#6e7183}
+.approachMetricCard{position:absolute;left:20px;top:52px;width:185px;padding:13px;border:1px solid #ffffff12;border-radius:12px;background:#ffffff07;box-shadow:0 16px 35px #0004}
+.approachMetricCard span{display:block;font-size:6px;letter-spacing:.12em;color:#777a8d;font-weight:900}
+.approachMetricCard b{display:block;font-size:30px;line-height:1;margin-top:7px;color:#f4f2fa;letter-spacing:-1px}
+.approachMetricCard b em{font-size:9px;color:#65dcb0;font-style:normal;margin-left:3px}
+.approachMetricCard small{display:block;font-size:7px;line-height:1.45;color:#8f92a4;margin-top:7px}
+.approachMiniChart{position:absolute;right:20px;top:52px;width:190px;height:112px;padding:12px;border:1px solid #ffffff12;border-radius:12px;background:#ffffff06}
+.chartLabel{font-size:6px;letter-spacing:.12em;color:#777a8d;font-weight:900}
+.chartGraphic{position:absolute;left:12px;right:12px;bottom:13px;height:67px;display:flex;align-items:flex-end;gap:7px}
+.chartGraphic i{flex:1;border-radius:5px 5px 2px 2px;background:linear-gradient(180deg,#8c7cff,#4dcde0);box-shadow:0 0 13px #6f61ed20}
+.chartGraphic-0 i:nth-child(1){height:32%}.chartGraphic-0 i:nth-child(2){height:48%}.chartGraphic-0 i:nth-child(3){height:43%}.chartGraphic-0 i:nth-child(4){height:62%}.chartGraphic-0 i:nth-child(5){height:54%}.chartGraphic-0 i:nth-child(6){height:79%}
+.chartGraphic-1{display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(2,1fr);align-items:stretch;gap:5px}.chartGraphic-1 i{height:auto!important;border-radius:6px;background:#d4af5718;border:1px solid #e7c76b45;box-shadow:none}.chartGraphic-1 i:nth-child(4){background:#e7c76b38;box-shadow:0 0 15px #e7c76b18}
+.chartGraphic-2{align-items:center;height:50px}.chartGraphic-2 i{height:7px!important;border-radius:8px;background:linear-gradient(90deg,#55d6e2,#6d65f4)}.chartGraphic-2 i:nth-child(1){width:35%}.chartGraphic-2 i:nth-child(2){width:52%}.chartGraphic-2 i:nth-child(3){width:66%}.chartGraphic-2 i:nth-child(4){width:78%}.chartGraphic-2 i:nth-child(5){width:88%}.chartGraphic-2 i:nth-child(6){width:96%}
+.chartGraphic-3{align-items:flex-end}.chartGraphic-3 i{width:7px;height:7px!important;border-radius:50%;background:#65dcb0;box-shadow:0 0 10px #65dcb0}.chartGraphic-3 i:nth-child(1){margin-bottom:4px}.chartGraphic-3 i:nth-child(2){margin-bottom:13px}.chartGraphic-3 i:nth-child(3){margin-bottom:9px}.chartGraphic-3 i:nth-child(4){margin-bottom:22px}.chartGraphic-3 i:nth-child(5){margin-bottom:17px}.chartGraphic-3 i:nth-child(6){margin-bottom:30px}
+.approachInsightCard{position:absolute;left:20px;right:20px;bottom:18px;padding:12px 14px;border:1px solid #8c7cff2d;border-radius:12px;background:linear-gradient(90deg,#6f5bf214,#49cfe20b)}
+.approachInsightCard span{display:block;font-size:6px;color:#8f83ff;letter-spacing:.12em;font-weight:900}
+.approachInsightCard span i{display:inline-block;width:5px;height:5px;border-radius:50%;background:#65dcb0;box-shadow:0 0 8px #65dcb0;margin-right:5px}
+.approachInsightCard b{display:block;font-size:10px;color:#eeeaf8;margin-top:5px}
+.approachInsightCard small{display:block;font-size:7px;color:#858899;margin-top:4px}
+.approachFloatingTag{position:absolute;padding:7px 9px;border:1px solid #ffffff14;border-radius:8px;background:#101524ee;box-shadow:0 12px 25px #0004;font-size:6px;letter-spacing:.08em;color:#aaa5b6}
+.approachFloatingTag i{display:inline-block;width:5px;height:5px;border-radius:50%;background:#8f7dff;margin-right:5px;box-shadow:0 0 8px #8f7dff}
+.approachFloatingTag.tagA{left:216px;top:174px}.approachFloatingTag.tagB{right:20px;top:176px}
+.approachVisual-1 .approachMetricCard b{color:#e7c96e}.approachVisual-2 .approachMetricCard b{color:#56d5e4}.approachVisual-3 .approachMetricCard b{color:#63ddb0}
+.approachVisual-1 .approachInsightCard{border-color:#e5c56b33;background:linear-gradient(90deg,#e5c56b12,#ffffff04)}
+.approachVisual-2 .approachInsightCard{border-color:#56d5e433;background:linear-gradient(90deg,#56d5e412,#ffffff04)}
+.approachVisual-3 .approachInsightCard{border-color:#63ddb033;background:linear-gradient(90deg,#63ddb012,#ffffff04)}
+
+.approachV2Step{min-height:92px;padding:16px 17px;border-radius:15px;grid-template-columns:48px 1fr 24px}
+.approachV2StepIcon{width:48px;height:48px;border-radius:14px}
+.approachV2Step small{font-size:8px}
+.approachV2Step b{font-size:13px}
+.approachV2Step em{font-size:9px;line-height:1.55}
+.approachV2Step:nth-child(1) .approachV2StepIcon{background:#eeeaff;color:#725ce7}.approachV2Step:nth-child(2) .approachV2StepIcon{background:#fff4d8;color:#c89624}.approachV2Step:nth-child(3) .approachV2StepIcon{background:#def9fc;color:#199caf}.approachV2Step:nth-child(4) .approachV2StepIcon{background:#e2f8ee;color:#329c70}
+.approachV2Step:nth-child(1).active{border-color:#8874ed;box-shadow:0 16px 38px #7359e71c}.approachV2Step:nth-child(2).active{border-color:#e1bd5a;box-shadow:0 16px 38px #d7a83c1c}.approachV2Step:nth-child(3).active{border-color:#49cddd;box-shadow:0 16px 38px #36b7c91c}.approachV2Step:nth-child(4).active{border-color:#57c99a;box-shadow:0 16px 38px #42ad7e1c}
+.approachV2Step:nth-child(1):hover{border-color:#b9adff}.approachV2Step:nth-child(2):hover{border-color:#ecd48e}.approachV2Step:nth-child(3):hover{border-color:#91e5ed}.approachV2Step:nth-child(4):hover{border-color:#9ce3c4}
+
+@media(max-width:700px){
+ .modernSite .aiV5Stage{grid-template-columns:21px 38px 1fr 28px 14px;min-height:104px}
+ .aiV5StageArt{display:none}
+ .modernSite .aiV5RunCta{min-height:64px}
+ .approachCommandCanvas{inset:62px 12px 12px}.approachMetricCard{left:12px;width:150px}.approachMiniChart{right:12px;width:155px}.approachFloatingTag{display:none}
+ .approachInsightCard{left:12px;right:12px}.approachCanvasTitle{left:13px;right:13px}
+}
