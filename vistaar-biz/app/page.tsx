@@ -71,7 +71,7 @@ export default function Home(){
           {label:"Execute",sub:"Make it usable",icon:WandSparkles,metric:"3 work outputs"},
           {label:"Improve",sub:"Learn from outcomes",icon:TrendingUp,metric:"+24% stronger signal"}
         ].map((s,i)=>{const Icon=s.icon;return <button type="button" role="tab" aria-selected={aiDemo===i} key={s.label} className={"aiV5Stage "+(aiDemo===i?"active":"")} onClick={()=>setAiDemo(i)}>
-          <span className="aiV5StageNo">0{i+1}</span><span className="aiV5StageIcon"><Icon size={17}/></span><span className="aiV5StageWords"><b>{s.label}</b><small>{s.sub}</small><em>{s.metric}</em></span><ArrowUpRight size={14}/><i className="aiV5StageLine"><span/></i>
+          <span className="aiV5StageNo">0{i+1}</span><span className={"aiV5StageIcon stageIcon-"+i}><Icon size={18}/></span><span className="aiV5StageWords"><b>{s.label}</b><small>{s.sub}</small><em>{s.metric}</em></span><span className={"aiV5StageArt stageArt-"+i} aria-hidden="true"><i/><i/><i/><i/></span><ArrowUpRight size={14}/><i className="aiV5StageLine"><span/></i>
         </button>})}
       </div>
 
@@ -95,11 +95,23 @@ export default function Home(){
       <div className="approachProgress"><span>01</span><i/><span>04</span></div>
     </div>
     <div className="approachV2Board">
-      <div className="approachV2Visual">
+      <div className={"approachV2Visual approachVisual-"+activeApproach}>
         <div className="approachVisualGlow"/>
-        <div className="approachVisualTop"><span><i/> VISTAAR GROWTH ENGINE</span><b>STEP {String(activeApproach+1).padStart(2,"0")}</b></div>
-        <div className="approachVisualCenter"><div className="approachVisualIcon">{(()=>{const I=[ScanSearch,Target,Zap,TrendingUp][activeApproach];return <I size={24}/>})()}</div><span>{["UNDERSTAND","PRIORITISE","EXECUTE","LEARN"][activeApproach]}</span><strong>{["See what is really happening.","Choose the move worth making.","Put the decision into action.","Use the result to get smarter."][activeApproach]}</strong><small>{["Goals, presence, market and customer journey.","Impact, effort and fit — not a generic list.","Guided work or the right specialist when needed.","Outcomes become context for the next decision."][activeApproach]}</small></div>
-        <div className="approachVisualNodes"><span><ScanSearch size={13}/></span><span><Target size={13}/></span><span><Zap size={13}/></span><span><TrendingUp size={13}/></span></div>
+        <div className="approachVisualTop"><span><i/> VISTAAR AI · GROWTH ENGINE</span><b>LIVE · STEP {String(activeApproach+1).padStart(2,"0")}</b></div>
+        <div className="approachCommandCanvas">
+          <div className="approachCanvasGrid"/>
+          <div className="approachCanvasTitle"><span>{["DIAGNOSTIC MAP","DECISION MATRIX","EXECUTION BOARD","LEARNING LOOP"][activeApproach]}</span><small>BUSINESS CONTEXT CONNECTED</small></div>
+          <div className="approachMetricCard metricMain"><span>{["GROWTH SIGNAL","DECISION FIT","WORK IN MOTION","LEARNING LIFT"][activeApproach]}</span><b>{["78","92","03","24"]}<em>{["/100","%"," outputs","%"]}</em></b><small>{["Strong visibility · conversion needs attention","Highest-value move selected from 12 opportunities","Three actions are ready to move forward","New outcome signal improves the next recommendation"][activeApproach]}</small></div>
+          <div className="approachMiniChart">
+            <span className="chartLabel">{["SIGNAL MAP","IMPACT / EFFORT","ACTION PROGRESS","OUTCOME TREND"][activeApproach]}</span>
+            <div className={"chartGraphic chartGraphic-"+activeApproach}>
+              <i/><i/><i/><i/><i/><i/>
+            </div>
+          </div>
+          <div className="approachInsightCard"><span><i/> AI RECOMMENDATION</span><b>{["Conversion friction is the next unlock.","Choose the move with the strongest business fit.","Turn the decision into one clear workflow.","Feed the outcome back into the next decision."][activeApproach]}</b><small>{["2 signals need attention · 4 are healthy","Impact high · effort low · fit 92%","Brief, CTA and follow-up path prepared","Learning signal captured · next cycle updated"][activeApproach]}</small></div>
+          <div className="approachFloatingTag tagA"><i/>{["DISCOVERABILITY","IMPACT","READY","+24% SIGNAL"][activeApproach]}</div>
+          <div className="approachFloatingTag tagB"><i/>{["TRUST","EFFORT","3 OUTPUTS","NEXT MOVE"][activeApproach]}</div>
+        </div>
       </div>
       <div className="approachV2Steps">
         {[{title:"Understand your starting point",desc:"Goals, market, digital presence and customer journey.",icon:ScanSearch},{title:"Choose the right priorities",desc:"Rank opportunities by impact, effort and business fit.",icon:Target},{title:"Get the work moving",desc:"Use guided workflows or bring in matched expertise.",icon:Zap},{title:"Learn, measure, improve",desc:"Use real outcomes to sharpen the next decision.",icon:TrendingUp}].map((s,i)=><button type="button" className={"approachV2Step "+(activeApproach===i?"active":"")} key={s.title} onClick={()=>setActiveApproach(i)}><span className="approachV2StepIcon"><s.icon size={16}/></span><span><small>0{i+1}</small><b>{s.title}</b><em>{s.desc}</em></span><ArrowUpRight size={15}/></button>)}
