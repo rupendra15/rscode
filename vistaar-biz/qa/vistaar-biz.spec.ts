@@ -13,13 +13,14 @@ test.describe("Vistaar-Biz smoke and UX QA", () => {
       const pageErrors: string[] = [];
       const failedRequests: string[] = [];
 
-      page.on("console", msg => { if (msg.type() === "error") consoleErrors.push(msg.text()); });
+      page.on("console", msg => {
+        if (msg.type() === "error") consoleErrors.push(msg.text());
+      });
       page.on("pageerror", error => pageErrors.push(error.message));
       page.on("requestfailed", request => {
-        const url = request.url();
-        if (url.startsWith("http://127.0.0.1:3000/_next/webpack-hmr")) return;
-          failedRequests.push(request.method() + " " + url + " — " + (request.failure()?.errorText ?? "failed"));
-        }
+        failedRequests.push(
+          request.method() + " " + request.url() + " — " + (request.failure()?.errorText ?? "failed")
+        );
       });
 
       await page.goto(route.path, { waitUntil: "networkidle" });
@@ -32,7 +33,10 @@ test.describe("Vistaar-Biz smoke and UX QA", () => {
         scrollWidth: document.documentElement.scrollWidth,
         clientWidth: document.documentElement.clientWidth
       }));
-      expect(overflow.scrollWidth - overflow.clientWidth, "horizontal overflow on " + route.path).toBeLessThanOrEqual(2);
+      expect(
+        overflow.scrollWidth - overflow.clientWidth,
+        "horizontal overflow on " + route.path
+      ).toBeLessThanOrEqual(2);
 
       await expect(page.locator("body")).not.toContainText("undefined");
       await expect(page.locator("body")).not.toContainText("NaN");
@@ -51,7 +55,8 @@ test.describe("Vistaar-Biz smoke and UX QA", () => {
     await page.getByRole("link", { name: /Discover your growth readiness/i }).click();
     await expect(page.locator("#audit")).toBeInViewport();
 
-    await page.locator("#platform .serviceCard").first().getByRole("button", { name: /Explore this service/i }).click();
+    const service = page.locator("#platform .serviceCard").first();
+    await service.getByRole("button", { name: /Explore this service/i }).click();
     await expect(page.getByText(/HOW VISTAAR-BIZ HELPS/i)).toBeVisible();
     await page.getByRole("button", { name: /Close details/i }).click();
 
@@ -80,12 +85,17 @@ test.describe("Vistaar-Biz smoke and UX QA", () => {
     const audit = page.locator("#audit");
 
     for (let i = 0; i < 6; i++) {
-      await audit.locator(".answerOption").first().click();
+      const answer = audit.locator(".answerOption").first();
+      await answer.click();
       if (i < 5) {
-        await expect(audit.getByRole("button", { name: /Next question/i })).toBeEnabled();
-        await audit.getByRole("button", { name: /Next question/i }).click();
+        const next = audit.getByRole("button", { name: /Next question/i });
+        await expect(next).toBeEnabled();
+        await next.click();
+        await expect(audit.locator(".answerOption").first()).toBeVisible();
       } else {
-        await audit.getByRole("button", { name: /View my preview/i }).click();
+        const finish = audit.getByRole("button", { name: /View my preview/i });
+        await expect(finish).toBeEnabled();
+        await finish.click();
       }
     }
 
