@@ -597,3 +597,28 @@ body{background:#f7f7fb;color:#17172b}
 .productFlow .flowStep small{display:block;line-height:1.4;overflow-wrap:anywhere}
 .insightText b{transition:opacity .2s}
 @media(max-width:700px){.productFlow .flowStep{padding:7px 3px}.productFlow .flowStep b{font-size:8px}.productFlow .flowStep small{font-size:7px}}
+
+
+/* Six-service system: consistent, intentional final row + useful inline exploration */
+.serviceGrid{grid-template-columns:repeat(3,minmax(0,1fr));align-items:stretch}
+.serviceCard{min-width:0}
+.serviceCardSelected{border-color:#8774ff;box-shadow:0 16px 40px rgba(67,48,150,.13);transform:translateY(-3px)}
+.serviceLink{width:100%;font-family:inherit;background:transparent;border-left:0;border-right:0;border-bottom:0;text-align:left;color:#5948ce;cursor:pointer}
+.serviceLink:hover{color:#2f245f}
+.serviceLink span{transition:transform .25s,background .25s}
+.serviceLink:hover span{transform:translate(2px,-2px);background:#e7e1ff}
+.serviceDetailPanel{display:grid;grid-template-columns:1.15fr .85fr;gap:36px;margin-top:22px;padding:clamp(24px,4vw,44px);border:1px solid #ded9fb;border-radius:20px;background:linear-gradient(125deg,#fff 0%,#f6f4ff 68%,#f0f7ff 100%);box-shadow:0 20px 55px rgba(38,30,80,.07);animation:riseIn .35s both}
+.serviceDetailEyebrow,.serviceDeliverables>span{font-size:10px;font-weight:800;letter-spacing:.15em;color:#6855df}
+.serviceDetailIntro h3{font-size:clamp(22px,2.4vw,32px);line-height:1.2;letter-spacing:-.04em;max-width:620px;margin:14px 0}
+.serviceDetailIntro p{font-size:14px;line-height:1.8;color:#68677d;max-width:620px}
+.serviceDetailActions{display:flex;align-items:center;gap:18px;flex-wrap:wrap;margin-top:22px}
+.detailPrimary{display:inline-flex;align-items:center;gap:12px;padding:13px 17px;border-radius:9px;background:#211d3c;color:#fff;font-size:12px;font-weight:750;transition:transform .2s,background .2s}
+.detailPrimary:hover{background:#5847ca;transform:translateY(-2px)}
+.detailClose{display:inline-flex;align-items:center;gap:7px;border:0;background:transparent;color:#66647a;font:inherit;font-size:12px;cursor:pointer;padding:10px}
+.serviceDeliverables{align-self:center;padding:22px;border-radius:14px;background:rgba(255,255,255,.78);border:1px solid #e8e5f2}
+.serviceDeliverables>span{display:block;margin-bottom:16px}
+.serviceDeliverables>div{display:flex;gap:10px;align-items:flex-start;padding:12px 0;border-top:1px solid #efedf5;color:#444258;font-size:13px;line-height:1.55}
+.serviceDeliverables>div svg{flex:none;color:#6755df;margin-top:2px}
+.tone-lavender{--tone:#7662ef;--tone-bg:#efedff}
+@media(max-width:980px){.serviceGrid{grid-template-columns:repeat(2,minmax(0,1fr))}.serviceDetailPanel{gap:22px}}
+@media(max-width:620px){.serviceGrid{grid-template-columns:1fr}.serviceCard{min-height:320px}.serviceDetailPanel{grid-template-columns:1fr;padding:22px;gap:20px}.serviceDetailIntro h3{font-size:24px}.serviceDetailActions{gap:8px}}
