@@ -10,7 +10,7 @@
   "signal_strength": 43.4,
   "model_score": 6.1,
   "confidence": 0.434,
-  "reason": "NO TRADE \u2014 insufficient synchronized public market inputs; options chain unavailable/not fresh; no liquid option candidate; historical validation gate not met; elevated event risk; evidence confluence below trade threshold; multi-timeframe direction is not aligned",
+  "reason": "NO TRADE — insufficient synchronized public market inputs; options chain unavailable/not fresh; no liquid option candidate; historical validation gate not met; elevated event risk; evidence confluence below trade threshold; multi-timeframe direction is not aligned",
   "nifty": 22708.75,
   "vix": 13.89,
   "regime": "BULLISH",
@@ -264,7 +264,7 @@
       "published": "Tue, 06 Oct 2026 04:14:48 GMT"
     },
     {
-      "title": "US interest rates are testing RBI\u2019s rupee stance | Policy Circle - Policy Circle",
+      "title": "US interest rates are testing RBI’s rupee stance | Policy Circle - Policy Circle",
       "published": "Tue, 06 Oct 2026 01:30:38 GMT"
     },
     {
@@ -272,7 +272,7 @@
       "published": "Sat, 03 Oct 2026 13:42:58 GMT"
     },
     {
-      "title": "RBI\u2019s success on dollar flows raises stakes in inflation fight & clamour for rate hike - cfo.economictimes.indiatimes.com",
+      "title": "RBI’s success on dollar flows raises stakes in inflation fight & clamour for rate hike - cfo.economictimes.indiatimes.com",
       "published": "Thu, 01 Oct 2026 06:30:00 GMT"
     },
     {
@@ -422,5 +422,13 @@
     "learning_engine": "ACTIVE",
     "decision_engine": "ACTIVE"
   },
-  "open_trade": null
+  "open_trade": null,
+  "nse_live": {
+    "source": "NSE CM Market MCP",
+    "status": "error",
+    "error": "HTTP Error 400: Bad Request",
+    "retrieved_at": "2026-10-06T13:53:08Z"
+  },
+  "live_data_source": "NSE CM Market MCP",
+  "live_data_note": "NSE states CM Market Live is typically 1-3 minutes behind real-time."
 }
