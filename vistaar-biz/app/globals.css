@@ -741,3 +741,86 @@ body{background:#f7f7fb;color:#17172b}
 @keyframes contactSweep{0%,45%{transform:translateX(-100%)}70%,100%{transform:translateX(100%)}}
 .modernFooter{padding-top:55px!important;padding-bottom:32px!important}
 @media(max-width:700px){.modernNav.navScrolled{box-shadow:0 8px 25px rgba(26,22,47,.09)}.heroProduct:hover{transform:translateY(-4px)}.ctaExplore small{display:none}.contactSection:before{animation:none}}
+
+/* AI Growth Engine showcase */
+.aiShowcase{position:relative;display:grid;grid-template-columns:.82fr 1.18fr;gap:7%;align-items:center;max-width:1500px;margin:auto;padding:105px 7%;background:linear-gradient(180deg,#f7f5ff 0%,#fbfaf8 100%);overflow:hidden}
+.aiShowcase:before{content:"";position:absolute;width:620px;height:620px;right:-280px;top:-260px;border-radius:50%;background:radial-gradient(circle,#7257ff18,transparent 67%);pointer-events:none}
+.aiShowcaseIntro{position:relative;z-index:2}
+.aiShowcaseIntro h2{font:650 clamp(38px,4.2vw,58px)/1.04 Manrope;letter-spacing:-3px;color:#19182b;margin:22px 0}
+.aiShowcaseIntro h2 span{background:linear-gradient(100deg,#7257ff,#a45df1,#56cde5);background-clip:text;-webkit-background-clip:text;color:transparent}
+.aiShowcaseIntro>p{max-width:500px;color:#68667a;font-size:14px;line-height:1.9}
+.aiPromiseList{display:grid;gap:9px;margin:30px 0 25px}
+.aiPromiseList>div{display:grid;grid-template-columns:34px 1fr;column-gap:11px;padding:10px 0}
+.aiPromiseList span{grid-row:span 2;width:34px;height:34px;border-radius:10px;display:grid;place-items:center;background:#eeebff;color:#6753e4}
+.aiPromiseList b{font-size:12px;color:#282642}
+.aiPromiseList small{font-size:10px;line-height:1.5;color:#7a788a;margin-top:2px}
+.aiShowcaseCta{display:inline-flex;align-items:center;gap:9px;color:#5542ca;font-size:12px;font-weight:750;border-bottom:1px solid #c8bfff;padding-bottom:5px}
+.aiDemoCard{position:relative;z-index:2;border:1px solid #39334f;border-radius:20px;background:linear-gradient(145deg,#171521,#211d31);color:#fff;box-shadow:0 35px 90px rgba(45,31,100,.2);overflow:hidden}
+.aiDemoCard:before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 88% 8%,#7257ff26,transparent 35%),radial-gradient(circle at 12% 92%,#56d9ed12,transparent 35%);pointer-events:none}
+.aiDemoTop{position:relative;display:flex;align-items:center;justify-content:space-between;padding:19px 22px;border-bottom:1px solid #ffffff10}
+.aiDemoBrand{display:flex;align-items:center;gap:10px}
+.aiOrb{width:34px;height:34px;border-radius:11px;display:grid;place-items:center;background:linear-gradient(145deg,#7257ff,#9e8aff);box-shadow:0 8px 25px #7257ff35}
+.aiDemoBrand b,.aiDemoBrand small{display:block}
+.aiDemoBrand b{font-size:12px;letter-spacing:.01em}
+.aiDemoBrand small{font-size:7px;color:#aaa5bf;letter-spacing:.15em;margin-top:2px}
+.aiLive{font-size:8px;font-weight:800;letter-spacing:.12em;color:#9ef1ff}
+.aiLive i{display:inline-block;width:6px;height:6px;border-radius:50%;background:#7df0c1;box-shadow:0 0 0 5px #7df0c114;margin-right:7px;animation:aiPulse 1.7s infinite}
+.aiDemoTabs{position:relative;display:grid;grid-template-columns:repeat(4,1fr);padding:10px;border-bottom:1px solid #ffffff0c}
+.aiDemoTabs button{appearance:none;border:0;background:transparent;color:#77728c;font:700 8px Manrope;letter-spacing:.06em;padding:11px 6px;border-radius:8px;cursor:pointer;transition:background .2s,color .2s}
+.aiDemoTabs button:hover{color:#d8d3eb;background:#ffffff08}
+.aiDemoTabs button.active{background:#7561ed18;color:#b9adff}
+.aiDemoBody{position:relative;padding:22px}
+.aiDemoStatus{display:flex;align-items:center;gap:8px;color:#8e899f;font-size:8px;letter-spacing:.02em;margin-bottom:22px}
+.aiScanLine{width:7px;height:7px;border-radius:50%;background:#76e6bf;box-shadow:0 0 0 4px #76e6bf12}
+.aiDemoMain{display:grid;grid-template-columns:46px 1fr auto;gap:14px;align-items:start}
+.aiDemoIcon{width:46px;height:46px;border-radius:13px;display:grid;place-items:center;background:#7561ed18;color:#a99aff;border:1px solid #8f7cff20}
+.aiDemoEyebrow{font-size:8px;font-weight:800;letter-spacing:.13em;color:#9f91ff}
+.aiDemoMain h3{font:650 22px/1.15 Manrope;letter-spacing:-.6px;margin:7px 0 8px;color:#f7f5ff}
+.aiDemoMain p{font-size:11px;line-height:1.65;color:#aaa6b9;max-width:390px;margin:0}
+.aiDemoMain>strong{font:750 11px Manrope;color:#9ef1ff;white-space:nowrap;padding:8px 10px;border:1px solid #9ef1ff1f;background:#9ef1ff08;border-radius:8px}
+.aiInsightRows{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:22px}
+.aiInsightRows>div{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:7px;padding:11px 10px;border:1px solid #ffffff0d;border-radius:9px;background:#ffffff05}
+.aiInsightRows span{font-size:7px;color:#766f88}
+.aiInsightRows b{font-size:9px;color:#d5d0e2;font-weight:650}
+.aiInsightRows i{width:18px;height:18px;border-radius:50%;display:grid;place-items:center;background:#76e6bf12;color:#76e6bf;font-style:normal}
+.aiOutput{display:flex;gap:9px;align-items:flex-start;margin-top:14px;padding:12px 13px;border:1px solid #7257ff20;border-radius:10px;background:#7257ff0c;color:#b7b1c8;font-size:9px;line-height:1.6}
+.aiOutput svg{flex:none;color:#a99aff;margin-top:1px}
+.aiOutput b{color:#ded9ed}
+.aiDemoFoot{position:relative;display:flex;justify-content:space-between;padding:13px 22px;background:#100f18;color:#8f899e;font-size:8px;letter-spacing:.04em}
+.aiDemoFoot span{display:flex;align-items:center;gap:6px}
+.aiDemoFoot svg{color:#8e7df4}
+@keyframes aiPulse{0%,100%{opacity:.8;box-shadow:0 0 0 4px #76e6bf12}50%{opacity:1;box-shadow:0 0 0 7px #76e6bf05}}
+/* Transformation stories */
+.testimonialSection{max-width:1500px;margin:auto;padding:105px 7%;background:#fbfaf8;color:#19182b}
+.testimonialHeader{display:grid;grid-template-columns:1fr .55fr;gap:8%;align-items:end}
+.testimonialHeader h2{font:650 clamp(38px,4vw,55px)/1.05 Manrope;letter-spacing:-2.8px;margin:20px 0 0}
+.testimonialHeader h2 span{background:linear-gradient(100deg,#7257ff,#56cde5);background-clip:text;-webkit-background-clip:text;color:transparent}
+.testimonialNotice{display:flex;gap:10px;align-items:flex-start;padding:14px 16px;border:1px dashed #c9c3df;border-radius:12px;background:#f7f5ff;color:#716e80;font-size:10px;line-height:1.65}
+.testimonialNotice svg{flex:none;color:#7257ff;margin-top:1px}
+.testimonialStage{display:grid;grid-template-columns:1.2fr .8fr;min-height:330px;margin-top:45px;border:1px solid #e4e1eb;border-radius:20px;overflow:hidden;background:#fff;box-shadow:0 25px 70px rgba(35,28,70,.07)}
+.testimonialQuote{position:relative;padding:48px 52px;display:flex;flex-direction:column;justify-content:center}
+.quoteMark{position:absolute;left:47px;top:28px;font:800 55px Georgia;color:#d7d0ff;line-height:1}
+.testimonialQuote blockquote{font:600 clamp(22px,2.5vw,32px)/1.3 Manrope;letter-spacing:-.8px;color:#282642;max-width:690px;margin:0 0 30px}
+.testimonialPerson{display:flex;align-items:center;gap:11px}
+.testimonialAvatar{width:36px;height:36px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(145deg,#7257ff,#9ef1ff);color:#fff;font-weight:800;font-size:11px}
+.testimonialPerson b,.testimonialPerson small{display:block}
+.testimonialPerson b{font-size:10px;color:#333047}
+.testimonialPerson small{font-size:8px;color:#858295;margin-top:2px}
+.testimonialPerson strong{margin-left:auto;padding:8px 10px;border-radius:8px;background:#eefbf6;color:#36806a;font-size:8px;letter-spacing:.04em}
+.testimonialVisual{position:relative;background:linear-gradient(145deg,#1a1728,#27213e);padding:35px;display:flex;flex-direction:column;justify-content:center;overflow:hidden}
+.testimonialVisual:before{content:"";position:absolute;width:300px;height:300px;right:-130px;top:-110px;border-radius:50%;background:radial-gradient(circle,#7257ff35,transparent 68%)}
+.storyMetric{position:relative;border:1px solid #ffffff12;border-radius:13px;padding:18px;background:#ffffff06}
+.storyMetric span{display:block;color:#9b94ae;font-size:7px;font-weight:800;letter-spacing:.14em}
+.storyMetric b{display:flex;align-items:center;gap:8px;color:#fff;font-size:14px;margin-top:10px}
+.storyMetric b svg{color:#9ef1ff}
+.storyMetric small{display:block;color:#a9a4b8;font-size:9px;line-height:1.6;margin-top:7px}
+.storyBars{display:flex;align-items:flex-end;gap:8px;height:85px;margin:24px 8px 17px}
+.storyBars i{display:block;flex:1;border-radius:5px 5px 2px 2px;background:linear-gradient(180deg,#9a89ff,#4c3da0);animation:storyRise 1.2s ease both}
+.storyBars i:nth-child(1){height:30%}.storyBars i:nth-child(2){height:42%;animation-delay:.1s}.storyBars i:nth-child(3){height:55%;animation-delay:.2s}.storyBars i:nth-child(4){height:68%;animation-delay:.3s}.storyBars i:nth-child(5){height:86%;animation-delay:.4s}
+.storyAI{display:flex;gap:7px;align-items:center;color:#bdb7ce;font-size:9px}.storyAI svg{color:#9ef1ff}
+.testimonialControls{display:flex;justify-content:center;gap:7px;margin-top:18px}
+.testimonialControls button{border:0;background:#e3e0eb;width:34px;height:3px;padding:0;cursor:pointer;transition:width .25s,background .25s}
+.testimonialControls button.active{width:58px;background:#7257ff}
+@keyframes storyRise{from{transform:scaleY(.55);opacity:.45}to{transform:scaleY(1);opacity:1}}
+@media(max-width:980px){.aiShowcase{grid-template-columns:1fr;gap:45px}.testimonialHeader{grid-template-columns:1fr}.testimonialNotice{max-width:520px;margin-top:18px}.testimonialStage{grid-template-columns:1fr}.testimonialVisual{min-height:270px}.aiDemoMain{grid-template-columns:42px 1fr}.aiDemoMain>strong{grid-column:2;justify-self:start}}
+@media(max-width:700px){.aiShowcase,.testimonialSection{padding:72px 6%}.aiShowcaseIntro h2,.testimonialHeader h2{letter-spacing:-2px}.aiDemoTabs{overflow:auto;grid-template-columns:repeat(4,minmax(105px,1fr))}.aiDemoBody{padding:17px}.aiDemoMain{grid-template-columns:40px 1fr}.aiDemoIcon{width:40px;height:40px}.aiDemoMain h3{font-size:18px}.aiDemoMain>strong{grid-column:2}.aiInsightRows{grid-template-columns:1fr}.aiDemoFoot{flex-direction:column;gap:8px}.testimonialQuote{padding:42px 26px}.quoteMark{left:22px}.testimonialQuote blockquote{font-size:22px}.testimonialPerson{flex-wrap:wrap}.testimonialPerson strong{margin-left:0}.testimonialVisual{padding:24px;min-height:250px}}
