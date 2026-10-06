@@ -425,3 +425,160 @@ body{font-family:'DM Sans',sans-serif;background:var(--vb-paper);color:var(--vb-
 .sectionShell,.trustSection{padding-top:clamp(68px,6.8vw,98px);padding-bottom:clamp(78px,8vw,116px)}
 .sectionHead{margin-bottom:clamp(32px,4vw,52px)}
 @media(max-width:700px){.sectionShell,.trustSection{padding-top:68px;padding-bottom:76px}}
+
+/* VISTAAR-BIZ BRAND RESET — premium indigo / midnight / porcelain; no neon yellow */
+:root{
+ --vb-paper:#f7f7fb;--vb-ink:#17172b;--vb-muted:#77788e;--vb-line:#e6e6f0;
+ --vb-violet:#6654e8;--vb-lime:#a7f3d0;--vb-cyan:#a5c8ff;--vb-pink:#e5b8ff;
+ --vb-radius:22px;--vb-ease:cubic-bezier(.2,.75,.25,1)
+}
+body{background:#f7f7fb;color:#17172b}
+.topRibbon{background:#17172b;color:#e9e8f7}
+.modernNav{background:rgba(250,250,253,.92);border-bottom-color:#e6e6f0;box-shadow:0 8px 30px #1b1a3510}
+.navLinks{color:#5f6078}
+.navLinks a:hover{color:#6654e8}
+.navLinks a:not(.mobileNavCta):after{background:#6654e8}
+.navPrimary{background:#24233c;color:#fff;border-radius:12px}
+.navPrimary:hover{background:#5140c6}
+.newHero{background:radial-gradient(ellipse at 80% 15%,#29214d 0%,#19182d 48%,#141421 100%);color:#fff}
+.heroAtmosphere{background:radial-gradient(ellipse at 68% 45%,#4b3d952b 0%,transparent 52%),radial-gradient(ellipse at 94% 86%,#567dc322 0%,transparent 42%)}
+.microLabel{color:#c4baff}
+.microIcon{background:#322c55;color:#c8baff;box-shadow:0 0 0 6px #a99aff0e}
+.heroLeft h1 span{background:linear-gradient(105deg,#a99aff 0%,#9380ff 46%,#c6a6ff 100%);background-clip:text;-webkit-background-clip:text;color:transparent}
+.heroLeft h1 span:after{background:linear-gradient(90deg,#8d7aff,#9ac9ff);box-shadow:0 0 16px #8d7aff30}
+.heroDescription{color:#c5c3d8}
+.ctaBlack{background:linear-gradient(105deg,#7865f5,#5b48d7);color:#fff;border:1px solid #a89aff55;box-shadow:0 12px 35px #6654e83b}
+.ctaBlack:hover{background:linear-gradient(105deg,#8878ff,#6c5ae8);transform:translateY(-3px);box-shadow:0 18px 42px #6654e855}
+.ctaExplore{color:#f0effb}
+.ctaExplore>span{background:#302b4f;border-color:#62578e;color:#c9beff}
+.heroUnder{color:#b6b3cb}
+.underIcon{background:#b5f0d8;color:#16382e}
+.heroProduct{background:linear-gradient(150deg,#201f35,#151522);border-color:#7164ad70;box-shadow:0 40px 100px #07071175,0 0 0 1px #ffffff08}
+.productStatus i{background:#7ce3ba;box-shadow:0 0 12px #7ce3ba70}
+.productSpark{background:linear-gradient(140deg,#a99aff,#6d5ae8);color:#fff}
+.productFlow{background:#f7f6ff}
+.flowDot.active{background:#7561ed;box-shadow:0 0 0 5px #7561ed18}
+.flowStep.active b{color:#6552df}
+.productInsight{background:#302a4c;border-color:#6554a5}
+.insightBadge{background:#8c79f4;color:#fff}
+.insightText>span{color:#b8adff}
+.insightText b{color:#fff}
+.insightText small{color:#c3bfd9}
+.productFoot{background:#f7f6ff;color:#696780}
+.productFoot svg{color:#6552df}
+.heroFloat{background:#fff;color:#24233b;border:1px solid #e6e3f5}
+.floatViolet{background:#ede9ff;color:#6552df}
+.floatLime{background:#def7ed;color:#28785f}
+.floatCheck{background:#def7ed;color:#28785f}
+.orbitOuter,.orbitInner{border-color:#b7aaff1c}
+.orbitGlow{background:radial-gradient(ellipse,#6754e82b,transparent 68%)}
+.proofRail{background:#efedfb;color:#282642;border-top:1px solid #e1ddf5;border-bottom:1px solid #e1ddf5}
+.proofSpark{color:#7662eb}
+.proofItem{color:#6654e8}
+.proofItem b{color:#282642}
+.proofItem small{color:#77758f}
+.proofItem:hover{background:#fff;box-shadow:0 10px 28px #5140c610}
+.sectionShell,.trustSection{background:#f7f7fb;color:#19192d}
+.sectionHead h2,.trustIntro h2,.auditIntro h2,.audienceSection h2{color:#19192d}
+.sectionHead h2 span,.trustIntro h2 span{color:#6654e8}
+.sectionHead>p,.trustIntro>p,.auditIntro>p{color:#6d6d83}
+.sectionKicker{color:#6654e8}
+.sectionKicker>span{background:#7561ed;box-shadow:0 0 0 5px #7561ed16}
+.serviceCard{background:linear-gradient(145deg,#fff 0%,#fcfbff 68%,#f1efff 100%);border-color:#e5e2f2;box-shadow:0 7px 28px #29224d08}
+.serviceCard:before{background:linear-gradient(90deg,#7460ef,#9ac9ff)}
+.serviceCard:hover{border-color:#b9aff4;box-shadow:0 28px 70px #30206418}
+.serviceIcon{background:#eeebff;color:#6552df}
+.serviceCard:hover .serviceIcon{background:#e1dbff}
+.serviceTag{color:#7461d7}
+.serviceCard p,.serviceCard li{color:#68677e}
+.serviceCard li svg{color:#6b58e8}
+.serviceLink{color:#5140c6}
+.tone-lime .serviceIcon,.trustLime{background:#def7ed;color:#28785f}
+.tone-blue .serviceIcon,.trustBlue{background:#e4efff;color:#3c68bd}
+.tone-peach .serviceIcon{background:#f8e9f6;color:#a34e93}
+.tone-mint .serviceIcon{background:#e1f5f2;color:#267c78}
+.approachSection{background:radial-gradient(ellipse at 90% 20%,#3a315e 0%,transparent 42%),#19182b;color:#fff}
+.sectionKickerLight{color:#c4baff}
+.sectionKickerLight>span{background:#9d8cff}
+.approachIntro>p{color:#c3c0d6}
+.approachLink{color:#c7bcff}
+.stepNo{color:#aa9aff}
+.stepCopy p{color:#bbb8d0}
+.stepArrow{color:#bdb1ff;background:#302c4b}
+.approachStep:hover .stepArrow{background:#9f90ff;color:#17172b}
+.approachRing{border-color:#a99aff28}
+.approachCore{background:#282442;border-color:#8172c7}
+.approachNode{background:#332d58;border-color:#6b5caa;color:#c5b8ff}
+.auditSection{background:linear-gradient(180deg,#f0effb 0%,#f8f8fc 100%);color:#19192d}
+.auditIntro h2 span{color:#6654e8}
+.auditPrivacy{background:#fff;border-color:#e1dcf4}
+.auditPrivacy svg{color:#6654e8}
+.auditPrivacy b{color:#2c2a47}
+.auditPrivacy small{color:#77758c}
+.auditWidget{background:#fff;border-color:#e2def3;box-shadow:0 35px 100px #34226e12}
+.widgetEyebrow{color:#7661e9}
+.questionCount{color:#2a2942}
+.questionProgress i{background:#e5e2f1}
+.questionProgress i.filled{background:#7561ed}
+.answerOption{background:#fff;color:#34324e;border-color:#e8e5f1}
+.answerOption:hover{border-color:#b7a6ff;background:#faf9ff}
+.answerOption.chosen{border-color:#8e77ff;background:#f2efff;box-shadow:inset 0 0 0 1px #8e77ff30}
+.answerRadio{border-color:#c6c3d8}
+.answerOption.chosen .answerRadio{border-color:#6d58e7}
+.answerOption.chosen .answerRadio i{background:#6d58e7}
+.nextQuestion{background:#5e4bd8;color:#fff}
+.nextQuestion:not(:disabled):hover{background:#4c3abd}
+.backQuestion{color:#6a6880}
+.timeEstimate{color:#77758b}
+.readinessResult h3{color:#22213b}
+.readinessMeter{background:#eae7f7}
+.readinessMeter>div{background:linear-gradient(90deg,#7d6bf1,#6ab8cf)}
+.readinessScore b{color:#5d49d6}
+.readinessResult p{color:#737188}
+.lockedFindings{background:#f3f1fc;border-color:#e4def7}
+.lockedFindings svg{color:#6955df}
+.lockedFindings small{color:#77758b}
+.lockedTag{background:#e3defc;color:#6450d4}
+.resultCTA{background:#5e4bd8;color:#fff}
+.restartAudit{color:#6e6b83}
+.trustCards{gap:16px}
+.trustCard{background:#fff;border-color:#e6e3f2;box-shadow:0 7px 28px #29224d08}
+.trustCard:hover{border-color:#b9aff4;box-shadow:0 25px 60px #33207812}
+.trustIcon{display:grid;place-items:center}
+.trustViolet{background:#eeebff;color:#6552df}
+.trustLime{background:#def7ed;color:#28785f}
+.trustBlue{background:#e4efff;color:#3c68bd}
+.trustCard h3{color:#22213b}
+.trustCard p{color:#6d6b82}
+.honestyNote{background:#eeecfa;border-color:#e1dcf5}
+.honestyNote>span{color:#6654e8}
+.honestyNote p{color:#68667f}
+.audienceSection{background:#eeedfa;color:#22213b}
+.audienceSection h2 span{color:#6654e8}
+.audienceSection p{color:#69677f}
+.audienceItem{background:#ffffffc9;border-color:#dfdcf0;color:#282642}
+.audienceItem>span{color:#6955e4}
+.audienceItem:hover{border-color:#b7a6ff;box-shadow:0 10px 28px #5140c610}
+.contactSection{background:radial-gradient(ellipse at 75% 10%,#44396f 0%,transparent 48%),#19182b;color:#fff}
+.contactSection>p{color:#c6c2d9}
+.contactSection h2 i{background:linear-gradient(100deg,#b7a9ff,#9ac9ff);background-clip:text;-webkit-background-clip:text;color:transparent}
+.contactPrimary{background:linear-gradient(105deg,#7865f5,#5b48d7);color:#fff;box-shadow:0 12px 35px #6654e83b}
+.contactPrimary:hover{background:linear-gradient(105deg,#8878ff,#6c5ae8)}
+.contactSecondary{color:#f1efff;border-color:#625a87}
+.contactSecondary:hover{background:#ffffff12}
+.contactFoot{color:#c0bdd5}
+.contactFoot svg{color:#a7f3d0}
+.contactGlow{background:radial-gradient(ellipse,#6654e828,transparent 68%)}
+.contactDecor{border-color:#a99aff20}
+.modernFooter{background:#12121f;color:#f1efff;border-top:1px solid #ffffff12}
+.modernFooter p,.footerCopyright{color:#aaa8c0}
+.footerLinks{color:#d4d1e4}
+.footerLinks a:hover{color:#b5a8ff}
+.logoGlyph b{background:#d8d1ff;color:#43339e}
+.logoGlyph i:nth-child(1){background:#a99aff}
+.logoGlyph i:nth-child(2){background:#7b68ed}
+.logoGlyph i:nth-child(3){background:#a5c8ff}
+@media(max-width:700px){
+ .newHero{padding-top:78px;padding-bottom:82px}
+ .proofRail{background:#efedfb}
+}
