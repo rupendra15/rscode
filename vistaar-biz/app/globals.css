@@ -890,3 +890,62 @@ body{background:#f7f7fb;color:#17172b}
 .contactSuccess button{border:1px solid #ffffff16;background:transparent;color:#c9c4d5;border-radius:8px;padding:9px 13px;font:600 9px Manrope;cursor:pointer}
 @media(max-width:900px){.contactHeader{grid-template-columns:1fr}.contactQuick{max-width:650px}.contactFormWrap{margin-top:35px}}
 @media(max-width:620px){.contactSection{padding:70px 6% 55px!important}.contactHeader h2{letter-spacing:-2px}.contactQuickGrid{grid-template-columns:1fr}.contactForm{grid-template-columns:1fr}.contactFieldFull{grid-column:auto}.contactFormIntro{display:block}.contactFormIntro p{margin-top:7px}.contactFormWrap{padding:19px}.contactFoot{gap:11px;flex-direction:column}}
+
+/* Contact redesign: lighter, clearer, interaction-first */
+.contactSection{background:linear-gradient(180deg,#f3f1ff 0%,#fbfaf8 58%,#f7f6fb 100%)!important;color:#1b1a2b!important;padding:88px 7% 76px!important}
+.contactSection .sectionKickerLight{color:#6859d8!important}
+.contactSection .sectionKickerLight>span{background:#7257ff!important}
+.contactGlow{top:-250px;background:radial-gradient(ellipse,#8d7cff18,transparent 68%)!important}
+.contactDecor{border-color:#7565d012!important}
+.contactHeader{max-width:1240px}
+.contactHeader h2{color:#1c1a2d!important}
+.contactHeader h2 i{background:linear-gradient(100deg,#6550dc,#44b9d5)!important;background-clip:text!important;-webkit-background-clip:text!important;color:transparent!important}
+.contactHeader>div:first-child>p{color:#69667a!important}
+.contactFoot span{color:#68667a!important}
+.contactFoot svg{color:#6f5be4!important}
+.contactQuick{border:1px solid #ddd9ed!important;background:rgba(255,255,255,.72)!important;box-shadow:0 18px 50px rgba(45,35,90,.06);backdrop-filter:blur(12px)}
+.contactQuickLabel{color:#77718a!important}
+.contactChannel{border:1px solid #e4e0ef!important;background:#fff!important;color:#27243a!important;text-align:left;font:inherit;cursor:pointer;min-width:0}
+.contactChannel:hover{border-color:#a79ae8!important;background:#faf9ff!important;box-shadow:0 12px 28px rgba(76,59,160,.09)}
+.contactChannel>span{background:#eeeaff!important;color:#6854dd!important}
+.contactChannel b{white-space:nowrap;line-height:1.25}
+.contactChannel small{color:#777387!important;white-space:normal;line-height:1.35}
+.contactChannel>svg{color:#8b84a0!important}
+.contactConfigNote{color:#8c8798!important}
+.contactFormWrap{background:rgba(255,255,255,.88)!important;border:1px solid #dfdbe9!important;box-shadow:0 25px 70px rgba(45,35,90,.07)!important}
+.contactFormIntro h3{color:#242139!important}
+.contactFormIntro p{color:#777287!important}
+.contactFormBadge{color:#6755d9!important}
+.contactField label{color:#5f5a70!important}
+.contactField input,.contactField select,.contactField textarea{background:#f8f7fb!important;color:#29263a!important;border-color:#dfdbe8!important}
+.contactField input::placeholder,.contactField textarea::placeholder{color:#9a95a4!important}
+.contactField select{color:#777286!important}
+.contactField input:focus,.contactField select:focus,.contactField textarea:focus{background:#fff!important;border-color:#8b7be8!important}
+.contactSubmit{background:linear-gradient(120deg,#7056e8,#5540c7)!important}
+.contactSuccess{background:#f1fbf7!important;border-color:#bfe9d8!important}
+.contactSuccess h3{color:#28243b!important}
+.contactSuccess p{color:#737080!important}
+.contactSuccess button{color:#6557a0!important;border-color:#d6d0e8!important}
+.navContactButton{appearance:none;border:0;background:transparent;font:inherit;cursor:pointer}
+.navContactButton:hover{color:#5d4dd0!important}
+.mobileNavCta{appearance:none;border:0;background:transparent;font:inherit;cursor:pointer;text-align:left}
+.contactModalBackdrop{position:fixed;inset:0;z-index:5000;display:grid;place-items:center;padding:24px;background:rgba(28,24,45,.32);backdrop-filter:blur(9px);animation:modalFade .18s ease}
+.contactModal{position:relative;width:min(570px,100%);padding:32px;border:1px solid #e2ddef;border-radius:22px;background:linear-gradient(145deg,#fff,#f8f6ff);box-shadow:0 35px 100px rgba(34,27,74,.22);animation:modalRise .22s ease;color:#25213a}
+.contactModalClose{position:absolute;right:16px;top:16px;width:34px;height:34px;border:1px solid #e4e0ee;border-radius:10px;background:#fff;color:#777187;display:grid;place-items:center;cursor:pointer}
+.contactModalKicker{display:flex;align-items:center;gap:8px;color:#6755d9;font-size:8px;font-weight:800;letter-spacing:.14em}
+.contactModalKicker>span{width:7px;height:7px;border-radius:50%;background:#7359ef;box-shadow:0 0 0 5px #7359ef12}
+.contactModal h3{font:650 clamp(27px,4vw,37px)/1.08 Manrope;letter-spacing:-1.5px;margin:18px 0 9px}
+.contactModal h3 i{font-style:normal;background:linear-gradient(100deg,#6852dc,#42b9d5);background-clip:text;-webkit-background-clip:text;color:transparent}
+.contactModal>p{font-size:11px;line-height:1.7;color:#777286;margin:0 0 22px;max-width:430px}
+.contactModalGrid{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.contactModalGrid>a,.contactModalGrid>button{display:grid;grid-template-columns:37px 1fr 14px;grid-template-rows:auto auto;column-gap:10px;align-items:center;text-align:left;padding:13px;border:1px solid #e4e0ed;border-radius:12px;background:#fff;color:#28243a;cursor:pointer;font:inherit;transition:transform .2s,border-color .2s,box-shadow .2s}
+.contactModalGrid>a:hover,.contactModalGrid>button:hover{transform:translateY(-2px);border-color:#a69ae7;box-shadow:0 12px 28px rgba(80,62,160,.09)}
+.contactModalGrid span{grid-row:span 2;width:37px;height:37px;border-radius:10px;display:grid;place-items:center;background:#eeebff;color:#6854dd}
+.contactModalGrid b{font-size:10px}
+.contactModalGrid small{font-size:8px;color:#858093;line-height:1.35}
+.contactModalGrid>svg{grid-row:span 2;color:#8b849c}
+.contactModalTrust{display:flex;align-items:center;gap:7px;margin-top:16px;color:#7d788a;font-size:8px}
+.contactModalTrust svg{color:#50a983}
+@keyframes modalFade{from{opacity:0}to{opacity:1}}
+@keyframes modalRise{from{opacity:0;transform:translateY(9px) scale(.985)}to{opacity:1;transform:none}}
+@media(max-width:620px){.contactSection{padding:70px 6% 60px!important}.contactModal{padding:26px 18px}.contactModalGrid{grid-template-columns:1fr}.contactModal h3{letter-spacing:-1px}.contactModalTrust{line-height:1.5;align-items:flex-start}}
