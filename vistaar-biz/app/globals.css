@@ -1540,3 +1540,25 @@ body{background:#f7f7fb;color:#17172b}
   .aiExperienceFoot{left:17px;right:17px;bottom:15px}
   .aiExperienceFoot span{font-size:6px}
 }
+
+/* Lighten the process ribbon — keep the dark narrative world reserved for intentional sections */
+.modernSite .proofRail{
+  background:linear-gradient(135deg,#fbfaff 0%,#f6f3ff 52%,#f1fbff 100%);
+  color:#27243a;
+  border-top:1px solid #e4deef;
+  border-bottom:1px solid #e4deef;
+  box-shadow:inset 0 1px 0 #fff,inset 0 -1px 0 #fff;
+}
+.modernSite .proofLead{color:#3d3850}
+.modernSite .proofLead b{color:#69617d}
+.modernSite .proofLead .proofSpark{color:#7259e9}
+.modernSite .proofItem{border-color:transparent;color:#3d3850}
+.modernSite .proofItem b{color:#373247}
+.modernSite .proofItem small{color:#817b8d}
+.modernSite .proofItem svg{color:#6955e4}
+.modernSite .proofItem:hover{
+  background:#fff;
+  transform:translateY(-2px);
+  box-shadow:0 10px 28px rgba(67,52,132,.08);
+}
+.modernSite .proofItem:hover svg{color:#5d49d7}
