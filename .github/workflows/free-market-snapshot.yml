@@ -1,11 +1,6 @@
 name: Free NIFTY Intelligence Engine
 
 on:
-  push:
-    paths-ignore:
-      - 'data/**'
-  schedule:
-    - cron: '*/5 * * * 1-5'
   workflow_dispatch:
 
 permissions:
