@@ -7,7 +7,9 @@ export async function POST(request:Request){
     const profile=(await request.json()) as BusinessProfile;
     if(!profile.businessName||!profile.industry||!profile.city||!profile.goal)
       return NextResponse.json({error:"Business name, category, city and goal are required."},{status:400});
-    const site=await scanWebsite(profile.website);\n    const siteSignals=site?{website:site.url,reachable:site.reachable,https:site.https,title:site.title,hasCta:site.hasCta,hasContactPath:site.hasPhone||site.hasEmail||site.hasWhatsApp,hasReviews:site.hasReviews,hasLocalTerms:site.hasLocalTerms,hasImages:site.hasImages,imageCount:site.imageCount,wordCount:site.wordCount,signals:site.signals}:undefined;\n    const audit=runGrowthAudit(profile,siteSignals);
+    const site=await scanWebsite(profile.website);
+    const siteSignals=site?{website:site.url,reachable:site.reachable,https:site.https,title:site.title,hasCta:site.hasCta,hasContactPath:site.hasPhone||site.hasEmail||site.hasWhatsApp,hasReviews:site.hasReviews,hasLocalTerms:site.hasLocalTerms,hasImages:site.hasImages,imageCount:site.imageCount,wordCount:site.wordCount,signals:site.signals}:undefined;
+    const audit=runGrowthAudit(profile,siteSignals);
     return NextResponse.json({profile,audit,generatedAt:new Date().toISOString()});
   }catch{return NextResponse.json({error:"Unable to generate the growth audit."},{status:500});}
 }
