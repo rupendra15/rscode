@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { runGrowthAudit, type BusinessProfile } from "@/lib/audit";
+import { runGrowthAudit, type BusinessProfile } from "../../../lib/audit";
 
 export async function POST(request:Request){
   try{
