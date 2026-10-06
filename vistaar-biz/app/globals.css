@@ -1024,3 +1024,251 @@ body{background:#f7f7fb;color:#17172b}
 @keyframes modalFade{from{opacity:0}to{opacity:1}}@keyframes modalRise{from{opacity:0;transform:translateY(10px) scale(.985)}to{opacity:1;transform:none}}
 @media(max-width:900px){.storyShowcase{grid-template-columns:1fr}.storyIdentity{min-height:250px}.storyContent{padding:30px}.storySelector{grid-template-columns:repeat(2,1fr)}.contactModalHead{grid-template-columns:1fr}.contactModalSignal{max-width:240px}.contactModalGrid{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:620px){.auditSection{padding-top:48px!important;padding-bottom:44px!important}.trustSection{padding-top:46px!important;padding-bottom:52px!important}.testimonialSection{padding-top:54px!important}.storyShowcase{margin-top:28px;border-radius:18px}.storyIdentity{min-height:220px;padding:22px}.storyVisualIcon{width:92px;height:92px;border-radius:25px}.storyVisualLabel{left:22px;bottom:20px}.storyContent{padding:25px 22px}.storyContent blockquote{font-size:23px;letter-spacing:-.7px}.storyMeta{gap:12px}.storyOutcome{margin-left:0}.storySelector{grid-template-columns:1fr 1fr}.storySelector button{padding:9px}.contactModalBackdrop{padding:10px}.contactModal{padding:24px 17px;border-radius:19px;max-height:92vh}.contactModal h3{font-size:29px}.contactModalGrid{grid-template-columns:1fr 1fr}.contactModalForm{grid-template-columns:1fr}.modalFieldFull{grid-column:auto}.contactModalForm .contactSubmit{grid-column:auto}.contactModalTrust{line-height:1.5;align-items:flex-start}}
+
+
+/* Vistaar-Biz visual variety pass — break the page into distinct experiences */
+.modernSite{
+  --vb-ink:#171622;
+  --vb-violet:#6b55e8;
+  --vb-cyan:#4dbbd2;
+  --vb-lilac:#f3f0ff;
+  --vb-mint:#eef9f4;
+  --vb-peach:#fff3e9;
+  --vb-blue:#edf6ff;
+  background:#fbfaf8;
+}
+.modernSite .sectionShell,
+.modernSite .signalSection,
+.modernSite .auditSection,
+.modernSite .trustSection,
+.modernSite .testimonialSection,
+.modernSite .audienceSection{
+  position:relative;
+  isolation:isolate;
+}
+.modernSite .sectionShell:before,
+.modernSite .signalSection:before,
+.modernSite .auditSection:before,
+.modernSite .trustSection:before,
+.modernSite .testimonialSection:before,
+.modernSite .audienceSection:before{
+  content:"";
+  position:absolute;
+  z-index:-1;
+  pointer-events:none;
+}
+
+/* AI gets its own visual world — not another white card section */
+.modernSite .aiShowcase{
+  border-top:1px solid #e5e0f0;
+  border-bottom:1px solid #e5e0f0;
+  box-shadow:inset 0 1px 0 #ffffff,inset 0 -1px 0 #ffffff;
+}
+.modernSite .aiShowcaseIntro .sectionKicker{color:#6654db}
+.modernSite .aiPromiseList>div{
+  border-radius:14px;
+  padding:13px 12px;
+  transition:transform .25s,background .25s,box-shadow .25s;
+}
+.modernSite .aiPromiseList>div:hover{
+  transform:translateX(5px);
+  background:#fff;
+  box-shadow:0 12px 32px rgba(74,55,145,.08);
+}
+
+/* Proof rail becomes a horizontal product ribbon */
+.modernSite .proofRail{
+  background:#171622;
+  color:#fff;
+  border-top:1px solid #272434;
+  border-bottom:1px solid #272434;
+}
+.modernSite .proofItem{
+  transition:background .25s,transform .25s;
+}
+.modernSite .proofItem:hover{
+  background:#242130;
+  transform:translateY(-2px);
+}
+.modernSite .proofItem svg{transition:transform .25s,color .25s}
+.modernSite .proofItem:hover svg{transform:scale(1.12);color:#a99aff}
+
+/* Warm editorial signal section */
+.modernSite .signalSection{
+  background:linear-gradient(135deg,#fffdf8 0%,#f8f5ff 58%,#f1faff 100%);
+  border-bottom:1px solid #e7e2ee;
+}
+.modernSite .signalSection:before{
+  width:420px;height:420px;right:-180px;top:-160px;border-radius:50%;
+  background:radial-gradient(circle,#7d69ed20,transparent 68%);
+}
+.modernSite .signalGrid article{
+  background:rgba(255,255,255,.78);
+  backdrop-filter:blur(8px);
+  transition:transform .28s,box-shadow .28s,border-color .28s;
+}
+.modernSite .signalGrid article:hover{
+  transform:translateY(-7px);
+  box-shadow:0 24px 55px rgba(60,46,115,.1);
+  border-color:#cfc6ef;
+}
+.modernSite .signalGrid article:nth-child(2){background:rgba(246,252,250,.88)}
+.modernSite .signalGrid article:nth-child(3){background:rgba(246,250,255,.9)}
+
+/* Services: make the most important cards visually dominant */
+.modernSite #platform{
+  background:#fbfaf8;
+}
+.modernSite .serviceGrid{
+  display:grid;
+  grid-template-columns:repeat(12,minmax(0,1fr));
+  gap:14px;
+}
+.modernSite .serviceGrid .serviceCard{grid-column:span 3;min-height:330px}
+.modernSite .serviceGrid .serviceCard:nth-child(1),
+.modernSite .serviceGrid .serviceCard:nth-child(2){grid-column:span 6;min-height:360px}
+.modernSite .serviceGrid .serviceCard:nth-child(1) h3,
+.modernSite .serviceGrid .serviceCard:nth-child(2) h3{font-size:25px}
+.modernSite .serviceGrid .serviceCard:nth-child(1) p,
+.modernSite .serviceGrid .serviceCard:nth-child(2) p{max-width:620px}
+.modernSite .serviceGrid .serviceCard:nth-child(3){background:linear-gradient(145deg,#f3f8ff,#fff)}
+.modernSite .serviceGrid .serviceCard:nth-child(4){background:linear-gradient(145deg,#fff7f0,#fff)}
+.modernSite .serviceGrid .serviceCard:nth-child(5){background:linear-gradient(145deg,#f1fbf6,#fff)}
+.modernSite .serviceGrid .serviceCard:nth-child(6){background:linear-gradient(145deg,#f7f3ff,#fff)}
+.modernSite .serviceCard{
+  transition:transform .28s,box-shadow .28s,border-color .28s;
+}
+.modernSite .serviceCard:hover{
+  transform:translateY(-6px);
+  box-shadow:0 25px 55px rgba(42,31,81,.1);
+}
+
+/* One dark narrative section only */
+.modernSite .approachSection{
+  background:
+    radial-gradient(circle at 78% 22%,rgba(111,86,235,.2),transparent 25%),
+    radial-gradient(circle at 20% 88%,rgba(73,190,211,.11),transparent 22%),
+    #171622;
+}
+.modernSite .approachSteps .approachStep{
+  transition:transform .28s,background .28s,border-color .28s;
+}
+.modernSite .approachSteps .approachStep:hover{
+  transform:translateX(7px);
+  background:rgba(255,255,255,.07);
+  border-color:#7165a5;
+}
+.modernSite .approachStep:hover .stepArrow{transform:translateX(4px);color:#b7aaff}
+
+/* Readiness check gets a confident assessment feel */
+.modernSite .auditSection{
+  background:linear-gradient(120deg,#f8f6ff 0%,#fffdf9 52%,#eefaff 100%);
+}
+.modernSite .auditSection:before{
+  width:520px;height:520px;left:-250px;bottom:-260px;border-radius:50%;
+  background:radial-gradient(circle,#7b66ed17,transparent 68%);
+}
+.modernSite .auditWidget{
+  box-shadow:0 28px 80px rgba(54,39,105,.12);
+  border-color:#dcd5ee;
+}
+.modernSite .answerOption{
+  transition:transform .2s,background .2s,border-color .2s,box-shadow .2s;
+}
+.modernSite .answerOption:hover{
+  transform:translateX(4px);
+  box-shadow:0 10px 26px rgba(61,46,123,.07);
+}
+
+/* Trust section uses calm mint instead of another white block */
+.modernSite .trustSection{
+  background:linear-gradient(135deg,#f3fbf7 0%,#fbfaf8 58%,#f6f3ff 100%);
+}
+.modernSite .trustCard{
+  background:rgba(255,255,255,.84);
+  transition:transform .25s,box-shadow .25s;
+}
+.modernSite .trustCard:hover{
+  transform:translateY(-6px);
+  box-shadow:0 22px 50px rgba(43,51,72,.09);
+}
+
+/* Stories: editorial magazine treatment */
+.modernSite .testimonialSection{
+  background:#fff;
+}
+.modernSite .storyShowcase{
+  box-shadow:0 30px 90px rgba(43,33,78,.1);
+}
+.modernSite .storyContent blockquote{
+  font-size:clamp(27px,3.3vw,45px);
+}
+.modernSite .storySelector button{
+  transition:transform .22s,background .22s,border-color .22s,box-shadow .22s;
+}
+.modernSite .storySelector button:hover{
+  transform:translateY(-3px);
+}
+
+/* Audience becomes a closing statement, not another card grid */
+.modernSite .audienceSection{
+  background:#171622;
+  color:#fff;
+  border-top:1px solid #2a2738;
+}
+.modernSite .audienceSection .sectionKicker{color:#b4a9ff}
+.modernSite .audienceSection h2{color:#fff}
+.modernSite .audienceSection p{color:#b9b5c5}
+.modernSite .audienceItem{
+  background:#211f2d;
+  border-color:#343044;
+  color:#fff;
+  transition:transform .22s,background .22s,border-color .22s;
+}
+.modernSite .audienceItem:hover{
+  transform:translateY(-4px);
+  background:#2a2739;
+  border-color:#635a8b;
+}
+.modernSite .audienceItem span{background:#302c43;color:#b9acff}
+.modernSite .audienceItem>svg{color:#aaa4ba}
+
+/* Clear hierarchy for action buttons */
+.modernSite .detailPrimary,
+.modernSite .resultCTA{
+  border:0;
+  font:inherit;
+  cursor:pointer;
+}
+
+/* Give section boundaries a rhythm without giant empty gaps */
+.modernSite .sectionShell,
+.modernSite .signalSection,
+.modernSite .aiShowcase,
+.modernSite .auditSection,
+.modernSite .trustSection,
+.modernSite .testimonialSection,
+.modernSite .audienceSection{
+  overflow:hidden;
+}
+
+@media(max-width:900px){
+  .modernSite .serviceGrid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .modernSite .serviceGrid .serviceCard,
+  .modernSite .serviceGrid .serviceCard:nth-child(1),
+  .modernSite .serviceGrid .serviceCard:nth-child(2){
+    grid-column:span 1;
+    min-height:330px;
+  }
+}
+@media(max-width:620px){
+  .modernSite .serviceGrid{grid-template-columns:1fr}
+  .modernSite .serviceGrid .serviceCard,
+  .modernSite .serviceGrid .serviceCard:nth-child(1),
+  .modernSite .serviceGrid .serviceCard:nth-child(2){
+    grid-column:span 1;
+    min-height:0;
+  }
+  .modernSite .serviceGrid .serviceCard:nth-child(1) h3,
+  .modernSite .serviceGrid .serviceCard:nth-child(2) h3{font-size:22px}
+}
