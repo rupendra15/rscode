@@ -420,3 +420,8 @@ body{font-family:'DM Sans',sans-serif;background:var(--vb-paper);color:var(--vb-
  .modernFooter{padding:30px 22px;grid-template-columns:1fr}
  .footerLinks{flex-wrap:wrap;gap:16px}
 }
+
+/* Refine vertical rhythm so the next section appears sooner below the proof rail */
+.sectionShell,.trustSection{padding-top:clamp(68px,6.8vw,98px);padding-bottom:clamp(78px,8vw,116px)}
+.sectionHead{margin-bottom:clamp(32px,4vw,52px)}
+@media(max-width:700px){.sectionShell,.trustSection{padding-top:68px;padding-bottom:76px}}
