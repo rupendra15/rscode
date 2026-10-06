@@ -17,7 +17,7 @@ test.describe("Vistaar-Biz smoke and UX QA", () => {
       page.on("pageerror", error => pageErrors.push(error.message));
       page.on("requestfailed", request => {
         const url = request.url();
-        if (!url.startsWith("http://127.0.0.1:3000/_next/webpack-hmr")) {
+        if (url.startsWith("http://127.0.0.1:3000/_next/webpack-hmr")) return;
           failedRequests.push(request.method() + " " + url + " — " + (request.failure()?.errorText ?? "failed"));
         }
       });
@@ -64,7 +64,8 @@ test.describe("Vistaar-Biz smoke and UX QA", () => {
 
     await modal.getByLabel("Your name").fill("QA User");
     await modal.getByLabel("Business name").fill("QA Business");
-    await modal.getByLabel("Phone / email / WhatsApp").fill("qa@example.com");
+    await modal.getByLabel("Phone number").fill("+919876543210");
+    await modal.getByLabel("Email address").fill("qa@example.com");
     await modal.getByLabel("What do you need?").selectOption({ label: "Get an AI growth plan" });
     await modal.getByLabel("Your question").fill("Testing the Vistaar-Biz enquiry flow.");
     await modal.getByRole("button", { name: /Send my enquiry/i }).click();
@@ -81,6 +82,7 @@ test.describe("Vistaar-Biz smoke and UX QA", () => {
     for (let i = 0; i < 6; i++) {
       await audit.locator(".answerOption").first().click();
       if (i < 5) {
+        await expect(audit.getByRole("button", { name: /Next question/i })).toBeEnabled();
         await audit.getByRole("button", { name: /Next question/i }).click();
       } else {
         await audit.getByRole("button", { name: /View my preview/i }).click();
