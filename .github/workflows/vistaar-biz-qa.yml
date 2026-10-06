@@ -25,7 +25,7 @@ jobs:
           cache-dependency-path: vistaar-biz/package-lock.json
 
       - name: Install dependencies
-        run: npm ci
+        run: npm install
 
       - name: Install Chromium
         run: npx playwright install --with-deps chromium
