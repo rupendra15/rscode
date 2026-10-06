@@ -1,67 +1,13 @@
 import Link from "next/link";
-import { ArrowRight, BarChart3, Bot, CheckCircle2, Sparkles, Users } from "lucide-react";
-
-const modules = [
-  ["01", "Growth Audit", "See visibility, trust, content, conversion and lead gaps."],
-  ["02", "AI Growth Manager", "Get ranked decisions instead of generic advice."],
-  ["03", "Execution Studio", "Turn recommendations into concrete work."],
-  ["04", "Leads & Conversion", "Connect growth activity to real opportunities."],
-  ["05", "Expert Network", "Bring in trusted specialists when needed."],
-  ["06", "Measure & Learn", "Track outcomes and improve the next move."]
-];
-
-export default function Home() {
-  return (
-    <main>
-      <header className="nav">
-        <Link href="/" className="brand"><span className="mark">V<span>AI</span></span><b>Vistaar-Biz</b></Link>
-        <nav><a href="#platform">Platform</a><a href="#how">How it works</a><a href="#experts">Experts</a></nav>
-        <Link href="/onboarding" className="navCta">Start free audit <ArrowRight size={15}/></Link>
-      </header>
-
-      <section className="hero">
-        <div className="heroCopy">
-          <div className="eyebrow"><Sparkles size={13}/> AI-POWERED BUSINESS GROWTH PLATFORM</div>
-          <h1>Know where to grow.<br/><em>Know what to do next.</em></h1>
-          <p>Vistaar-Biz turns your business data and digital presence into a clear growth plan — then helps you execute it, generate leads and measure what actually works.</p>
-          <div className="actions"><Link className="primary" href="/onboarding">Get your free growth audit <ArrowRight size={17}/></Link><Link className="secondary" href="/dashboard">Open command centre</Link></div>
-        </div>
-
-        <div className="product">
-          <div className="productTop"><span>Vistaar-Biz</span><small>AI GROWTH MANAGER</small></div>
-          <div className="scoreRow"><div><small>GROWTH SCORE</small><strong>68<span>/100</span></strong><em>+8 this month</em></div><div className="ring">68</div></div>
-          <div className="metrics">
-            <div><small>VISIBILITY</small><b>78</b><span>Strong</span></div>
-            <div><small>TRUST</small><b>64</b><span>Improve</span></div>
-            <div><small>CONVERSION</small><b>53</b><span>Priority</span></div>
-          </div>
-          <div className="priority"><small>AI PRIORITY · 91 IMPACT</small><b>Upgrade product gallery</b><span>Highest-value next action</span></div>
-        </div>
-      </section>
-
-      <div className="strip"><span>Audit</span><i>→</i><span>Diagnose</span><i>→</i><span>Execute</span><i>→</i><span>Convert</span><i>→</i><span>Learn</span></div>
-
-      <section id="platform" className="section">
-        <div className="eyebrow">THE PLATFORM</div>
-        <h2>One system for the <em>whole growth loop.</em></h2>
-        <div className="moduleGrid">{modules.map(([n,t,d]) => <article key={n}><small>{n}</small><h3>{t}</h3><p>{d}</p><Link href="/dashboard">Explore <ArrowRight size={14}/></Link></article>)}</div>
-      </section>
-
-      <section id="how" className="dark section">
-        <div className="eyebrow">HOW IT WORKS</div>
-        <h2>From uncertainty to <em>momentum.</em></h2>
-        <div className="timeline">
-          {["Understand","Decide","Execute","Measure"].map((x,i) => <div key={x}><b>0{i+1}</b><h3>{x}</h3><p>{["Audit your current position and find the gaps that matter.","Let AI rank the highest-value opportunities.","Turn the plan into actions, tasks, leads and expert work.","See what moved the numbers and feed it into the next decision."][i]}</p></div>)}
-        </div>
-      </section>
-
-      <section id="experts" className="section experts">
-        <div><div className="eyebrow">THE HUMAN LAYER</div><h2>When you need a person, <em>find the right one.</em></h2><p>Match the exact growth gap with trusted specialists while keeping their work connected to the business goal.</p></div>
-        <div className="expertCard">{[["Studio Rewa","Product photography","96% match"],["LocalLift","Local SEO","93% match"],["PixelCraft","Landing pages","89% match"]].map(x=><div key={x[0]}><b>{x[0]}</b><span>{x[1]}</span><strong>{x[2]}</strong></div>)}</div>
-      </section>
-
-      <section className="final"><div><h2>Growth gets easier when the <em>next move is clear.</em></h2><Link className="primary" href="/onboarding">Create your workspace <ArrowRight size={16}/></Link></div></section>
-      <footer>Vistaar-Biz · AI-powered growth infrastructure for ambitious businesses.</footer>
-    </main>
-  );
-}
+import { ArrowRight, ArrowUpRight, Sparkles, Check, CirclePlay, ScanSearch, Target, Zap, TrendingUp, ShieldCheck, Camera, MapPin, Star } from "lucide-react";
+const actions=[["Upgrade product photography","CONTENT","91"],["Respond to 8 recent reviews","REPUTATION","88"],["Build a local enquiry page","CONVERSION","82"]];
+const features=[["01","See the real picture","Audit visibility, reputation, content and conversion to find the gaps holding you back."],["02","Know what matters next","An AI growth manager ranks opportunities by impact, effort and urgency."],["03","Turn insight into action","Launch practical tasks, capture leads and bring in experts without losing the thread."]];
+export default function Home(){return <main className="site"><div className="announcement"><i/> A clearer path to business growth <ArrowRight size={13}/></div><header className="siteNav"><Link href="/" className="wordmark"><span className="brandSymbol"><i/><i/><i/></span>vistaar<span className="brandDash">—</span>biz<sup>AI</sup></Link><nav><a href="#platform">Platform</a><a href="#how">How it works</a><a href="#experts">Expert network</a></nav><div className="navActions"><Link href="/dashboard" className="navLogin">Sign in</Link><Link href="/onboarding" className="navButton">Start your audit <ArrowUpRight size={15}/></Link></div></header>
+<section className="heroModern"><div className="heroGlow"/><div className="heroText"><div className="eyebrowModern"><span className="eyebrowIcon"><Sparkles size={13}/></span> BUSINESS GROWTH, WITH DIRECTION</div><h1>Your business has<br/>more room to <span>grow.</span></h1><p className="heroLead">Find the gaps. Focus on the moves that matter. Turn more of your potential into measurable growth.</p><div className="heroButtons"><Link href="/onboarding" className="buttonDark">Get my growth plan <ArrowUpRight size={17}/></Link><a href="#platform" className="watchLink"><span><CirclePlay size={19}/></span> Explore the platform</a></div><div className="heroProof"><div className="avatarStack"><span>G</span><span>S</span><span>R</span></div><div><strong>Built for businesses with ambition.</strong><small>Local insight. Clear priorities. Real execution.</small></div></div></div>
+<div className="heroVisual"><div className="visualLabel"><i/> LIVE GROWTH SNAPSHOT <span>REWA, INDIA</span></div><div className="mockDashboard"><div className="mockTop"><div className="mockBrand"><span className="miniMark">v.</span><b>Growth overview</b></div><div className="mockPeriod">Last 30 days ↘</div></div><div className="mockGreeting"><div><small>GOOD MORNING, GUPTA FURNITURE</small><h3>Here's your growth at a glance.</h3></div><div className="mockSpark"><Sparkles size={16}/></div></div><div className="mockStats"><div className="scoreTile"><div className="tileHead">GROWTH SCORE <span>↗</span></div><div className="scoreNumber">68<span>/100</span></div><div className="scoreFoot"><b>+8 pts</b> vs. last month</div><div className="scoreBars">{Array.from({length:20},(_,i)=><i key={i} style={{height:(25+(i*17)%70)+'%'}}/>)}</div></div><div className="miniMetric"><span>Local visibility</span><b>78 <small>/100</small></b><div className="meter"><i style={{width:"78%"}}/></div><em>Strong foundation</em></div><div className="miniMetric"><span>Lead engine</span><b>39 <small>/100</small></b><div className="meter meterOrange"><i style={{width:"39%"}}/></div><em>Biggest opportunity</em></div></div><div className="aiPlan"><div className="aiPlanHead"><div><span className="aiSpark"><Sparkles size={13}/></span><b>Your next best moves</b></div><span className="ranked">AI PRIORITISED</span></div>{actions.map((a,i)=><div className="taskRow" key={a[0]}><span className={'taskIcon t'+i}>{i===0?<Camera size={15}/>:i===1?<Star size={15}/>:<TrendingUp size={15}/>}</span><div className="taskInfo"><b>{a[0]}</b><small>{a[1]}</small></div><span className="taskImpact">+{a[2]} impact</span><span className="taskCheck"><Check size={13}/></span></div>)}</div><div className="mockBottom"><span><ShieldCheck size={13}/> One clear plan, connected to outcomes</span><span>OPEN COMMAND CENTRE <ArrowUpRight size={12}/></span></div></div><div className="floatingNote"><span className="floatIcon"><TrendingUp size={16}/></span><div><b>Opportunity found</b><small>Convert local searches into leads</small></div><ArrowUpRight size={16}/></div></div></section>
+<div className="trustStrip"><span>MADE FOR THE PEOPLE BUILDING SOMETHING</span><div><span><MapPin size={15}/> Local businesses</span><span><ShieldCheck size={15}/> Trusted experts</span><span><TrendingUp size={15}/> Measurable growth</span><span><Sparkles size={15}/> AI-guided action</span></div></div>
+<section className="sectionModern" id="platform"><div className="sectionIntro"><div><div className="eyebrowModern"><span className="eyebrowIcon">✳</span> LESS GUESSWORK. MORE GROWTH.</div><h2>Not another dashboard.<br/><span>A better way forward.</span></h2></div><p>Most businesses don't need more data to stare at. They need to know what is holding them back — and what to do about it.</p></div><div className="featureGrid">{features.map(f=><article className="featureCard" key={f[0]}><div className="featureTop"><span>{f[0]}</span><div>{f[0]==="01"?<ScanSearch size={19}/>:f[0]==="02"?<Target size={19}/>:<Zap size={19}/>}</div></div><h3>{f[1]}</h3><p>{f[2]}</p><Link href="/dashboard">Discover how <ArrowUpRight size={14}/></Link></article>)}</div>
+<div className="loopBand"><div className="loopCopy"><span className="eyebrowDark">THE VISTAAR GROWTH LOOP</span><h3>Clarity is only the start.<br/><i>Progress is the point.</i></h3><p>One connected system from first audit to the next smarter decision.</p><Link href="/dashboard" className="buttonLight">Explore command centre <ArrowRight size={15}/></Link></div><div className="loopVisual"><div className="loopCircle circleA"/><div className="loopCircle circleB"/><div className="loopCore"><span className="brandSymbol"><i/><i/><i/></span><b>GROWTH<br/>ENGINE</b><small>LEARN · ACT · IMPROVE</small></div><div className="loopNode node1">01 <span>Understand</span></div><div className="loopNode node2">02 <span>Prioritise</span></div><div className="loopNode node3">03 <span>Execute</span></div><div className="loopNode node4">04 <span>Learn</span></div></div></div></section>
+<section className="sectionModern howSection" id="how"><div className="howHeading"><div className="eyebrowModern"><span className="eyebrowIcon">✳</span> BUILT TO MOVE YOU FORWARD</div><h2>From “what now?”<br/>to <span>“look what changed.”</span></h2></div><div className="steps">{[["01","Understand your starting point","Audit your digital presence, customer trust and lead journey."],["02","Choose the highest-impact move","Get a prioritised plan built around your goals and constraints."],["03","Put the plan to work","Use AI-assisted workflows or match with an expert."],["04","Learn from what happened","Track outcomes and make your next decision with better context."]].map(s=><div className="step" key={s[0]}><span>{s[0]}</span><div><h3>{s[1]}</h3><p>{s[2]}</p></div><ArrowUpRight size={17}/></div>)}</div></section>
+<section className="expertSection" id="experts"><div className="expertText"><div className="eyebrowModern"><span className="eyebrowIcon"><ShieldCheck size={13}/></span> THE RIGHT HELP, WHEN IT MATTERS</div><h2>Great growth is<br/>rarely a solo job.</h2><p>Find photographers, marketers, web specialists and local growth partners based on the problem you need to solve — not just a list of profiles.</p><Link href="/dashboard" className="buttonDark">Meet the expert network <ArrowUpRight size={16}/></Link></div><div className="providerPanel"><div className="providerPanelTop"><div><small>EXPERT MATCHES</small><h3>Recommended for your next move</h3></div><span className="matchCount">03 MATCHES</span></div>{[["S","Studio Rewa","Product photography","96%","lavender"],["L","LocalLift","Local SEO & discovery","93%","mint"],["P","PixelCraft","Landing pages","89%","peach"]].map(p=><div className="providerRow" key={p[1]}><div className={'providerAvatar '+p[4]}>{p[0]}</div><div className="providerInfo"><b>{p[1]} <ShieldCheck size={13}/></b><span>{p[2]}</span></div><div className="providerScore"><b>{p[3]}</b><small>match</small></div><ArrowUpRight size={16}/></div>)}<div className="providerFoot">Matched to your goals, budget and business context <ArrowRight size={13}/></div></div></section>
+<section className="finalModern"><div className="finalOrb orb1"/><div className="finalOrb orb2"/><div className="eyebrowDark">YOUR NEXT CHAPTER STARTS HERE</div><h2>Make your next move<br/><i>your best one yet.</i></h2><p>Start with a clearer picture of your business. Leave with a plan you can act on.</p><Link href="/onboarding" className="buttonLight">Start your free growth audit <ArrowUpRight size={16}/></Link><small>No credit card. No growth jargon. Just a useful next step.</small></section><footer className="footerModern"><Link href="/" className="wordmark"><span className="brandSymbol"><i/><i/><i/></span>vistaar<span className="brandDash">—</span>biz<sup>AI</sup></Link><span>Growth infrastructure for ambitious businesses.</span><div><a href="#platform">Platform</a><a href="#how">How it works</a><Link href="/dashboard">Command centre</Link></div><small>© 2026 Vistaar-Biz</small></footer></main>}
