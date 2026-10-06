@@ -2059,3 +2059,38 @@ body{background:#f7f7fb;color:#17172b}
  .approachCommandCanvas{inset:62px 12px 12px}.approachMetricCard{left:12px;width:150px}.approachMiniChart{right:12px;width:155px}.approachFloatingTag{display:none}
  .approachInsightCard{left:12px;right:12px}.approachCanvasTitle{left:13px;right:13px}
 }
+
+
+/* V7 — real product journey visual for business stories */
+.modernSite .storyBusinessVisual{
+  position:relative;min-height:100%;overflow:hidden;
+  background:
+    radial-gradient(circle at 50% 48%,#7965f52c,transparent 30%),
+    linear-gradient(145deg,#f5f1ff 0%,#eef5ff 54%,#f4fbf8 100%)!important;
+}
+.modernSite .storyVisualGlow{width:360px!important;height:360px!important;left:50%!important;top:50%!important;background:radial-gradient(circle,#806cff30,transparent 66%)!important;filter:blur(3px)!important}
+.storyJourneyTop{
+  position:absolute;left:24px;right:24px;top:20px;display:flex;justify-content:space-between;align-items:center;
+  z-index:4;font-size:7px;letter-spacing:.13em;font-weight:900;color:#655a7a
+}
+.storyJourneyTop span{display:flex;align-items:center;gap:6px}.storyJourneyTop i{width:6px;height:6px;border-radius:50%;background:#5bd5a8;box-shadow:0 0 10px #5bd5a8}
+.storyJourneyTop small{font-size:6px;color:#9b91a9;letter-spacing:.12em}
+.storyJourneyCanvas{position:absolute;inset:54px 22px 36px;border:1px solid #ffffffb8;border-radius:18px;background:#ffffff72;box-shadow:inset 0 1px #fff,0 18px 40px #59469c12;backdrop-filter:blur(10px);overflow:hidden}
+.storyJourneyGrid{position:absolute;inset:0;background-image:linear-gradient(#765fe70d 1px,transparent 1px),linear-gradient(90deg,#765fe70d 1px,transparent 1px);background-size:25px 25px;mask-image:radial-gradient(circle at 50% 50%,#000,transparent 88%)}
+.storyJourneyPath{position:absolute;left:16%;right:16%;top:49%;height:2px;background:linear-gradient(90deg,#8b7cf4,#62cde0 50%,#61d5a8);box-shadow:0 0 13px #8069f33b}
+.storyJourneyPath:before,.storyJourneyPath:after{content:"";position:absolute;top:-3px;width:8px;height:8px;border-radius:50%;background:#8b7cf4;box-shadow:0 0 12px #8b7cf4}.storyJourneyPath:before{left:0}.storyJourneyPath:after{right:0;background:#61d5a8}
+.storyJourneyPath i{position:absolute;top:-2px;width:6px;height:6px;border-radius:50%;background:#fff;border:1px solid #8a79ed;box-shadow:0 0 8px #8a79ed}.storyJourneyPath i:nth-child(1){left:20%}.storyJourneyPath i:nth-child(2){left:48%;background:#8c7cf5}.storyJourneyPath i:nth-child(3){left:72%;background:#5fcfe1}.storyJourneyPath i:nth-child(4){right:0}
+.storyJourneyNode{position:absolute;width:118px;padding:10px;border:1px solid #e2dcf1;border-radius:12px;background:#fffffff2;box-shadow:0 10px 24px #59469c12;z-index:3}
+.storyJourneyNode span{display:grid;place-items:center;width:24px;height:20px;border-radius:7px;background:#eeeaff;color:#6d58df;font-size:6px;font-weight:900;margin-bottom:7px}
+.storyJourneyNode b{display:block;font-size:8px;color:#252031;letter-spacing:.03em}.storyJourneyNode small{display:block;font-size:6px;color:#8d849b;line-height:1.45;margin-top:3px}
+.storyNodeStart{left:8%;top:16%}.storyNodeAI{left:50%;top:32%;transform:translateX(-50%);width:130px;text-align:center;border-color:#cfc5ff;background:#fbfaff;box-shadow:0 16px 34px #715cf52b}.storyNodeMove{right:7%;bottom:14%}
+.storyAINode{width:38px!important;height:38px!important;margin:0 auto 7px!important;border-radius:12px!important;background:linear-gradient(145deg,#7560ee,#49c8df)!important;color:#fff!important;box-shadow:0 8px 22px #6c5ee746}
+.storyNodeAI b{color:#5f4bd5}.storyNodeAI small{color:#756a8b}
+.storyJourneyOutcome{position:absolute;left:8%;bottom:12%;display:flex;align-items:center;gap:6px;padding:8px 10px;border-radius:9px;background:#effaf5;border:1px solid #ccebdd;color:#3b8667;z-index:3}
+.storyJourneyOutcome svg{color:#43aa7e}.storyJourneyOutcome span{font-size:8px;font-weight:900}.storyJourneyOutcome small{font-size:5px;letter-spacing:.12em;color:#6a967f}
+.storyJourneyPills{position:absolute;right:8%;top:15%;display:grid;gap:5px;z-index:3}.storyJourneyPills span{padding:5px 7px;border-radius:7px;background:#f3f0ff;border:1px solid #dfd8ff;color:#6853d1;font-size:6px;font-weight:800}
+.storyBusinessVisual:after{content:"";position:absolute;inset:auto 20px 18px;height:1px;background:linear-gradient(90deg,transparent,#cfc6e5,transparent)}
+.modernSite .storyVisualLabel{z-index:5;bottom:20px!important;left:22px!important;background:#ffffffd9!important;color:#645975!important;border-color:#e0d9ed!important}
+@media(max-width:700px){
+ .storyJourneyCanvas{inset:54px 12px 34px}.storyJourneyNode{width:95px;padding:8px}.storyJourneyNode b{font-size:7px}.storyJourneyNode small{font-size:5.5px}.storyNodeAI{width:108px}.storyJourneyPills{display:none}
+}
