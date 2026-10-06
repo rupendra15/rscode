@@ -582,3 +582,18 @@ body{background:#f7f7fb;color:#17172b}
  .newHero{padding-top:78px;padding-bottom:82px}
  .proofRail{background:#efedfb}
 }
+
+/* Interactive product journey controls */
+.productFlow .flowLine button.flowDot{appearance:none;padding:0;border:0;cursor:pointer;flex:0 0 10px;min-width:10px;height:10px;border-radius:50%;background:#d5d2e4;transition:transform .25s,background .25s,box-shadow .25s}
+.productFlow .flowLine button.flowDot:hover{transform:scale(1.45);background:#9182ef}
+.productFlow .flowLine button.flowDot.active{background:#7561ed;box-shadow:0 0 0 5px #7561ed20}
+.productFlow .flowLine .flowStem.passed{background:#9384ef}
+.productFlow .flowSteps{gap:4px}
+.productFlow .flowStep{appearance:none;border:1px solid transparent;background:transparent;text-align:left;padding:8px 7px;border-radius:9px;cursor:pointer;min-width:0;transition:background .25s,border-color .25s,transform .25s}
+.productFlow .flowStep:hover{background:#eeebff;transform:translateY(-2px)}
+.productFlow .flowStep.active{background:#efedff;border-color:#e1dcff}
+.productFlow .flowStep b{color:#66647d;transition:color .2s}
+.productFlow .flowStep.active b{color:#5d49d6}
+.productFlow .flowStep small{display:block;line-height:1.4;overflow-wrap:anywhere}
+.insightText b{transition:opacity .2s}
+@media(max-width:700px){.productFlow .flowStep{padding:7px 3px}.productFlow .flowStep b{font-size:8px}.productFlow .flowStep small{font-size:7px}}
