@@ -58,9 +58,10 @@ test.describe("Vistaar-Biz smoke and UX QA", () => {
     const service = page.locator("#platform .serviceCard").first();
     await service.getByRole("button", { name: /Explore this service/i }).click();
     await expect(page.getByText(/HOW VISTAAR-BIZ HELPS/i)).toBeVisible();
-    await page.getByRole("button", { name: /Close details/i }).filter({ has: page.locator("svg") }).last().click();
+    await page.locator(".detailClose").click();
 
-    await page.getByRole("button", { name: /Let's talk/i }).click();
+    await page.locator(".footerContactButton").scrollIntoViewIfNeeded();
+    await page.locator(".footerContactButton").click();
     await expect(page.getByRole("dialog", { name: /Talk to Vistaar-Biz/i })).toBeVisible();
 
     const modal = page.getByRole("dialog");
