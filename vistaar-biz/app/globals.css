@@ -949,3 +949,78 @@ body{background:#f7f7fb;color:#17172b}
 @keyframes modalFade{from{opacity:0}to{opacity:1}}
 @keyframes modalRise{from{opacity:0;transform:translateY(9px) scale(.985)}to{opacity:1;transform:none}}
 @media(max-width:620px){.contactSection{padding:70px 6% 60px!important}.contactModal{padding:26px 18px}.contactModalGrid{grid-template-columns:1fr}.contactModal h3{letter-spacing:-1px}.contactModalTrust{line-height:1.5;align-items:flex-start}}
+
+/* Final story + contact interaction system */
+.auditSection{padding-top:58px!important;padding-bottom:52px!important}
+.trustSection{padding-top:54px!important;padding-bottom:62px!important}
+.testimonialSection{padding-top:66px!important;padding-bottom:62px!important}
+.audienceSection{padding-top:68px!important;padding-bottom:70px!important}
+.storyShowcase{display:grid;grid-template-columns:.82fr 1.18fr;min-height:390px;margin-top:38px;border:1px solid #e2deeb;border-radius:24px;overflow:hidden;background:#fff;box-shadow:0 24px 70px rgba(39,28,80,.08);transition:background .45s,box-shadow .3s}
+.storyIdentity{position:relative;min-height:390px;padding:32px;display:flex;flex-direction:column;justify-content:flex-end;overflow:hidden}
+.storyBusinessVisual{position:absolute;inset:0;display:grid;place-items:center;background:linear-gradient(145deg,#eeeaff,#f7faff)}
+.storyVisualGlow{position:absolute;width:330px;height:330px;border-radius:50%;background:radial-gradient(circle,#7d6aff38,transparent 67%);filter:blur(2px);animation:storyFloat 5s ease-in-out infinite}
+.storyVisualIcon{position:relative;width:116px;height:116px;border-radius:32px;display:grid;place-items:center;color:#fff;background:linear-gradient(145deg,#7257ff,#4c8fe8);box-shadow:0 25px 55px rgba(85,67,190,.25);transform:rotate(-5deg);animation:storyFloat 5s ease-in-out infinite}
+.storyVisualIcon:after{content:"";position:absolute;inset:-12px;border:1px solid #7257ff25;border-radius:38px;transform:rotate(10deg)}
+.storyVisualLabel{position:absolute;left:32px;bottom:28px;padding:7px 10px;border-radius:999px;background:#ffffffd9;border:1px solid #e5e0ef;color:#625a76;font-size:8px;font-weight:800;letter-spacing:.08em}
+.storyContent{padding:42px 48px;display:flex;flex-direction:column;justify-content:center}
+.storyContent blockquote{font:650 clamp(24px,3vw,39px)/1.18 Manrope;letter-spacing:-1.2px;color:#27243a;max-width:730px;margin:10px 0 30px}
+.storyMeta{display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.storyMeta b,.storyMeta small{display:block}
+.storyMeta b{font-size:10px;color:#353047}
+.storyMeta small{font-size:8px;color:#858092;margin-top:4px}
+.storyOutcome{display:inline-flex;align-items:center;gap:7px;margin-left:auto;padding:9px 11px;border-radius:9px;background:#eefaf6;color:#36836c;font-size:8px;font-weight:750}
+.storyOutcome svg{color:#47a988}
+.storyShowcase.story-interiors .storyBusinessVisual{background:linear-gradient(145deg,#f4edff,#fff7fb)}
+.storyShowcase.story-interiors .storyVisualIcon{background:linear-gradient(145deg,#9c5eea,#e57ab4)}
+.storyShowcase.story-services .storyBusinessVisual{background:linear-gradient(145deg,#e9f7ff,#f4f3ff)}
+.storyShowcase.story-services .storyVisualIcon{background:linear-gradient(145deg,#3e8fe8,#5d5de4)}
+.storyShowcase.story-hospitality .storyBusinessVisual{background:linear-gradient(145deg,#fff1e6,#fff8e8)}
+.storyShowcase.story-hospitality .storyVisualIcon{background:linear-gradient(145deg,#e9784e,#c95bc5)}
+.storySelector{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin-top:12px}
+.storySelector button{appearance:none;border:1px solid #e5e1ec;border-radius:12px;background:#fff;padding:10px 12px;display:flex;align-items:center;gap:9px;text-align:left;cursor:pointer;color:#514c61;transition:transform .2s,border-color .2s,box-shadow .2s,background .2s}
+.storySelector button:hover{transform:translateY(-2px);border-color:#b9aff0}
+.storySelector button.active{border-color:#8e7df0;background:#f8f6ff;box-shadow:0 8px 25px rgba(90,72,180,.08)}
+.selectorIcon{width:30px;height:30px;border-radius:8px;display:grid;place-items:center;background:#eeeaff;color:#6653dd;flex:none}
+.selector-interiors{background:#faeafa;color:#a65cc4}.selector-services{background:#e9f4ff;color:#4382c8}.selector-hospitality{background:#fff0e8;color:#d76c48}
+.storySelector b,.storySelector small{display:block}
+.storySelector b{font-size:9px}.storySelector small{font-size:7px;color:#8b8697;margin-top:3px}
+@keyframes storyFloat{0%,100%{transform:translateY(0) rotate(-5deg)}50%{transform:translateY(-7px) rotate(-2deg)}}
+
+/* On-demand contact: never occupies the homepage until requested */
+.footerContactButton{border:0;background:transparent;padding:0;font:inherit;color:#656670;cursor:pointer}
+.footerContactButton:hover{color:#6654e8}
+.contactModalBackdrop{position:fixed;inset:0;z-index:5000;display:grid;place-items:center;padding:22px;background:rgba(35,29,55,.25);backdrop-filter:blur(10px);animation:modalFade .18s ease}
+.contactModal{position:relative;width:min(760px,100%);max-height:min(88vh,780px);overflow:auto;padding:30px;border:1px solid #e2ddef;border-radius:24px;background:linear-gradient(145deg,#fff,#f7f5ff);box-shadow:0 35px 100px rgba(34,27,74,.2);animation:modalRise .22s ease;color:#25213a}
+.contactModalClose{position:absolute;right:17px;top:17px;width:36px;height:36px;border:1px solid #e2deeb;border-radius:10px;background:#fff;color:#777187;display:grid;place-items:center;cursor:pointer;z-index:2}
+.contactModalKicker{display:flex;align-items:center;gap:8px;color:#6755d9;font-size:8px;font-weight:800;letter-spacing:.14em}
+.contactModalKicker>span{width:7px;height:7px;border-radius:50%;background:#7359ef;box-shadow:0 0 0 5px #7359ef12}
+.contactModalHead{display:grid;grid-template-columns:1fr 205px;gap:24px;align-items:end;margin-top:14px}
+.contactModal h3{font:650 clamp(30px,4vw,43px)/1.05 Manrope;letter-spacing:-1.8px;margin:0 0 10px}
+.contactModal h3 i{font-style:normal;background:linear-gradient(100deg,#6852dc,#42b9d5);background-clip:text;-webkit-background-clip:text;color:transparent}
+.contactModalHead p{font-size:11px;line-height:1.7;color:#777286;max-width:510px;margin:0}
+.contactModalSignal{padding:13px;border:1px solid #e2dcfa;border-radius:12px;background:#f7f4ff;color:#6654dd}
+.contactModalSignal svg{margin-bottom:7px}.contactModalSignal span,.contactModalSignal small{display:block}.contactModalSignal span{font-size:9px;font-weight:800}.contactModalSignal small{font-size:7px;color:#858095;line-height:1.5;margin-top:4px}
+.contactModalGrid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:22px}
+.contactModalGrid>a,.contactModalGrid>button{min-width:0;display:grid;grid-template-columns:32px 1fr;grid-template-rows:auto auto;column-gap:8px;align-items:center;text-align:left;padding:11px;border:1px solid #e4e0ed;border-radius:11px;background:#fff;color:#28243a;cursor:pointer;font:inherit;transition:transform .2s,border-color .2s,box-shadow .2s}
+.contactModalGrid>a:hover,.contactModalGrid>button:hover{transform:translateY(-2px);border-color:#a69ae7;box-shadow:0 12px 28px rgba(80,62,160,.09)}
+.contactModalGrid span{grid-row:span 2;width:32px;height:32px;border-radius:9px;display:grid;place-items:center;background:#eeebff;color:#6854dd}
+.contactModalGrid b{font-size:9px;white-space:nowrap}.contactModalGrid small{font-size:7px;color:#858093;line-height:1.35;margin-top:2px}.contactModalGrid svg:not(span svg){grid-column:2;color:#8b849c;display:none}
+.contactModalRule{display:flex;align-items:center;gap:12px;margin:22px 0 14px;color:#918b9f;font-size:7px;font-weight:800;letter-spacing:.14em}
+.contactModalRule:before,.contactModalRule:after{content:"";height:1px;background:#e7e2ef;flex:1}
+.contactModalForm{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.contactModalForm>div{display:flex;flex-direction:column;gap:5px}
+.contactModalForm label{font-size:8px;font-weight:750;color:#5f5a70}
+.contactModalForm input,.contactModalForm select,.contactModalForm textarea{width:100%;box-sizing:border-box;border:1px solid #dfdbe8;border-radius:9px;background:#fff;color:#29263a;padding:11px 12px;font:500 10px Manrope;outline:none}
+.contactModalForm textarea{resize:vertical}.contactModalForm input::placeholder,.contactModalForm textarea::placeholder{color:#aaa5b3}
+.contactModalForm input:focus,.contactModalForm select:focus,.contactModalForm textarea:focus{border-color:#8b7be8;box-shadow:0 0 0 3px #7257ff12}
+.modalFieldFull{grid-column:1/-1}
+.contactModalForm .contactSubmit{grid-column:1/-1;margin-top:2px}
+.contactModalTrust{display:flex;align-items:center;gap:7px;margin-top:14px;color:#7d788a;font-size:7px}.contactModalTrust svg{color:#50a983}
+.contactSuccess{padding:28px 20px;text-align:center;border:1px solid #bfe9d8;border-radius:12px;background:#f1fbf7}
+.contactSuccess>span{width:42px;height:42px;margin:0 auto 12px;display:grid;place-items:center;border-radius:50%;background:#dff6eb;color:#4ba67f}
+.contactSuccess h3{font:650 22px Manrope!important;letter-spacing:-.5px!important;color:#28243b;margin:0 0 6px!important}
+.contactSuccess p{max-width:540px;margin:0 auto 15px;color:#737080;font-size:9px;line-height:1.7}
+.contactSuccess button{border:1px solid #d6d0e8;background:#fff;color:#6557a0;border-radius:8px;padding:9px 13px;font:600 9px Manrope;cursor:pointer}
+@keyframes modalFade{from{opacity:0}to{opacity:1}}@keyframes modalRise{from{opacity:0;transform:translateY(10px) scale(.985)}to{opacity:1;transform:none}}
+@media(max-width:900px){.storyShowcase{grid-template-columns:1fr}.storyIdentity{min-height:250px}.storyContent{padding:30px}.storySelector{grid-template-columns:repeat(2,1fr)}.contactModalHead{grid-template-columns:1fr}.contactModalSignal{max-width:240px}.contactModalGrid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:620px){.auditSection{padding-top:48px!important;padding-bottom:44px!important}.trustSection{padding-top:46px!important;padding-bottom:52px!important}.testimonialSection{padding-top:54px!important}.storyShowcase{margin-top:28px;border-radius:18px}.storyIdentity{min-height:220px;padding:22px}.storyVisualIcon{width:92px;height:92px;border-radius:25px}.storyVisualLabel{left:22px;bottom:20px}.storyContent{padding:25px 22px}.storyContent blockquote{font-size:23px;letter-spacing:-.7px}.storyMeta{gap:12px}.storyOutcome{margin-left:0}.storySelector{grid-template-columns:1fr 1fr}.storySelector button{padding:9px}.contactModalBackdrop{padding:10px}.contactModal{padding:24px 17px;border-radius:19px;max-height:92vh}.contactModal h3{font-size:29px}.contactModalGrid{grid-template-columns:1fr 1fr}.contactModalForm{grid-template-columns:1fr}.modalFieldFull{grid-column:auto}.contactModalForm .contactSubmit{grid-column:auto}.contactModalTrust{line-height:1.5;align-items:flex-start}}
