@@ -43,3 +43,24 @@ alter table growth_audits enable row level security;
 alter table growth_actions enable row level security;
 
 -- Production RLS policies should be added after authentication is connected.
+
+
+create table if not exists enquiries (
+  id uuid primary key default gen_random_uuid(),
+  name text not null,
+  business_name text not null,
+  phone text not null,
+  email text,
+  need text not null,
+  question text not null,
+  source text not null default 'vistaar-biz-website',
+  status text not null default 'new',
+  created_at timestamptz not null default now()
+);
+
+create index if not exists enquiries_status_idx on enquiries(status, created_at desc);
+
+alter table enquiries enable row level security;
+
+-- Enquiries are written only by the server-side API using the service role.
+-- Do not expose a public INSERT policy for this table.
