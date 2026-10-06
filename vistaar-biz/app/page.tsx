@@ -12,7 +12,7 @@ const services=[
 const questions=[{q:"How easy is it for a new customer to find your business online?",a:["Very easy","Somewhat easy","Difficult","I'm not sure"]},{q:"How consistently do you collect and respond to customer reviews?",a:["Consistently","Sometimes","Rarely","I'm not sure"]},{q:"Can a potential customer enquire or book in just a few steps?",a:["Yes, very easily","It takes some effort","It's difficult","I'm not sure"]},{q:"Do you regularly publish fresh, useful business content?",a:["Every week","A few times a month","Rarely","I'm not sure"]}];
 export default function Home(){
  const [answers,setAnswers]=useState<number[]>([]); const [step,setStep]=useState(0); const [showResult,setShowResult]=useState(false); const [mobileOpen,setMobileOpen]=useState(false);
- const score=answers.reduce((s,a)=>s+[0,1,2,1][a]??s,0); const readiness=Math.max(32,Math.min(92,88-answers.reduce((s,a)=>s+[0,8,15,7][a],0)));
+ const readiness=Math.max(32,Math.min(92,88-answers.reduce((s,a)=>s+[0,8,15,7][a],0)));
  const finish=()=>{if(answers.length===questions.length)setShowResult(true)};
  return <main className="modernSite">
   <div className="topRibbon"><span className="ribbonPulse"/> A smarter growth system for ambitious businesses <span className="ribbonDivider"/> From insight to execution <ArrowRight size={13}/></div>
