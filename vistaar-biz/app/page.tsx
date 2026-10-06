@@ -135,7 +135,16 @@ export default function Home(){
       <div className="storyIdentity">
         <div className="storyBusinessVisual">
           <div className="storyVisualGlow"/>
-          <div className="storyVisualIcon"><Sparkles size={34}/></div>
+          <div className="storyJourneyTop"><span><i/> VISTAAR AI</span><small>GROWTH JOURNEY · LIVE</small></div>
+          <div className="storyJourneyCanvas">
+            <div className="storyJourneyGrid"/>
+            <div className="storyJourneyPath"><i/><i/><i/><i/></div>
+            <div className="storyJourneyNode storyNodeStart"><span>01</span><b>{["DISCOVER","DISCOVER","SEARCH","LISTINGS"][testimonial]}</b><small>{["Product discovery","Local discovery","Patient intent","Property intent"][testimonial]}</small></div>
+            <div className="storyJourneyNode storyNodeAI"><span className="storyAINode"><Sparkles size={19}/></span><b>VISTAAR AI</b><small>{["Finds the friction","Reads local signals","Maps conversion","Qualifies intent"][testimonial]}</small></div>
+            <div className="storyJourneyNode storyNodeMove"><span>02</span><b>{["PRIORITY","NEXT MOVE","APPOINTMENT","ENQUIRY"][testimonial]}</b><small>{["Gallery + CTA","Offer + visit path","Clear next step","Shorter lead path"][testimonial]}</small></div>
+            <div className="storyJourneyOutcome"><TrendingUp size={13}/><span>{["+18% signal","+31% local intent","+22% appointment intent","+27% lead quality"][testimonial]}</span><small>OUTCOME SIGNAL</small></div>
+            <div className="storyJourneyPills"><span>{["Gallery","Reviews","Treatment","Listings"][testimonial]}</span><span>{["WhatsApp","Directions","Book now","Callback"][testimonial]}</span></div>
+          </div>
           <span className="storyVisualLabel">{testimonials[testimonial].location}</span>
         </div>
       </div>
