@@ -622,3 +622,71 @@ body{background:#f7f7fb;color:#17172b}
 .tone-lavender{--tone:#7662ef;--tone-bg:#efedff}
 @media(max-width:980px){.serviceGrid{grid-template-columns:repeat(2,minmax(0,1fr))}.serviceDetailPanel{gap:22px}}
 @media(max-width:620px){.serviceGrid{grid-template-columns:1fr}.serviceCard{min-height:320px}.serviceDetailPanel{grid-template-columns:1fr;padding:22px;gap:20px}.serviceDetailIntro h3{font-size:24px}.serviceDetailActions{gap:8px}}
+
+
+/* Vistaar-Biz premium interaction layer */
+.modernSite{--vb-accent:#9ef1ff;--vb-violet:#7257ff;--vb-deep:#11101b;--vb-soft:#f5f2ff}
+.scrollProgress{position:fixed;left:0;top:0;width:var(--vb-scroll,0%);height:2px;background:linear-gradient(90deg,#7257ff,#9ef1ff);z-index:100;box-shadow:0 0 12px #7257ff55;pointer-events:none}
+.ambientCursor{position:fixed;inset:0;pointer-events:none;z-index:1;background:radial-gradient(520px circle at var(--mx,50%) var(--my,20%),rgba(114,87,255,.055),transparent 55%)}
+.newHero{background:linear-gradient(180deg,#fbfaf8 0%,#f8f7fc 100%)}
+.heroAtmosphere{background:radial-gradient(ellipse at 53% 43%,#e7e0ff 0%,#f2efff 27%,#fbfaf8 70%)}
+.heroLeft h1 span{background:linear-gradient(100deg,#7156ff 5%,#a65df4 55%,#5ecfe9 100%);background-clip:text;-webkit-background-clip:text;color:transparent}
+.heroLeft h1 span:after{background:#9ef1ff;opacity:.72}
+.microIcon,.productSpark,.floatViolet{box-shadow:0 8px 22px rgba(114,87,255,.12)}
+.ctaBlack,.navPrimary{background:linear-gradient(120deg,#17151f,#29243f)}
+.ctaBlack:hover,.navPrimary:hover{background:linear-gradient(120deg,#7257ff,#5943d9)}
+.modernNav{transition:box-shadow .3s,background .3s}
+.modernNav:hover{box-shadow:0 8px 35px rgba(30,25,55,.06)}
+.navLinks a{position:relative;padding:8px 0}
+.navLinks a:after{content:"";position:absolute;left:0;right:100%;bottom:2px;height:1px;background:#7257ff;transition:right .25s}
+.navLinks a:hover:after{right:0}
+.heroProduct{box-shadow:0 35px 100px rgba(42,29,91,.16),0 5px 16px rgba(42,29,91,.06)}
+.heroProduct:before{content:"";position:absolute;inset:-1px;border-radius:14px;padding:1px;background:linear-gradient(135deg,#7257ff44,#9ef1ff00 45%,#7257ff22);-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none}
+.proofRail{box-shadow:inset 0 1px 0 #fff,0 10px 35px rgba(30,25,55,.03)}
+.proofItem{padding:9px 13px;border-radius:10px}
+.proofItem:hover{background:#f4f1ff;box-shadow:0 10px 25px rgba(64,48,130,.08)}
+.signalSection{max-width:1500px;margin:auto;padding:92px 7% 105px;background:#fbfaf8}
+.signalHeader{display:grid;grid-template-columns:1fr .5fr;gap:10%;align-items:end}
+.signalHeader h2{font:600 clamp(38px,4.3vw,58px)/1.05 Manrope;letter-spacing:-3px;margin:22px 0 0}
+.signalHeader h2 span{background:linear-gradient(100deg,#7257ff,#55cde5);background-clip:text;-webkit-background-clip:text;color:transparent}
+.signalHeader>p{font-size:13px;line-height:1.85;color:#73727d;margin:0 0 4px}
+.signalGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:46px}
+.signalGrid article{position:relative;min-height:190px;padding:25px;border:1px solid #e4e2ea;border-radius:16px;background:linear-gradient(145deg,#fff,#faf9ff);display:flex;flex-direction:column;justify-content:space-between;overflow:hidden;transition:transform .4s cubic-bezier(.2,.8,.2,1),box-shadow .4s,border-color .3s}
+.signalGrid article:before{content:"";position:absolute;inset:auto -35px -70px auto;width:170px;height:170px;border-radius:50%;background:radial-gradient(circle,#8c77ff25,transparent 67%);transition:transform .5s,opacity .4s}
+.signalGrid article:hover{transform:translateY(-8px);border-color:#c9c0ff;box-shadow:0 25px 60px rgba(45,31,100,.11)}
+.signalGrid article:hover:before{transform:translate(-25px,-25px) scale(1.15)}
+.signalIndex{font:700 10px Manrope;color:#8b7bff;letter-spacing:.08em}
+.signalGrid article b{font:750 17px Manrope;letter-spacing:-.4px}
+.signalGrid article p{font-size:11px;line-height:1.75;color:#777681;max-width:330px;margin:8px 0 0}
+.signalArrow{position:absolute;right:22px;top:22px;width:31px;height:31px;border-radius:50%;display:grid;place-items:center;border:1px solid #e4e0f1;color:#7257ff;transition:transform .3s,background .3s,color .3s}
+.signalGrid article:hover .signalArrow{transform:translate(3px,-3px);background:#7257ff;color:#fff}
+.sectionShell,.signalSection,.approachSection,.auditSection,.trustSection,.audienceSection,.contactSection{opacity:0;transform:translateY(28px);transition:opacity .75s ease,transform .85s cubic-bezier(.2,.8,.2,1)}
+.is-visible{opacity:1!important;transform:none!important}
+.serviceCard{cursor:default}
+.serviceCard:after{content:"";position:absolute;inset:0;border-radius:inherit;background:linear-gradient(120deg,transparent 25%,rgba(255,255,255,.72) 45%,transparent 65%);transform:translateX(-130%);transition:transform .8s;pointer-events:none;z-index:3}
+.serviceCard:hover:after{transform:translateX(130%)}
+.serviceCardSelected{border-color:#bdb0ff!important;box-shadow:0 28px 65px rgba(68,47,150,.15)!important}
+.serviceDetailPanel{position:relative;overflow:hidden}
+.serviceDetailPanel:before{content:"";position:absolute;width:280px;height:280px;right:-120px;top:-150px;border-radius:50%;background:radial-gradient(circle,#7257ff1c,transparent 68%);pointer-events:none}
+.approachSection{background:radial-gradient(circle at 78% 45%,#302652 0%,transparent 36%),#11101b}
+.approachStep{position:relative}
+.approachStep:hover .stepCopy h3{color:#fff}
+.approachStep:hover .stepNo{color:#9ef1ff}
+.auditWidget{transition:transform .4s,box-shadow .4s}
+.auditWidget:hover{transform:translateY(-5px);box-shadow:0 42px 100px rgba(52,34,110,.14)}
+.answerOption{transition:transform .2s,border-color .2s,background .2s,box-shadow .2s}
+.answerOption:hover{transform:translateX(4px)}
+.trustCard{position:relative;overflow:hidden}
+.trustCard:after{content:"";position:absolute;left:0;right:0;top:0;height:2px;background:linear-gradient(90deg,#7257ff,#9ef1ff);transform:scaleX(0);transform-origin:left;transition:transform .35s}
+.trustCard:hover:after{transform:scaleX(1)}
+.audienceItem{transition:transform .3s,box-shadow .3s,border-color .3s}
+.audienceItem:hover{transform:translateY(-5px)}
+.contactSection{position:relative}
+.contactPrimary{box-shadow:0 15px 35px rgba(114,87,255,.2)}
+.modernFooter a{transition:color .2s,transform .2s}
+.modernFooter a:hover{transform:translateY(-1px)}
+@keyframes riseIn{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}
+@keyframes ribbonPulse{0%,100%{box-shadow:0 0 0 4px rgba(158,241,255,.12)}50%{box-shadow:0 0 0 7px rgba(158,241,255,.03)}}
+@media(max-width:980px){.signalHeader{grid-template-columns:1fr}.signalHeader>p{max-width:520px;margin-top:20px}.signalGrid{grid-template-columns:1fr 1fr}.navRight .navTextLink{display:none}}
+@media(max-width:700px){.signalSection{padding:72px 6%}.signalGrid{grid-template-columns:1fr}.signalGrid article{min-height:165px}.newHero{padding-top:65px}.heroLeft h1{letter-spacing:-3.4px}.proofRail{overflow:auto;justify-content:flex-start}.proofItem{flex:0 0 auto}.ambientCursor{display:none}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}.sectionShell,.signalSection,.approachSection,.auditSection,.trustSection,.audienceSection,.contactSection{opacity:1;transform:none}}
