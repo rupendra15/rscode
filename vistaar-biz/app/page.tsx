@@ -71,7 +71,7 @@ export default function Home(){
           {label:"Execute",sub:"Make it usable",icon:WandSparkles,metric:"3 work outputs"},
           {label:"Improve",sub:"Learn from outcomes",icon:TrendingUp,metric:"+24% stronger signal"}
         ].map((s,i)=>{const Icon=s.icon;return <button type="button" role="tab" aria-selected={aiDemo===i} key={s.label} className={"aiV5Stage "+(aiDemo===i?"active":"")} onClick={()=>setAiDemo(i)}>
-          <span className="aiV5StageNo">0{i+1}</span><span className={"aiV5StageIcon stageIcon-"+i}><Icon size={18}/></span><span className="aiV5StageWords"><b>{s.label}</b><small>{s.sub}</small><em>{s.metric}</em></span><span className={"aiV5StageArt stageArt-"+i} aria-hidden="true"><i/><i/><i/><i/></span><ArrowUpRight size={14}/><i className="aiV5StageLine"><span/></i>
+          <span className={"aiV5StageIcon stageIcon-"+i}><Icon size={18}/></span><span className="aiV5StageWords"><b>{s.label}</b><small>{s.sub}</small><em>{s.metric}</em></span><span className={"aiV5StageArt stageArt-"+i} aria-hidden="true"><i/><i/><i/><i/></span><ArrowUpRight size={14}/><i className="aiV5StageLine"><span/></i>
         </button>})}
       </div>
 
