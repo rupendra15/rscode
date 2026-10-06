@@ -43,7 +43,7 @@ test.describe("Vistaar-Biz smoke and UX QA", () => {
 
       await page.screenshot({
         path: "qa-report/screenshots/" + route.name + "-" + test.info().project.name + ".png",
-        fullPage: true
+        fullPage: test.info().project.name !== "mobile"
       });
     });
   }
@@ -58,7 +58,7 @@ test.describe("Vistaar-Biz smoke and UX QA", () => {
     const service = page.locator("#platform .serviceCard").first();
     await service.getByRole("button", { name: /Explore this service/i }).click();
     await expect(page.getByText(/HOW VISTAAR-BIZ HELPS/i)).toBeVisible();
-    await page.getByRole("button", { name: /Close details/i }).click();
+    await page.getByRole("button", { name: /Close details/i }).filter({ has: page.locator("svg") }).last().click();
 
     await page.getByRole("button", { name: /Let's talk/i }).click();
     await expect(page.getByRole("dialog", { name: /Talk to Vistaar-Biz/i })).toBeVisible();
