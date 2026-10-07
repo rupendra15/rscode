@@ -6,6 +6,7 @@ const nav=[["Overview",LayoutDashboard,"#overview"],["Growth audit",ScanSearch,"
 
 
 type AuditData = any;
+const asArray=(value:any):any[]=>{if(Array.isArray(value))return value;if(typeof value==="string"){try{const parsed=JSON.parse(value);return Array.isArray(parsed)?parsed:[]}catch{return []}}if(value&&typeof value==="object"&&Array.isArray(value.value))return value.value;return []};
 export default function Dashboard(){const [live,setLive]=useState<AuditData|null>(null);
 const [loading,setLoading]=useState(true); const [accessDenied,setAccessDenied]=useState(false); const [readinessSubmissions,setReadinessSubmissions]=useState<any[]>([]); const [enquiries,setEnquiries]=useState<any[]>([]); const [role,setRole]=useState<"admin"|"manager"|null>(null); const [outreachStatus,setOutreachStatus]=useState("contacted"); const [outreachNotes,setOutreachNotes]=useState(""); const [outreachSending,setOutreachSending]=useState(false);
 const [error,setError]=useState("");
