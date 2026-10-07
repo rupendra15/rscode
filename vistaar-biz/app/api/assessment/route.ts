@@ -55,6 +55,8 @@ export async function POST(request: Request) {
       otherLinks:record.other_links||undefined
     };
 
+    // Evidence collection happens before the diagnosis so every score has an
+    // explicit business context + evidence basis.
     const site = await scanWebsite(profile.website);
     const siteSignals = site ? {
       website:site.url, reachable:site.reachable, https:site.https, title:site.title,
@@ -78,9 +80,28 @@ export async function POST(request: Request) {
 
     if(url && key){
       const headers={apikey:key,Authorization:"Bearer "+key,"Content-Type":"application/json"};
+      const representationHeaders={...headers,Prefer:"return=representation"};
 
+      // 1. Save the user's source-of-truth assessment first. This prevents
+      // orphan businesses/audits if the original submission cannot be stored.
+      const assessmentResponse=await fetch(url+"/rest/v1/growth_assessments",{
+        method:"POST",
+        headers:representationHeaders,
+        body:JSON.stringify({...record,status:"analyzed"}),
+        cache:"no-store"
+      });
+      if(assessmentResponse.ok){
+        const rows=await assessmentResponse.json();
+        assessmentId=rows?.[0]?.id??null;
+      } else {
+        const detail=await assessmentResponse.text().catch(()=>"");
+        return NextResponse.json({ok:false,error:"We couldn't save your assessment. Please try again.",detail:detail.slice(0,300)},{status:502});
+      }
+
+      // 2. Create the persistent business workspace from that assessment.
       const businessResponse=await fetch(url+"/rest/v1/businesses",{
-        method:"POST",headers:{...headers,Prefer:"return=representation"},
+        method:"POST",
+        headers:representationHeaders,
         body:JSON.stringify({
           name:record.business_name,
           industry:record.industry,
@@ -97,9 +118,11 @@ export async function POST(request: Request) {
         businessId=businesses?.[0]?.id??null;
       }
 
+      // 3. Persist the evidence-based diagnosis.
       if(businessId){
         const auditResponse=await fetch(url+"/rest/v1/growth_audits",{
-          method:"POST",headers:{...headers,Prefer:"return=representation"},
+          method:"POST",
+          headers:representationHeaders,
           body:JSON.stringify({
             business_id:businessId,
             overall_score:audit.overall,
@@ -114,33 +137,21 @@ export async function POST(request: Request) {
         }
       }
 
-      const assessmentResponse=await fetch(url+"/rest/v1/growth_assessments",{
-        method:"POST",
-        headers:{...headers,Prefer:"return=representation"},
-        body:JSON.stringify({...record,status:"analyzed"}),
-        cache:"no-store"
-      });
-      if(assessmentResponse.ok){
-        const rows=await assessmentResponse.json();
-        assessmentId=rows?.[0]?.id??null;
-      }
-
-      // The relation columns are additive schema support. Older databases can still
-      // recover the workspace by assessment id, so a failed relation patch must not
-      // invalidate a successful assessment.
-      if(assessmentId && (businessId||auditId)){
+      // 4. Link the source assessment to its workspace and diagnosis.
+      if(assessmentId){
         await fetch(url+"/rest/v1/growth_assessments?id=eq."+encodeURIComponent(assessmentId),{
           method:"PATCH",
           headers,
-          body:JSON.stringify({business_id:businessId,audit_id:auditId}),
+          body:JSON.stringify({business_id:businessId,audit_id:auditId,status:businessId&&auditId?"analyzed":"submitted"}),
           cache:"no-store"
         }).catch(()=>{});
       }
 
+      // 5. Turn diagnosis into executable, persisted actions.
       if(businessId && auditId && audit.opportunities.length){
         await fetch(url+"/rest/v1/growth_actions",{
           method:"POST",
-          headers:{...headers,Prefer:"return=representation"},
+          headers:representationHeaders,
           body:JSON.stringify(audit.opportunities.map(o=>({
             business_id:businessId,
             audit_id:auditId,
