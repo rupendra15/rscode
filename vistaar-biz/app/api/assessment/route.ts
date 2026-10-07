@@ -2,10 +2,12 @@ import { NextResponse } from "next/server";
 import { runGrowthAudit, type BusinessProfile } from "../../../lib/audit";
 import { scanWebsite } from "../../../lib/site-scanner";
 import { scanLocalPresence } from "../../../lib/local-scanner";
+import { getAuthContext } from "../../../lib/auth";
 
 export async function POST(request: Request) {
   try {
     const body = await request.json();
+    const auth = await getAuthContext();
     const required = ["businessName","industry","city","serviceArea","idealCustomer","offerings","differentiator","goal","target","constraint","channels","challenge"];
     if (required.some((key) => !String(body[key] ?? "").trim())) {
       return NextResponse.json({ ok:false, error:"Please complete the required assessment fields." }, { status:400 });
@@ -78,6 +80,7 @@ export async function POST(request: Request) {
     let businessId:string|null=null;
     let auditId:string|null=null;
     let persistedEvidence:any[]=[];
+    let assessmentVersion=1;
 
     if(url && key){
       const headers={apikey:key,Authorization:"Bearer "+key,"Content-Type":"application/json"};
@@ -88,7 +91,7 @@ export async function POST(request: Request) {
       const assessmentResponse=await fetch(url+"/rest/v1/growth_assessments",{
         method:"POST",
         headers:representationHeaders,
-        body:JSON.stringify({...record,status:"analyzed"}),
+        body:JSON.stringify({...record,status:"analyzed",owner_user_id:auth?.userId||null,version:1}),
         cache:"no-store"
       });
       if(assessmentResponse.ok){
@@ -99,24 +102,54 @@ export async function POST(request: Request) {
         return NextResponse.json({ok:false,error:"We couldn't save your assessment. Please try again.",detail:detail.slice(0,300)},{status:502});
       }
 
-      // 2. Create the persistent business workspace from that assessment.
-      const businessResponse=await fetch(url+"/rest/v1/businesses",{
-        method:"POST",
-        headers:representationHeaders,
-        body:JSON.stringify({
-          name:record.business_name,
-          industry:record.industry,
-          city:record.city,
-          goal:record.goal,
-          website:record.website||null,
-          workspace_stage:"diagnosed",
-          last_activity_at:new Date().toISOString()
-        }),
-        cache:"no-store"
-      });
-      if(businessResponse.ok){
-        const businesses=await businessResponse.json();
-        businessId=businesses?.[0]?.id??null;
+      // 2. Reuse the owner's persistent business workspace when this is a
+      // follow-up assessment. Each submission remains a versioned assessment.
+      if(auth?.userId){
+        const existingResponse=await fetch(url+"/rest/v1/businesses?select=*&owner_user_id=eq."+encodeURIComponent(auth.userId)+"&name=eq."+encodeURIComponent(record.business_name)+"&order=created_at.asc&limit=1",{
+          headers,
+          cache:"no-store"
+        });
+        if(existingResponse.ok){
+          const existing=await existingResponse.json();
+          businessId=existing?.[0]?.id??null;
+        }
+        if(businessId){
+          const versionResponse=await fetch(url+"/rest/v1/growth_assessments?select=version&business_id=eq."+encodeURIComponent(businessId)+"&order=version.desc&limit=1",{headers,cache:"no-store"});
+          if(versionResponse.ok){
+            const versions=await versionResponse.json();
+            assessmentVersion=Number(versions?.[0]?.version||0)+1;
+          }
+        }
+      }
+      if(!businessId){
+        const businessResponse=await fetch(url+"/rest/v1/businesses",{
+          method:"POST",
+          headers:representationHeaders,
+          body:JSON.stringify({
+            owner_user_id:auth?.userId||null,
+            owner_email:auth?.email||null,
+            name:record.business_name,
+            industry:record.industry,
+            city:record.city,
+            goal:record.goal,
+            website:record.website||null,
+            workspace_stage:"diagnosed",
+            last_activity_at:new Date().toISOString()
+          }),
+          cache:"no-store"
+        });
+        if(businessResponse.ok){
+          const businesses=await businessResponse.json();
+          businessId=businesses?.[0]?.id??null;
+        }
+      }
+      if(assessmentId){
+        await fetch(url+"/rest/v1/growth_assessments?id=eq."+encodeURIComponent(assessmentId),{
+          method:"PATCH",
+          headers,
+          body:JSON.stringify({version:assessmentVersion,business_id:businessId}),
+          cache:"no-store"
+        }).catch(()=>{});
       }
 
       // 3. Persist the evidence-based diagnosis.
@@ -143,7 +176,7 @@ export async function POST(request: Request) {
         await fetch(url+"/rest/v1/growth_assessments?id=eq."+encodeURIComponent(assessmentId),{
           method:"PATCH",
           headers,
-          body:JSON.stringify({business_id:businessId,audit_id:auditId,status:businessId&&auditId?"analyzed":"submitted"}),
+          body:JSON.stringify({business_id:businessId,audit_id:auditId,status:businessId&&auditId?"analyzed":"submitted",version:assessmentVersion,owner_user_id:auth?.userId||null}),
           cache:"no-store"
         }).catch(()=>{});
       }
