@@ -23,16 +23,16 @@ useEffect(()=>{
       const raw=localStorage.getItem("vistaar_biz_audit");
       const saved=raw?JSON.parse(raw):null;
       
-      const initialAssessmentId=new URLSearchParams(window.location.search).get("assessmentId")||saved?.assessmentId||null;
+      const params=new URLSearchParams(window.location.search); const initialAssessmentId=params.get("assessmentId")||saved?.assessmentId||null; const initialBusinessId=params.get("businessId")||saved?.businessId||null;
 
       const [listResponse,readinessResponse,enquiriesResponse]=await Promise.all([fetch("/api/workspace?list=1",{cache:"no-store"}),fetch("/api/readiness",{cache:"no-store"}),fetch("/api/enquiries",{cache:"no-store"})]);
       if(readinessResponse.ok){const rd=await readinessResponse.json();setReadinessSubmissions(rd.submissions||[]);}
       if(enquiriesResponse.ok){const eq=await enquiriesResponse.json();setEnquiries(eq.enquiries||[]);}
       if(listResponse.ok){
         const listData=await listResponse.json();
-        const available=listData.workspaces||[];
+        const available=(listData.workspaces||[]).map((w:any)=>({...w, businessId:w.businessId||w.business_id||w.id, assessmentId:w.assessmentId||w.assessment_id, createdAt:w.createdAt||w.created_at}));
         setWorkspaces(available);
-        const selected=available.find((w:any)=>w.assessmentId===initialAssessmentId)||available[0];
+        const selected=available.find((w:any)=>w.assessmentId===initialAssessmentId)||available.find((w:any)=>w.businessId===initialBusinessId)||available[0];
         if(selected){
           setSelectedAssessmentId(selected.assessmentId);
           const response=await fetch("/api/workspace?assessmentId="+encodeURIComponent(selected.assessmentId),{cache:"no-store"});
