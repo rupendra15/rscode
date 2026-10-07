@@ -19,5 +19,8 @@ export async function POST(request:Request){
     if(!response.ok) return NextResponse.json({ok:false,error:"Specialist request could not be created."},{status:502});
     const rows=await response.json();
     return NextResponse.json({ok:true,request:rows?.[0]||null});
-  }catch{return NextResponse.json({ok:false,error:"Unable to create specialist request."},{status:500});}
+  }catch(e){
+    const message=e instanceof Error?e.message:"";
+    if(message==="UNAUTHENTICATED") return NextResponse.json({ok:false,error:"Please sign in."},{status:401});
+    if(message==="FORBIDDEN") return NextResponse.json({ok:false,error:"This operation is available only to Vistaar admin and manager accounts."},{status:403});return NextResponse.json({ok:false,error:"Unable to create specialist request."},{status:500});}
 }
