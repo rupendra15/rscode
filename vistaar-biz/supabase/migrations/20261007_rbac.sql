@@ -1,3 +1,16 @@
+drop policy if exists "users can read their own role" on user_roles;
+drop policy if exists "users can read businesses they belong to" on businesses;
+drop policy if exists "users can read their assessments" on growth_assessments;
+drop policy if exists "workspace members can read workspace members" on workspace_members;
+drop policy if exists "workspace participants can read audits" on growth_audits;
+drop policy if exists "workspace participants can read actions" on growth_actions;
+drop policy if exists "workspace participants can read leads" on growth_leads;
+drop policy if exists "workspace participants can read measurements" on growth_measurements;
+drop policy if exists "workspace participants can read specialist requests" on specialist_requests;
+drop policy if exists "workspace participants can read evidence" on growth_evidence;
+drop policy if exists "operators can read enquiries" on enquiries;
+drop policy if exists "operators can read outreach" on manager_outreach;
+
 -- Vistaar role-based access control.
 create table if not exists user_roles (
   user_id uuid primary key references auth.users(id) on delete cascade,
