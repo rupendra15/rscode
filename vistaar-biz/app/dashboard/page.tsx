@@ -61,24 +61,33 @@ useEffect(()=>{
         return;
       }
 
-      // Only fall back to a business/latest workspace when there is no
-      // assessment-specific URL.
-      const selected=available.find((w:any)=>w.businessId===initialBusinessId)||available[0];
-      if(selected?.assessmentId){
-        setSelectedAssessmentId(selected.assessmentId);
-        const response=await fetch("/api/workspace?assessmentId="+encodeURIComponent(selected.assessmentId),{cache:"no-store"});
+      // If there is no assessment-specific URL, prefer the saved business workspace.
+      // Quick onboarding intentionally creates an audit without a detailed assessment,
+      // so businessId must remain a valid workspace entry point.
+      const selected=available.find((w:any)=>w.businessId===initialBusinessId)
+        || (initialBusinessId?{businessId:initialBusinessId,assessmentId:null}:null)
+        || available[0];
+      if(selected?.businessId){
+        const endpoint=selected.assessmentId
+          ? "/api/workspace?assessmentId="+encodeURIComponent(selected.assessmentId)
+          : "/api/workspace?businessId="+encodeURIComponent(selected.businessId);
+        setSelectedAssessmentId(selected.assessmentId||null);
+        const response=await fetch(endpoint,{cache:"no-store"});
         const data=await response.json().catch(()=>null);
-        if(response.ok&&data?.business?.id&&data?.audit&&data.assessmentId===selected.assessmentId){
-          const workspace={profile:data.profile||{businessName:data.business.name,industry:data.business.industry,city:data.business.city,goal:data.business.goal,website:data.business.website},audit:data.audit,actions:data.actions||[],leads:data.leads||[],measurements:data.measurements||[],specialists:data.specialists||[],evidence:data.evidence||[],assessment:data.assessment||null,businessId:data.business.id,auditId:data.auditId,assessmentId:data.assessmentId,auditCreatedAt:data.auditCreatedAt,businessStage:data.business?.workspace_stage||"diagnosed"};
+        const matchesAssessment=!selected.assessmentId || data?.assessmentId===selected.assessmentId;
+        if(response.ok&&data?.business?.id&&data?.audit&&matchesAssessment){
+          const workspace={profile:data.profile||{businessName:data.business.name,industry:data.business.industry,city:data.business.city,goal:data.business.goal,website:data.business.website},audit:data.audit,actions:data.actions||[],leads:data.leads||[],measurements:data.measurements||[],specialists:data.specialists||[],evidence:data.evidence||[],assessment:data.assessment||null,businessId:data.business.id,auditId:data.auditId,assessmentId:data.assessmentId||null,auditCreatedAt:data.auditCreatedAt,businessStage:data.business?.workspace_stage||"diagnosed"};
           setLive(workspace);
           localStorage.setItem("vistaar_biz_audit",JSON.stringify(workspace));
           localStorage.setItem("vistaar_growth_assessment",JSON.stringify(data.assessment||{}));
-          window.history.replaceState({}, "", "/dashboard?assessmentId="+encodeURIComponent(selected.assessmentId));
+          window.history.replaceState({}, "", selected.assessmentId
+            ? "/dashboard?assessmentId="+encodeURIComponent(selected.assessmentId)
+            : "/dashboard?businessId="+encodeURIComponent(selected.businessId));
         }else setError(data?.error||"Selected workspace could not be loaded.");
       }else{
         setLive(null);
         setSelectedAssessmentId(null);
-        setError("No submitted business assessment is available yet.");
+        setError("No submitted business workspace is available yet.");
       }
     }catch(e){setError(e instanceof Error?e.message:"Workspace could not be loaded.");}
     finally{setLoading(false);}
@@ -119,7 +128,10 @@ useEffect(()=>{
       const response=await fetch("/api/audit",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({...live.profile,assessmentId:live.assessmentId})});
       const body=await response.json().catch(()=>null);
       if(!response.ok)throw new Error(body?.error||"Vistaar could not re-run the diagnosis.");
-      const refreshed=await fetch("/api/workspace?assessmentId="+encodeURIComponent(live.assessmentId),{cache:"no-store"});
+      const endpoint=live.assessmentId
+        ? "/api/workspace?assessmentId="+encodeURIComponent(live.assessmentId)
+        : "/api/workspace?businessId="+encodeURIComponent(live.businessId);
+      const refreshed=await fetch(endpoint,{cache:"no-store"});
       const data=await refreshed.json();
       if(!refreshed.ok||!data?.audit)throw new Error(data?.error||"The updated diagnosis could not be loaded.");
       const workspace={profile:data.profile||live.profile,audit:data.audit,actions:data.actions||[],leads:data.leads||[],measurements:data.measurements||[],specialists:data.specialists||[],evidence:data.evidence||[],assessment:data.assessment||null,businessId:data.business?.id||live.businessId,auditId:data.auditId,assessmentId:data.assessmentId||live.assessmentId,auditCreatedAt:data.auditCreatedAt,businessStage:data.business?.workspace_stage||"diagnosed"};
