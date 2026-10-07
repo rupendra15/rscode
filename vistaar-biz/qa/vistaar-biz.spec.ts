@@ -147,6 +147,51 @@ test.describe("Vistaar-Biz smoke and UX QA", () => {
     await expect(page).not.toHaveTitle(/error/i);
   });
 
+  test("assessment-specific URLs keep their reports isolated", async ({ page }) => {
+    const makeWorkspace = (assessmentId: string, auditId: string, score: number) => ({
+      ok: true,
+      business: { id: "urban-business", name: "Urban Grill", industry: "Restaurant", city: "Rewa", goal: "More qualified enquiries", workspace_stage: "diagnosed" },
+      profile: { businessName: "Urban Grill", industry: "Restaurant", city: "Rewa", goal: "More qualified enquiries" },
+      audit: { overall: score, maturity: "Growing", summary: "Assessment-specific report", nextMove: "Improve local discovery", metrics: [], opportunities: [], reasoning: [] },
+      actions: [], leads: [], measurements: [], specialists: [], evidence: [],
+      assessment: { id: assessmentId, version: assessmentId === "assessment-v2" ? 2 : 1 },
+      businessId: "urban-business", auditId, assessmentId, auditCreatedAt: new Date().toISOString()
+    });
+
+    await page.route("**/api/auth/me", route =>
+      route.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify({ ok:true, authenticated:true, user:{ id:"qa-admin", email:"qa@vistaar-biz.test", role:"admin" } }) })
+    );
+    await page.route("**/api/workspace?list=1", route =>
+      route.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify({
+        ok:true,
+        workspaces: [
+          { business_id:"urban-business", name:"Urban Grill", industry:"Restaurant", city:"Rewa", assessment_id:"assessment-v2", assessment_version:2, assessment_created_at:new Date().toISOString() },
+          { business_id:"urban-business", name:"Urban Grill", industry:"Restaurant", city:"Rewa", assessment_id:"assessment-v1", assessment_version:1, assessment_created_at:new Date().toISOString() }
+        ]
+      }) })
+    );
+    await page.route("**/api/readiness", route =>
+      route.fulfill({ status:200, contentType:"application/json", body:JSON.stringify({ok:true,submissions:[]}) })
+    );
+    await page.route("**/api/enquiries", route =>
+      route.fulfill({ status:200, contentType:"application/json", body:JSON.stringify({ok:true,enquiries:[]}) })
+    );
+    await page.route("**/api/workspace?assessmentId=assessment-v2", route =>
+      route.fulfill({ status:200, contentType:"application/json", body:JSON.stringify(makeWorkspace("assessment-v2","audit-v2",82)) })
+    );
+    await page.route("**/api/workspace?assessmentId=assessment-v1", route =>
+      route.fulfill({ status:200, contentType:"application/json", body:JSON.stringify(makeWorkspace("assessment-v1","audit-v1",61)) })
+    );
+
+    await page.goto("/dashboard?assessmentId=assessment-v1", { waitUntil:"networkidle" });
+    await expect(page.getByText("61")).toBeVisible();
+    await expect(page.locator("body")).toContainText("assessment-v1");
+
+    await page.goto("/dashboard?assessmentId=assessment-v2", { waitUntil:"networkidle" });
+    await expect(page.getByText("82")).toBeVisible();
+    await expect(page.locator("body")).toContainText("assessment-v2");
+  });
+
   test("onboarding and dashboard render", async ({ page }) => {
     await page.route("**/api/auth/me", async route => route.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify({ ok:true, authenticated:true, user:{ id:"qa-manager", email:"qa@vistaar-biz.test", role:"manager" } }) }));
     await page.route("**/api/workspace?list=1", async route => route.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify({ ok:true, workspaces:[] }) }));
