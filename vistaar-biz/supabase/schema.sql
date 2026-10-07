@@ -64,3 +64,7 @@ alter table enquiries enable row level security;
 
 -- Enquiries are written only by the server-side API using the service role.
 -- Do not expose a public INSERT policy for this table.
+
+create table if not exists growth_assessments (id uuid primary key default gen_random_uuid(), business_name text not null, industry text not null, city text not null, service_area text not null, ideal_customer text not null, offerings text not null, differentiator text not null, goal text not null, target text not null, constraint text not null, channels text not null, monthly_leads text, conversion text, website text, google text, instagram text, other_links text, challenge text not null, notes text, status text not null default 'new', created_at timestamptz not null default now());
+create index if not exists growth_assessments_created_idx on growth_assessments(created_at desc);
+alter table growth_assessments enable row level security;
