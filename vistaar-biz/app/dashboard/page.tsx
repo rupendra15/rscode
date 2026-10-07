@@ -94,7 +94,7 @@ useEffect(()=>{
     if(!live?.profile||reanalyzing)return;
     setReanalyzing(true);setError("");
     try{
-      const response=await fetch("/api/audit",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(live.profile)});
+      const response=await fetch("/api/audit",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({...live.profile,assessmentId:live.assessmentId})});
       const body=await response.json().catch(()=>null);
       if(!response.ok)throw new Error(body?.error||"Vistaar could not re-run the diagnosis.");
       const refreshed=await fetch("/api/workspace?assessmentId="+encodeURIComponent(live.assessmentId),{cache:"no-store"});
