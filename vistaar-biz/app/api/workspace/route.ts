@@ -78,7 +78,7 @@ export async function GET(request:Request){
         if(!resolvedBusinessId){
           const businessResponse=await fetch(url+"/rest/v1/businesses",{
             method:"POST",
-            headers:headers(key),
+            headers:{...headers(key),Prefer:"return=representation"},
             body:JSON.stringify({
               name:profile.businessName,
               industry:profile.industry,
@@ -99,7 +99,7 @@ export async function GET(request:Request){
         if(resolvedBusinessId){
           const auditResponse=await fetch(url+"/rest/v1/growth_audits",{
             method:"POST",
-            headers:headers(key),
+            headers:{...headers(key),Prefer:"return=representation"},
             body:JSON.stringify({
               business_id:resolvedBusinessId,
               overall_score:audit.overall,
@@ -127,7 +127,7 @@ export async function GET(request:Request){
         if(resolvedBusinessId && auditId && audit.opportunities.length){
           const actionsResponse=await fetch(url+"/rest/v1/growth_actions",{
             method:"POST",
-            headers:headers(key),
+            headers:{...headers(key),Prefer:"return=representation"},
             body:JSON.stringify(audit.opportunities.map(o=>({
               business_id:resolvedBusinessId,
               audit_id:auditId,
