@@ -149,6 +149,7 @@ export async function POST(request: Request) {
 
       // 4b. Persist the evidence ledger separately from the diagnosis.
       // This lets the workspace explain not only what Vistaar decided, but why.
+      let persistedEvidence:any[]=[];
       if(businessId){
         const evidence:any[]=[
           ["assessment","business_context","Business identity",record.business_name,"high"],
@@ -195,6 +196,7 @@ export async function POST(request: Request) {
           }))),
           cache:"no-store"
         });
+        if(evidenceResponse.ok) persistedEvidence=await evidenceResponse.json().catch(()=>[]);
         if(!evidenceResponse.ok){
           // Evidence persistence is additive. Do not invalidate an otherwise valid
           // assessment if an older Supabase project has not applied the migration yet.
@@ -232,6 +234,7 @@ export async function POST(request: Request) {
       auditId,
       profile,
       audit,
+      evidence:persistedEvidence,
       assessment:record
     });
   } catch {
