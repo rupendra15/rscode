@@ -28,6 +28,8 @@ export type GoogleAuditSignals = {
   phoneCalls:number;
   directionRequests:number;
   signals:string[];
+  googleUrlSupplied?:boolean;
+  googleProfileDetected?:boolean;
 };
 
 export type LocalAuditSignals = {
@@ -174,58 +176,116 @@ export function runGrowthAudit(
 
   const ranked=[...metrics].sort((a,b)=>a.score-b.score);
   const templateFor=(metricKey:string)=>{
+    const business=profile.businessName;
+    const city=profile.city;
+    const customer=profile.idealCustomer||"the ideal customer";
+    const offerText=profile.offerings||"the core offer";
+    const targetText=profile.target||"the stated 3–6 month target";
+    const currentChannels=profile.channels||"the current acquisition channels";
+    const localGoogleSupplied=Boolean(local?.googleUrlSupplied||profile.google);
+    const localVerified=Boolean(local?.found&&local?.matchedName);
+    const reviewContext=google?.rating!=null
+      ? `The available Google data shows ${google.rating}/5 from ${google.reviewCount??0} reviews.`
+      : site?.hasReviews
+        ? "The website contains review/testimonial language, but no verified Google review count was available."
+        : "No strong review proof was verified in the available evidence.";
+
     if(metricKey==="discoverability") return {
-      title:"Strengthen local discovery",
-      reason:local?.found
-        ?"Your business is visible in the local evidence, but there is still room to make the listing, local relevance and high-intent discovery path stronger."
-        :"Vistaar could not verify enough local discovery evidence yet, so improving your search and local presence is the clearest visibility opportunity.",
-      mode:"AI" as const,
+      title:localGoogleSupplied&&!localVerified
+        ?"Verify and strengthen the Google Business Profile"
+        :"Build stronger local discovery for "+business,
+      reason:localGoogleSupplied&&!localVerified
+        ?`You supplied a Google Business/Maps link, but Vistaar could not independently match the business through its public directory scan. That is a verification limitation—not proof that the Google listing does not exist. For ${business} in ${city}, the first job is to verify the exact profile identity and make the profile, website and service area consistent.`
+        :localVerified
+          ?`The business has an independently matched local signal. The next opportunity is to improve the information and search paths that turn local discovery into visits, calls or enquiries for ${business}.`
+          :`Vistaar does not have a verified local listing signal yet. For ${business} in ${city}, local discovery should be established before spending more effort on broad marketing.`,
+      mode:"Expert" as const,
       specialist:"Local SEO & Google Business",
-      steps:["Audit local listing accuracy and category","Identify highest-intent local search gaps","Create a focused local optimisation brief","Track local discovery and enquiry signals"],
-      deliverable:"A prioritised local growth brief with concrete fixes.",
-      measurement:"Changes in local discovery, calls, directions and qualified enquiries."
+      steps:localGoogleSupplied&&!localVerified
+        ?[
+          "Open the supplied Google Business Profile and confirm the business name, primary category, address/service area, phone and website exactly match the real business.",
+          "Check that the profile is verified and that the website URL points to the same business/location.",
+          "Complete the profile with accurate hours, services/menu, photos and relevant attributes; remove outdated or duplicate information.",
+          "Create a review-request process for real customers and reply to new reviews consistently.",
+          "Track Google Search/Maps searches, profile views, website clicks, calls and direction requests each month."
+        ]
+        :[
+          `Map the highest-intent searches customers in ${city} use for ${offerText}.`,
+          "Align Google Business Profile, website title/content, category and service-area information around those searches.",
+          "Create or improve dedicated pages/content for the highest-value services and locations.",
+          "Build a repeatable review, photo and Google update/post process.",
+          "Track discovery actions and qualified enquiries rather than impressions alone."
+        ],
+      deliverable:"A Google/local search optimisation brief with exact profile, website and content changes.",
+      measurement:"Google profile searches/views, website clicks, calls, directions and qualified enquiries."
     };
+
     if(metricKey==="trust-reputation") return {
-      title:"Upgrade trust and proof",
-      reason:"The current evidence and the business context you supplied suggest that stronger proof, reviews, differentiation and customer-facing evidence could reduce decision friction.",
+      title:google?.rating!=null
+        ?`Turn ${google.reviewCount??0} Google reviews into stronger buying proof`
+        :"Build a repeatable review and proof system",
+      reason:`${reviewContext} For ${customer}, Vistaar should turn proof into visible decision support instead of simply asking for more marketing activity.`,
       mode:"Expert" as const,
       specialist:"Reviews, content & brand proof",
-      steps:["Review existing proof and trust signals","Identify missing proof for the ideal customer","Create a proof/review improvement brief","Track trust and enquiry response"],
-      deliverable:"A proof and reputation improvement plan.",
-      measurement:"Review quality, trust interactions and qualified enquiry conversion."
+      steps:[
+        `Audit the current proof against what ${customer} needs before choosing ${offerText}.`,
+        "Identify the 3 strongest proof themes: customer outcome, quality/experience and differentiation.",
+        "Create a review-request workflow triggered after a successful customer interaction; never incentivise or fabricate reviews.",
+        "Add the strongest verified reviews, outcomes, FAQs and proof points to the highest-intent website page.",
+        "Track review growth, response rate, engagement with proof and qualified enquiries."
+      ],
+      deliverable:"A trust/proof improvement brief plus review-request workflow and website proof structure.",
+      measurement:"Review count/rating, review response coverage, proof engagement and qualified enquiry conversion."
     };
+
     if(metricKey==="content-visuals") return {
-      title:"Clarify the offer for your ideal customer",
-      reason:audience&&offer
-        ?"Your audience and offer are defined, but the scanned presence should make that value obvious before asking someone to enquire."
-        :"The assessment does not yet provide enough strong content evidence to show why the right customer should choose you.",
+      title:"Make the offer immediately clear to the right customer",
+      reason:`The assessment says the ideal customer is ${customer} and the offer is ${offerText}. The website scan found ${site?.wordCount??0} words and ${site?.imageCount??0} images, so the priority is not 'create more content'—it is to make the most important customer decision obvious.`,
       mode:"Expert" as const,
       specialist:"Content, design & web",
-      steps:["Map the offer to the ideal customer's decision","Identify the clearest value proposition","Create the required page/content brief","Track engagement and enquiry actions"],
-      deliverable:"An offer clarity and content execution brief.",
-      measurement:"Engagement on priority content and resulting enquiries."
+      steps:[
+        `Rewrite the first screen of the primary landing page around ${customer}: what you provide, for whom, why it is different and what to do next.`,
+        `Turn ${offerText} into clear service/product sections with benefits, proof, FAQs and one primary CTA.`,
+        "Replace generic visuals with real business/product/location/customer proof where available.",
+        "Add local and service-specific wording naturally where it helps the customer understand relevance.",
+        "Compare engagement and enquiry actions before and after the changes."
+      ],
+      deliverable:"A page-level content and visual execution brief with copy sections, proof requirements and CTA placement.",
+      measurement:"CTA clicks, contact actions, engaged sessions and qualified enquiries."
     };
+
     if(metricKey==="conversion") return {
-      title:"Remove enquiry friction",
-      reason:constraint
-        ?"Your stated constraint makes a shorter, clearer path from intent to enquiry especially important."
-        :"The available conversion evidence does not yet show a strong, obvious path from customer intent to enquiry.",
-      mode:"DIY" as const,
+      title:"Create one obvious path from interest to enquiry",
+      reason:`Your stated goal is ${profile.goal}. The conversion layer should therefore be designed around the action that represents success—not around adding more pages or generic CTAs. Current target: ${targetText}.`,
+      mode:"Expert" as const,
       specialist:"Conversion & landing pages",
-      steps:["Map the current enquiry journey","Remove unnecessary steps","Define one primary conversion action","Track clicks, calls, WhatsApp or forms"],
-      deliverable:"A simplified conversion path and implementation brief.",
-      measurement:"Conversion actions and qualified enquiry rate."
+      steps:[
+        `Choose the single primary conversion action for ${business}: call, WhatsApp, booking, enquiry form or another real customer action.`,
+        "Place that action above the fold and repeat it at the decision points where customers need it.",
+        "Remove unnecessary fields/steps and make the response expectation clear (what happens after enquiry and how quickly).",
+        `Build a simple conversion event around ${targetText} so every channel can be compared.`,
+        "Review conversion rate weekly and diagnose where interested visitors drop before enquiry."
+      ],
+      deliverable:"A concrete enquiry-flow map and implementation checklist for the primary conversion path.",
+      measurement:"CTA clicks, calls/WhatsApp/form submissions, qualified enquiries and enquiry-to-customer rate."
     };
+
     return {
-      title:"Build a measurable lead path",
-      reason:profile.monthlyLeads||profile.conversion
-        ?"Your assessment includes lead/conversion context, so the next step should connect acquisition activity to measurable qualified enquiries rather than just more activity."
-        :"The available evidence does not yet show a strong connection between attention and trackable enquiries.",
+      title:profile.monthlyLeads||profile.conversion
+        ?`Turn ${currentChannels} into a measurable qualified-lead system`
+        :"Build a measurable qualified-lead system",
+      reason:`The business currently reports ${profile.monthlyLeads||"no confirmed monthly enquiry baseline"} qualified enquiries/month and an enquiry-to-customer rate of ${profile.conversion||"not yet measured"}. Vistaar should first establish attribution and lead quality before recommending more acquisition spend.`,
       mode:"AI" as const,
       specialist:"Lead generation & CRM",
-      steps:["Define the qualified lead event","Map acquisition sources to that event","Create the minimum tracking path","Review lead quality and follow-up performance"],
-      deliverable:"A measurable lead-generation and tracking plan.",
-      measurement:"Qualified enquiries, conversion rate and attributed outcomes."
+      steps:[
+        "Define exactly what counts as a qualified enquiry and what counts as a sale.",
+        `Tag every enquiry by source: ${currentChannels} plus website, Google, Instagram and any other active channel.`,
+        "Create a simple lead-status flow: New → Contacted → Qualified → Won/Lost, with a reason for lost leads.",
+        "Measure source-level qualified leads, conversion rate and revenue/value where available.",
+        "Only increase activity or budget on channels that produce acceptable qualified-lead economics."
+      ],
+      deliverable:"A lead-source tracking plan, qualification definition and lightweight pipeline structure.",
+      measurement:"Qualified leads by source, response time, conversion rate, cost/value per qualified lead and sales."
     };
   };
 
