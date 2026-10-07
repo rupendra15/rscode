@@ -66,6 +66,9 @@ export type AuditResult = {
     reason:string;
     mode:"AI"|"DIY"|"Expert";
     specialist:string;
+    steps:string[];
+    deliverable:string;
+    measurement:string;
   }[];
   nextMove:string;
   summary:string;
@@ -177,13 +180,19 @@ export function runGrowthAudit(
         ?"Your business is visible in the local evidence, but there is still room to make the listing, local relevance and high-intent discovery path stronger."
         :"Vistaar could not verify enough local discovery evidence yet, so improving your search and local presence is the clearest visibility opportunity.",
       mode:"AI" as const,
-      specialist:"Local SEO & Google Business"
+      specialist:"Local SEO & Google Business",
+      steps:["Audit local listing accuracy and category","Identify highest-intent local search gaps","Create a focused local optimisation brief","Track local discovery and enquiry signals"],
+      deliverable:"A prioritised local growth brief with concrete fixes.",
+      measurement:"Changes in local discovery, calls, directions and qualified enquiries."
     };
     if(metricKey==="trust-reputation") return {
       title:"Upgrade trust and proof",
       reason:"The current evidence and the business context you supplied suggest that stronger proof, reviews, differentiation and customer-facing evidence could reduce decision friction.",
       mode:"Expert" as const,
-      specialist:"Reviews, content & brand proof"
+      specialist:"Reviews, content & brand proof",
+      steps:["Review existing proof and trust signals","Identify missing proof for the ideal customer","Create a proof/review improvement brief","Track trust and enquiry response"],
+      deliverable:"A proof and reputation improvement plan.",
+      measurement:"Review quality, trust interactions and qualified enquiry conversion."
     };
     if(metricKey==="content-visuals") return {
       title:"Clarify the offer for your ideal customer",
@@ -191,7 +200,10 @@ export function runGrowthAudit(
         ?"Your audience and offer are defined, but the scanned presence should make that value obvious before asking someone to enquire."
         :"The assessment does not yet provide enough strong content evidence to show why the right customer should choose you.",
       mode:"Expert" as const,
-      specialist:"Content, design & web"
+      specialist:"Content, design & web",
+      steps:["Map the offer to the ideal customer's decision","Identify the clearest value proposition","Create the required page/content brief","Track engagement and enquiry actions"],
+      deliverable:"An offer clarity and content execution brief.",
+      measurement:"Engagement on priority content and resulting enquiries."
     };
     if(metricKey==="conversion") return {
       title:"Remove enquiry friction",
@@ -199,7 +211,10 @@ export function runGrowthAudit(
         ?"Your stated constraint makes a shorter, clearer path from intent to enquiry especially important."
         :"The available conversion evidence does not yet show a strong, obvious path from customer intent to enquiry.",
       mode:"DIY" as const,
-      specialist:"Conversion & landing pages"
+      specialist:"Conversion & landing pages",
+      steps:["Map the current enquiry journey","Remove unnecessary steps","Define one primary conversion action","Track clicks, calls, WhatsApp or forms"],
+      deliverable:"A simplified conversion path and implementation brief.",
+      measurement:"Conversion actions and qualified enquiry rate."
     };
     return {
       title:"Build a measurable lead path",
@@ -207,7 +222,10 @@ export function runGrowthAudit(
         ?"Your assessment includes lead/conversion context, so the next step should connect acquisition activity to measurable qualified enquiries rather than just more activity."
         :"The available evidence does not yet show a strong connection between attention and trackable enquiries.",
       mode:"AI" as const,
-      specialist:"Lead generation & CRM"
+      specialist:"Lead generation & CRM",
+      steps:["Define the qualified lead event","Map acquisition sources to that event","Create the minimum tracking path","Review lead quality and follow-up performance"],
+      deliverable:"A measurable lead-generation and tracking plan.",
+      measurement:"Qualified enquiries, conversion rate and attributed outcomes."
     };
   };
 
@@ -220,7 +238,10 @@ export function runGrowthAudit(
       effort:(i===0?"Low":i===1?"Medium":"High") as "Low"|"Medium"|"High",
       reason:t.reason,
       mode:t.mode,
-      specialist:t.specialist
+      specialist:t.specialist,
+      steps:t.steps,
+      deliverable:t.deliverable,
+      measurement:t.measurement
     };
   });
 
