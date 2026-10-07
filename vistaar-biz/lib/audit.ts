@@ -258,6 +258,13 @@ export function runGrowthAudit(
   if(profile.instagram)dataSources.push("Instagram supplied");
   if(profile.otherLinks)dataSources.push("Other digital links supplied");
 
+  const digitalContext=[
+    profile.website?"Website supplied: "+profile.website:"",
+    profile.google?"Google Business Profile supplied: "+profile.google:"",
+    profile.instagram?"Instagram supplied: "+profile.instagram:"",
+    profile.otherLinks?"Other digital links supplied: "+profile.otherLinks:""
+  ].filter(Boolean).join(" · ");
+
   const diagnosticBasis=[
     "Business: "+profile.businessName+" · "+profile.industry+" · "+profile.city+(profile.serviceArea?" · serves "+profile.serviceArea:""),
     profile.idealCustomer?"Ideal customer: "+profile.idealCustomer: "Ideal customer: not supplied",
@@ -284,12 +291,6 @@ export function runGrowthAudit(
     "Decision: "+nextMove+" is first because "+ranked[0].reason.toLowerCase()
   ];
 
-  const digitalContext=[
-    profile.website?"Website supplied: "+profile.website:"",
-    profile.google?"Google Business Profile supplied: "+profile.google:"",
-    profile.instagram?"Instagram supplied: "+profile.instagram:"",
-    profile.otherLinks?"Other digital links supplied: "+profile.otherLinks:""
-  ].filter(Boolean).join(" · ");
   const contextHint=[target,challenge,constraint,channels,audience,offer,differentiator,profile.notes,digitalContext].filter(Boolean).join(" ");
   const summary=profile.businessName+" has a "+maturity.toLowerCase()+" foundation based on the business context and evidence currently available. "+(contextHint
     ?"The diagnosis also incorporates the specific goals, constraints and customer context you supplied. "
