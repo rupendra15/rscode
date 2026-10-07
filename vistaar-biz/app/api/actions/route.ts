@@ -43,7 +43,10 @@ export async function PATCH(request:Request){
       }).catch(()=>{});
     }
     return NextResponse.json({ok:true,action});
-  }catch{
+  }catch(e){
+    const message=e instanceof Error?e.message:"";
+    if(message==="UNAUTHENTICATED") return NextResponse.json({ok:false,error:"Please sign in."},{status:401});
+    if(message==="FORBIDDEN") return NextResponse.json({ok:false,error:"This operation is available only to Vistaar admin and manager accounts."},{status:403});
     return NextResponse.json({ok:false,error:"Unable to update the growth action."},{status:500});
   }
 }
