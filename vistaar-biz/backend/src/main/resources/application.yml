@@ -26,3 +26,4 @@ app:
     allowed-origins: ${CORS_ALLOWED_ORIGINS:http://localhost:3000}
   session:
     days: ${SESSION_DAYS:30}
+    secure: ${SESSION_COOKIE_SECURE:false}
