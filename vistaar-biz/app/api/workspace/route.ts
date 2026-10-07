@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { runGrowthAudit, type BusinessProfile } from "../../../lib/audit";
 import { scanWebsite } from "../../../lib/site-scanner";
 import { scanLocalPresence } from "../../../lib/local-scanner";
+import { requireRole } from "../../../lib/auth";
 
 const headers=(key:string)=>({apikey:key,Authorization:"Bearer "+key,"Content-Type":"application/json"});
 const profileFromAssessment=(a:any):BusinessProfile=>({
@@ -46,6 +47,11 @@ export async function GET(request:Request){
   const params=new URL(request.url).searchParams;
   const businessId=params.get("businessId");
   const assessmentId=params.get("assessmentId");
+  let auth;
+  try { auth=await requireRole(["admin","manager"]); } catch(e) {
+    const message=e instanceof Error?e.message:"UNAUTHENTICATED";
+    return NextResponse.json({ok:false,error:message==="FORBIDDEN"?"Dashboard access is limited to Vistaar admin and manager accounts.":"Please sign in to access the Vistaar dashboard."},{status:message==="FORBIDDEN"?403:401});
+  }
   const url=process.env.NEXT_PUBLIC_SUPABASE_URL, key=process.env.SUPABASE_SERVICE_ROLE_KEY;
   if(!url||!key){
     if(params.get("list")==="1") return NextResponse.json({ok:true,workspaces:[]});
