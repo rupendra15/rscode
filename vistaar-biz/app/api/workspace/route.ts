@@ -73,15 +73,85 @@ export async function GET(request:Request){
 
       if(!persistedAudit){
         const audit=await buildFreshAudit(profile);
+        // Recovering an older assessment must create the same persistent workspace
+        // as a fresh submission. Never leave the dashboard backed by transient data.
+        if(!resolvedBusinessId){
+          const businessResponse=await fetch(url+"/rest/v1/businesses",{
+            method:"POST",
+            headers:headers(key),
+            body:JSON.stringify({
+              name:profile.businessName,
+              industry:profile.industry,
+              city:profile.city,
+              goal:profile.goal,
+              website:profile.website||null,
+              workspace_stage:"diagnosed",
+              last_activity_at:new Date().toISOString()
+            }),
+            cache:"no-store"
+          });
+          if(businessResponse.ok){
+            const businesses=await businessResponse.json();
+            resolvedBusinessId=businesses?.[0]?.id||null;
+          }
+        }
+
+        if(resolvedBusinessId){
+          const auditResponse=await fetch(url+"/rest/v1/growth_audits",{
+            method:"POST",
+            headers:headers(key),
+            body:JSON.stringify({
+              business_id:resolvedBusinessId,
+              overall_score:audit.overall,
+              maturity:audit.maturity,
+              result:audit
+            }),
+            cache:"no-store"
+          });
+          if(auditResponse.ok){
+            const audits=await auditResponse.json();
+            auditId=audits?.[0]?.id||null;
+          }
+        }
+
+        if(assessmentId && (resolvedBusinessId||auditId)){
+          await fetch(url+"/rest/v1/growth_assessments?id=eq."+encodeURIComponent(assessmentId),{
+            method:"PATCH",
+            headers:headers(key),
+            body:JSON.stringify({business_id:resolvedBusinessId,audit_id:auditId,status:"analyzed"}),
+            cache:"no-store"
+          }).catch(()=>{});
+        }
+
+        let actions:any[]=[];
+        if(resolvedBusinessId && auditId && audit.opportunities.length){
+          const actionsResponse=await fetch(url+"/rest/v1/growth_actions",{
+            method:"POST",
+            headers:headers(key),
+            body:JSON.stringify(audit.opportunities.map(o=>({
+              business_id:resolvedBusinessId,
+              audit_id:auditId,
+              title:o.title,
+              area:o.area,
+              impact:o.impact,
+              effort:o.effort,
+              mode:o.mode,
+              status:"recommended"
+            }))),
+            cache:"no-store"
+          });
+          if(actionsResponse.ok) actions=await actionsResponse.json();
+        }
+
         return NextResponse.json({
           ok:true,
-          business:{id:resolvedBusinessId,name:profile.businessName,industry:profile.industry,city:profile.city,goal:profile.goal,website:profile.website},
+          business:{id:resolvedBusinessId,name:profile.businessName,industry:profile.industry,city:profile.city,goal:profile.goal,website:profile.website,workspace_stage:"diagnosed"},
           profile,
           audit,
-          auditId:null,
+          auditId,
           assessmentId,
           assessment:a,
-          actions:[]
+          actions
         });
       }
 
