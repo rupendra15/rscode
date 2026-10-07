@@ -19,17 +19,17 @@ export async function POST(request:Request){
     let businessId:string|null=null, auditId:string|null=null;
     if(url&&key){
       const headers={apikey:key,Authorization:"Bearer "+key,"Content-Type":"application/json"};
-      const businessResponse=await fetch(url+"/rest/v1/businesses",{method:"POST",headers,body:JSON.stringify({name:profile.businessName,industry:profile.industry,city:profile.city,goal:profile.goal,website:profile.website||null}),cache:"no-store"});
+      const businessResponse=await fetch(url+"/rest/v1/businesses",{method:"POST",headers:{...headers,Prefer:"return=representation"},body:JSON.stringify({name:profile.businessName,industry:profile.industry,city:profile.city,goal:profile.goal,website:profile.website||null}),cache:"no-store"});
       if(businessResponse.ok){
         const rows=await businessResponse.json(); businessId=rows?.[0]?.id??null;
       }
       if(businessId){
-        const auditResponse=await fetch(url+"/rest/v1/growth_audits",{method:"POST",headers,body:JSON.stringify({business_id:businessId,overall_score:audit.overall,maturity:audit.maturity,result:audit}),cache:"no-store"});
+        const auditResponse=await fetch(url+"/rest/v1/growth_audits",{method:"POST",headers:{...headers,Prefer:"return=representation"},body:JSON.stringify({business_id:businessId,overall_score:audit.overall,maturity:audit.maturity,result:audit}),cache:"no-store"});
         if(auditResponse.ok){
           const rows=await auditResponse.json(); auditId=rows?.[0]?.id??null;
         }
         if(audit.opportunities.length){
-          await fetch(url+"/rest/v1/growth_actions",{method:"POST",headers,body:JSON.stringify(audit.opportunities.map(o=>({business_id:businessId,audit_id:auditId,title:o.title,area:o.area,impact:o.impact,effort:o.effort,mode:o.mode,status:"recommended"}))),cache:"no-store"});
+          await fetch(url+"/rest/v1/growth_actions",{method:"POST",headers:{...headers,Prefer:"return=representation"},body:JSON.stringify(audit.opportunities.map(o=>({business_id:businessId,audit_id:auditId,title:o.title,area:o.area,impact:o.impact,effort:o.effort,mode:o.mode,status:"recommended"}))),cache:"no-store"});
         }
       }
     }
