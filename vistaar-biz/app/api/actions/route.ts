@@ -1,9 +1,11 @@
 import { NextResponse } from "next/server";
+import { requireRole } from "../../../../lib/auth";
 
 const allowed=["recommended","planned","in_progress","blocked","done","dismissed"];
 
 export async function PATCH(request:Request){
   try{
+    await requireRole(["admin","manager"]);
     const body=await request.json();
     const id=String(body.id||"").trim();
     const status=String(body.status||"").trim();
