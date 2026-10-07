@@ -220,7 +220,7 @@ export async function GET(request:Request){
 
     if(!businessId) return NextResponse.json({ok:false,error:"businessId or assessmentId is required."},{status:400});
 
-    const [businessRes,auditRes,actionsRes,leadsRes,measurementsRes,specialistsRes]=await Promise.all([
+    const [businessRes,auditRes,actionsRes,leadsRes,measurementsRes,specialistsRes,evidenceRes]=await Promise.all([
       fetch(url+"/rest/v1/businesses?select=*&id=eq."+encodeURIComponent(businessId)+"&limit=1",{headers:headers(key),cache:"no-store"}),
       fetch(url+"/rest/v1/growth_audits?select=*&business_id=eq."+encodeURIComponent(businessId)+"&order=created_at.desc&limit=1",{headers:headers(key),cache:"no-store"}),
       fetch(url+"/rest/v1/growth_actions?select=*&business_id=eq."+encodeURIComponent(businessId)+"&order=impact.desc,created_at.desc&limit=20",{headers:headers(key),cache:"no-store"}),
