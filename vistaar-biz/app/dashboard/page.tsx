@@ -33,7 +33,7 @@ useEffect(()=>{
     finally{setLoading(false);}
   };
   void load();
-};
+},[]);
   const updateAction=async(title:string)=>{
     const action=(live?.actions||[]).find((x:any)=>x.title===title);
     if(!action?.id||updatingAction) return;
