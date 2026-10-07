@@ -47,7 +47,10 @@ export async function GET(request:Request){
   const businessId=params.get("businessId");
   const assessmentId=params.get("assessmentId");
   const url=process.env.NEXT_PUBLIC_SUPABASE_URL, key=process.env.SUPABASE_SERVICE_ROLE_KEY;
-  if(!url||!key) return NextResponse.json({ok:false,stored:false},{status:503});
+  if(!url||!key){
+    if(params.get("list")==="1") return NextResponse.json({ok:true,workspaces:[]});
+    return NextResponse.json({ok:false,stored:false},{status:503});
+  }
 
   try{
     if(params.get("list")==="1"){
