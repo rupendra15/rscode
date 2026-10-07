@@ -36,5 +36,13 @@
   "data_quality": {
     "status": "SESSION_CLOSED"
   },
-  "open_trade": null
+  "open_trade": null,
+  "nse_live": {
+    "source": "NSE CM Market MCP",
+    "status": "error",
+    "error": "HTTP Error 400: Bad Request",
+    "retrieved_at": "2026-10-07T20:48:34Z"
+  },
+  "live_data_source": "NSE CM Market MCP",
+  "live_data_note": "NSE states CM Market Live is typically 1-3 minutes behind real-time."
 }
