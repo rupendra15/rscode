@@ -170,6 +170,8 @@ export async function signUp(email: string, password: string, name?: string) {
 
   const salt = randomBytes(16).toString("hex");
   const passwordHash = hashPassword(password, salt);
+  const adminEmails = String(process.env.VISTAAR_ADMIN_EMAILS || "").split(",").map(v => v.trim().toLowerCase()).filter(Boolean);
+  const role: VistaarRole = adminEmails.includes(cleanEmail) ? "admin" : "user";
   const { url, key } = databaseConfig();
   const response = await fetch(url + "/rest/v1/app_users", {
     method: "POST",
@@ -179,7 +181,7 @@ export async function signUp(email: string, password: string, name?: string) {
       email: cleanEmail,
       password_hash: passwordHash,
       password_salt: salt,
-      role: "user",
+      role,
       status: "active"
     }),
     cache: "no-store"
