@@ -3,7 +3,7 @@ import { runGrowthAudit, type BusinessProfile } from "../../../lib/audit";
 import { scanWebsite } from "../../../lib/site-scanner";
 import { scanLocalPresence } from "../../../lib/local-scanner";
 import { backendFetch } from "../../../lib/backend";
-import { runAiDiagnosis } from "../../../lib/ai-diagnosis";
+import { runAiDiagnosisDetailed } from "../../../lib/ai-diagnosis";
 
 export async function POST(request:Request){
   try{
@@ -16,10 +16,11 @@ export async function POST(request:Request){
     const localSignals={found:local.found,matchedName:local.matchedName,displayName:local.displayName,nearbyCount:local.nearbyCount,category:local.category,googleUrlSupplied:local.googleUrlSupplied,googleProfileDetected:local.googleProfileDetected,signals:local.signals};
     const google=body.google?{website:body.google.website||"",rating:body.google.rating??null,reviewCount:body.google.reviewCount??null,websiteClicks:Number(body.google.performance?.websiteClicks||0),phoneCalls:Number(body.google.performance?.phoneCalls||0),directionRequests:Number(body.google.performance?.directionRequests||0),signals:body.google.signals||[]}:undefined;
     const baseline=runGrowthAudit(profile,siteSignals,localSignals,google);
-    const ai=await runAiDiagnosis({profile,site:siteSignals,local:localSignals,google,baseline});
-    const audit=ai
-      ? {...baseline,...ai,engine:"ai" as const,aiModel:process.env.OPENAI_MODEL?.trim()||"gpt-6-luna"}
-      : baseline;
+    const aiResult=await runAiDiagnosisDetailed({profile,site:siteSignals,local:localSignals,google,baseline});
+    if(!aiResult.diagnosis){
+      return NextResponse.json({error:aiResult.error||"OpenAI diagnosis was not generated.",aiModel:aiResult.model||process.env.OPENAI_MODEL?.trim()||"gpt-6-luna"},{status:503});
+    }
+    const audit={...baseline,...aiResult.diagnosis,engine:"ai" as const,aiModel:aiResult.model||process.env.OPENAI_MODEL?.trim()||"gpt-6-luna"};
     const r=await backendFetch("/api/audit",{method:"POST",body:JSON.stringify({profile,audit})});
     const persisted=await r.json();
     return NextResponse.json({...persisted,generatedAt:new Date().toISOString()},{status:r.status});
