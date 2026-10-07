@@ -50,7 +50,7 @@ test.describe("Vistaar-Biz smoke and UX QA", () => {
 
   test("homepage primary interactions work", async ({ page }) => {
     await page.goto("/", { waitUntil: "networkidle" });
-    await expect(page.getByRole("heading", { name: /Good businesses/i })).toBeVisible();
+    await expect(page.getByRole("heading", { name: /You run the business\. We build the growth\./i })).toBeVisible();
 
     await page.getByRole("link", { name: /Discover your growth readiness/i }).click();
     await expect(page.locator("#audit")).toBeInViewport();
@@ -94,7 +94,7 @@ test.describe("Vistaar-Biz smoke and UX QA", () => {
         await next.click();
         await expect(audit.locator(".answerOption").first()).toBeVisible();
       } else {
-        const finish = audit.getByRole("button", { name: /View my preview/i });
+        const finish = audit.getByRole("button", { name: /See my readiness/i });
         await expect(finish).toBeEnabled();
         await finish.click();
       }
