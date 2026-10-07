@@ -106,7 +106,7 @@ export function runGrowthAudit(
       profile.website?7:0,
       site?.reachable?9:0,
       site?.hasLocalTerms?12:0,
-      local?.found?11:0,
+      local?.found?11:(local?.googleUrlSupplied?6:0),
       local?.matchedName?8:0,
       google?.websiteClicks&&google.websiteClicks>0?8:0,
       has(goal,[/lead/,/visibility/,/local/,/revenue/,/sales/])?5:0,
@@ -314,7 +314,7 @@ export function runGrowthAudit(
   if(local)dataSources.push("Local presence signal scan");
   if(google)dataSources.push("Google Business Profile");
   if(profile.website)dataSources.push("Website URL supplied");
-  if(profile.google)dataSources.push("Google Business Profile URL supplied");
+  if(profile.google)dataSources.push("Google Business Profile URL supplied (verification pending unless independently matched)");
   if(profile.instagram)dataSources.push("Instagram supplied");
   if(profile.otherLinks)dataSources.push("Other digital links supplied");
 
@@ -346,8 +346,10 @@ export function runGrowthAudit(
     site?.reachable?"Website evidence was scanned and used in the scoring.":"No reachable website evidence was available, so Vistaar avoids claiming website strengths.",
     google?.rating!=null
       ?"Google evidence: "+google.rating+"/5 with "+(google.reviewCount??0)+" reviews, "+google.websiteClicks+" website clicks, "+google.phoneCalls+" calls and "+google.directionRequests+" direction requests in the available period."
-      :local?.found?"Local presence evidence was found; the business-name match is "+(local.matchedName?"strong":"weak")+".":"Local/Google evidence is not yet verified.",
-    "Priority logic: Vistaar ranks the lowest evidence-backed growth dimensions first instead of using a fixed score.",
+      :local?.found?"Local presence evidence was found; the business-name match is "+(local.matchedName?"strong":"weak")+".":local?.googleUrlSupplied
+      ?"A Google Business/Maps link was supplied. Public listing verification is still pending, so Vistaar does not treat the link alone as proof of listing visibility."
+      :"Local/Google evidence is not yet verified.",
+    "Priority logic: Vistaar ranks the lowest evidence-backed growth dimensions first; supplied links are treated as inputs, while externally verified signals are treated as stronger evidence.",
     "Decision: "+nextMove+" is first because "+ranked[0].reason.toLowerCase()
   ];
 
