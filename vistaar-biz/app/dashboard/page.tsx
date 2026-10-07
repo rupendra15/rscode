@@ -19,9 +19,9 @@ useEffect(()=>{
       const assessment=JSON.parse(localStorage.getItem("vistaar_growth_assessment")||"null");
       const businessId=saved?.businessId||assessment?.businessId;
       const assessmentId=assessment?.id;
-      if(businessId||assessmentId){
-        const query=businessId?"businessId="+encodeURIComponent(businessId):"assessmentId="+encodeURIComponent(assessmentId);
-        const response=await fetch("/api/workspace?"+query,{cache:"no-store"});
+      {
+        const query=businessId?"businessId="+encodeURIComponent(businessId):assessmentId?"assessmentId="+encodeURIComponent(assessmentId):"";
+        const response=await fetch("/api/workspace"+(query?"?"+query:""),{cache:"no-store"});
         if(response.ok){
           const data=await response.json();
           const workspace={profile:data.profile||{businessName:data.business.name,industry:data.business.industry,city:data.business.city,goal:data.business.goal,website:data.business.website},audit:data.audit,actions:data.actions||[],leads:data.leads||[],measurements:data.measurements||[],specialists:data.specialists||[],assessment:data.assessment||null,businessId:data.business.id,auditId:data.auditId,assessmentId:data.assessmentId,auditCreatedAt:data.auditCreatedAt,businessStage:data.business?.workspace_stage||"diagnosed"};
