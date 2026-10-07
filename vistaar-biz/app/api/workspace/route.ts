@@ -229,13 +229,25 @@ export async function GET(request:Request){
     if(!businessRes.ok||!auditRes.ok) return NextResponse.json({ok:false,error:"Workspace data could not be loaded."},{status:502});
     const businesses=await businessRes.json();
     const audits=await auditRes.json();
-    const actions=actionsRes.ok?await actionsRes.json():[];
+    let actions=actionsRes.ok?await actionsRes.json():[];
     const leads=leadsRes.ok?await leadsRes.json():[];
     const measurements=measurementsRes.ok?await measurementsRes.json():[];
     const specialists=specialistsRes.ok?await specialistsRes.json():[];
     if(!businesses?.[0]||!audits?.[0]) return NextResponse.json({ok:false,error:"Workspace not found."},{status:404});
 
     const b=businesses[0], latest=audits[0];
+    if(!actions.length && latest?.result?.opportunities?.length){
+      const repairResponse=await fetch(url+"/rest/v1/growth_actions",{
+        method:"POST",
+        headers:{...headers(key),Prefer:"return=representation"},
+        body:JSON.stringify(latest.result.opportunities.map((o:any)=>({
+          business_id:b.id,audit_id:latest.id,title:o.title,area:o.area,impact:o.impact,effort:o.effort,mode:o.mode,
+          status:"recommended",steps:o.steps||[],deliverable:o.deliverable||null,measurement:o.measurement||null
+        }))),
+        cache:"no-store"
+      });
+      if(repairResponse.ok) actions=await repairResponse.json();
+    }
     let assessment:any=null;
     const assessmentRes=await fetch(url+"/rest/v1/growth_assessments?select=*&business_id=eq."+encodeURIComponent(businessId)+"&order=created_at.desc&limit=1",{headers:headers(key),cache:"no-store"});
     if(assessmentRes.ok){
