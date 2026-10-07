@@ -179,10 +179,11 @@ public class VistaarApiController {
         try {
             if("1".equals(list)) return ResponseEntity.ok(Map.of("ok",true,"workspaces",db.queryForList("""
                     select b.id as business_id,b.name,b.industry,b.city,b.goal,b.website,b.workspace_stage,b.last_activity_at,b.created_at,
-                           a.id as assessment_id,a.version as assessment_version,a.created_at as assessment_created_at
-                    from businesses b
-                    left join lateral (select id,version,created_at from growth_assessments where business_id=b.id order by version desc,created_at desc limit 1) a on true
-                    order by b.last_activity_at desc,b.created_at desc limit 500
+                           a.id as assessment_id,a.version as assessment_version,a.created_at as assessment_created_at,
+                           a.status as assessment_status
+                    from growth_assessments a
+                    join businesses b on b.id=a.business_id
+                    order by a.created_at desc limit 500
                     """)));
 
             if(isBlankUuidParam(businessId)&&isBlankUuidParam(assessmentId))return ResponseEntity.badRequest().body(Map.of("ok",false,"error","businessId or assessmentId is required."));
