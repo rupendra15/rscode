@@ -112,53 +112,52 @@ export function runGrowthAudit(
   const offer=text(profile.offerings);
   const differentiator=text(profile.differentiator);
 
+  const goalRelevant=(patterns:RegExp[])=>has(goal,patterns)?5:0;
   const evidenceSets=[
     [
-      profile.website?7:0,
-      site?.reachable?9:0,
-      site?.hasLocalTerms?12:0,
-      local?.found?11:(local?.googleUrlSupplied?6:0),
-      local?.matchedName?8:0,
-      google?.websiteClicks&&google.websiteClicks>0?8:0,
-      has(goal,[/lead/,/visibility/,/local/,/revenue/,/sales/])?5:0,
-      profile.serviceArea?3:0
+      profile.website&&site?.reachable?15:profile.website?7:0,
+      local?.found?20:local?.googleUrlSupplied?8:0,
+      local?.matchedName?10:0,
+      site?.hasLocalTerms?15:0,
+      profile.serviceArea?10:0,
+      profile.instagram?5:0,
+      goalRelevant([/local/,/visibility/,/discover/,/revenue/,/sales/])
     ],
     [
-      site?.hasReviews?14:0,
-      local?.matchedName?8:0,
-      google?.rating!=null?Math.min(18,Math.round(google.rating*3.6)):0,
-      google?.reviewCount&&google.reviewCount>10?8:google?.reviewCount?4:0,
-      profile.differentiator?5:0,
-      profile.offerings?4:0
+      google?.rating!=null?20:0,
+      google?.reviewCount&&google.reviewCount>10?10:google?.reviewCount?5:0,
+      site?.hasReviews?15:0,
+      profile.differentiator?15:0,
+      profile.offerings?10:0,
+      local?.matchedName?10:0,
+      audience?5:0
     ],
     [
-      site?.hasImages?12:0,
-      site?.imageCount&&site.imageCount>=6?8:site?.imageCount?4:0,
-      site?.wordCount&&site.wordCount>=300?10:site?.wordCount?5:0,
-      site?.hasLocalTerms?7:0,
-      profile.offerings?5:0,
-      profile.differentiator?4:0,
-      profile.idealCustomer?4:0
+      site?.reachable?10:0,
+      site?.title?10:0,
+      site?.hasImages?5:0,
+      site?.hasLocalTerms?10:0,
+      profile.offerings?15:0,
+      audience?15:0,
+      differentiator?15:0,
+      profile.instagram?5:0
     ],
     [
-      site?.hasCta?17:0,
-      site?.hasContactPath?17:0,
-      site?.reachable?7:0,
-      google?.websiteClicks&&google.websiteClicks>0?5:0,
-      google?.phoneCalls&&google.phoneCalls>0?5:0,
-      has(goal,[/lead/,/booking/,/appointment/,/sales/,/revenue/,/call/,/whatsapp/])?8:0,
-      target?4:0
+      site?.hasCta?20:0,
+      site?.hasContactPath?20:0,
+      profile.target?10:0,
+      profile.conversion?15:0,
+      profile.monthlyLeads?5:0,
+      goalRelevant([/lead/,/booking/,/appointment/,/sales/,/revenue/,/call/,/whatsapp/])
     ],
     [
-      site?.hasCta?12:0,
-      site?.hasContactPath?12:0,
-      google?.websiteClicks&&google.websiteClicks>0?8:0,
-      google?.phoneCalls&&google.phoneCalls>0?8:0,
-      google?.directionRequests&&google.directionRequests>0?6:0,
-      local?.found?8:0,
-      has(goal,[/lead/,/revenue/,/sales/,/booking/,/customer/])?8:0,
-      profile.monthlyLeads?3:0,
-      profile.conversion?3:0
+      profile.channels?15:0,
+      profile.monthlyLeads?15:0,
+      profile.conversion?15:0,
+      site?.hasContactPath?15:0,
+      google&&(google.websiteClicks>0||google.phoneCalls>0||google.directionRequests>0)?15:0,
+      local?.found?5:0,
+      goalRelevant([/lead/,/revenue/,/sales/,/booking/,/customer/])
     ]
   ];
 
