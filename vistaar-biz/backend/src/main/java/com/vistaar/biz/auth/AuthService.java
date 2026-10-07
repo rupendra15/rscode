@@ -25,6 +25,7 @@ public class AuthService {
     private final PasswordEncoder encoder;
     private final SecureRandom random = new SecureRandom();
     private final int sessionDays;
+    private final boolean secureCookies;
 
     public AuthService(JdbcTemplate jdbc, PasswordEncoder encoder,
                        @Value("${app.session.days:30}") int sessionDays) {
@@ -57,7 +58,7 @@ public class AuthService {
             "email", user.get("email"),
             "role", user.get("role"),
             "cookie", ResponseCookie.from(COOKIE, token)
-                    .httpOnly(true).secure(false).sameSite("Lax").path("/")
+                    .httpOnly(true).secure(secureCookies).sameSite("Lax").path("/")
                     .maxAge(java.time.Duration.ofDays(sessionDays)).build().toString()
         );
     }
