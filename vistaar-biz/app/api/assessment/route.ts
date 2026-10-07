@@ -115,7 +115,7 @@ export async function POST(request: Request) {
       const assessmentResponse=await fetch(url+"/rest/v1/growth_assessments",{
         method:"POST",
         headers:{...headers,Prefer:"return=representation"},
-        body:JSON.stringify(record),
+        body:JSON.stringify({...record,status:"analyzed"}),
         cache:"no-store"
       });
       if(assessmentResponse.ok){
