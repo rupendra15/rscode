@@ -117,14 +117,14 @@ export async function fetchGoogleBusinessData(
     }
   } catch {}
 
-  const reviewRows = (reviews.reviews || []).map((review: any) => ({
+  const reviewRows: Array<{ rating: string; comment: string; time: string }> = (reviews.reviews || []).map((review: any) => ({
     rating: String(review.starRating || ""),
     comment: String(review.comment || ""),
     time: String(review.createTime || "")
   }));
 
   const ratingValues = reviewRows
-    .map((review) => {
+    .map((review: { rating: string }) => {
       const values: Record<string, number> = {
         ONE: 1,
         TWO: 2,
@@ -134,11 +134,11 @@ export async function fetchGoogleBusinessData(
       };
       return values[review.rating] || 0;
     })
-    .filter((value) => value > 0);
+    .filter((value: number) => value > 0);
 
   const rating = ratingValues.length
     ? Math.round(
-        (ratingValues.reduce((sum, value) => sum + value, 0) /
+        (ratingValues.reduce((sum: number, value: number) => sum + value, 0) /
           ratingValues.length) *
           10
       ) / 10
