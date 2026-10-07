@@ -38,6 +38,8 @@ export type LocalAuditSignals = {
   displayName:string;
   nearbyCount:number;
   category:string;
+  googleUrlSupplied?:boolean;
+  googleProfileDetected?:boolean;
   signals:string[];
 };
 
@@ -80,6 +82,15 @@ export type AuditResult = {
   google?:GoogleAuditSignals;
   reasoning:string[];
   diagnosticBasis:string[];
+  findings:{
+    title:string;
+    severity:"priority"|"attention"|"strength";
+    area:string;
+    evidence:string[];
+    implication:string;
+  }[];
+  engine?:"rules"|"ai";
+  aiModel?:string;
 };
 
 const clamp=(n:number)=>Math.max(20,Math.min(95,Math.round(n)));
@@ -309,6 +320,47 @@ export function runGrowthAudit(
   const overall=clamp(metrics.reduce((a,m)=>a+m.score,0)/metrics.length);
   const maturity=overall>=75?"Ready to scale":overall>=60?"Building momentum":overall>=45?"Needs focus":"Needs a reset";
 
+  const findings=[
+    {
+      title:local?.googleUrlSupplied&&!local?.found?"Google profile supplied but not independently verified":"Local discovery evidence",
+      severity:(local?.googleUrlSupplied&&!local?.found?"attention":local?.found?"strength":"priority") as "priority"|"attention"|"strength",
+      area:"Discoverability",
+      evidence:[local?.googleUrlSupplied?"Google Business/Maps URL supplied by the business.":"No Google Business/Maps URL supplied.",site?.reachable?"Website was reachable during the scan.":"Website reachability was not verified."],
+      implication:local?.googleUrlSupplied&&!local?.found
+        ?"The supplied link is useful business evidence, but Vistaar needs an independently verified profile or connected Google data before claiming local visibility."
+        :local?.found
+          ?"A local listing signal was found; the next question is whether it produces useful discovery and enquiries."
+          :"Local discovery cannot yet be established from the available evidence."
+    },
+    {
+      title:site?.hasReviews?"Website contains review/testimonial signals":"Customer proof is not verified on the website",
+      severity:(site?.hasReviews?"strength":"attention") as "priority"|"attention"|"strength",
+      area:"Trust & reputation",
+      evidence:[site?.hasReviews?"Review/testimonial language detected on the website.":"No review/testimonial language detected on the scanned website.",profile.differentiator?"A differentiator was supplied in the assessment.":"No differentiator was supplied."],
+      implication:site?.hasReviews
+        ?"The business has some proof to work with; Vistaar should evaluate whether the proof is visible at the points where the ideal customer decides."
+        :"Trust improvement should focus on obtaining and placing real proof rather than simply publishing more marketing content."
+    },
+    {
+      title:site?.hasCta&&site?.hasContactPath?"A direct enquiry path exists":"The enquiry path needs verification",
+      severity:(site?.hasCta&&site?.hasContactPath?"strength":"priority") as "priority"|"attention"|"strength",
+      area:"Conversion",
+      evidence:[site?.hasCta?"A CTA was detected on the website.":"No obvious CTA was detected.",site?.hasContactPath?"Phone, email or WhatsApp contact was detected.":"No direct contact path was detected.",profile.conversion?"Owner supplied an enquiry-to-customer rate: "+profile.conversion:"No conversion rate was supplied."],
+      implication:site?.hasCta&&site?.hasContactPath
+        ?"The basic path exists; the next step is to measure whether it converts the right visitors into qualified enquiries."
+        :"Vistaar should fix or verify the primary conversion path before recommending more acquisition activity."
+    },
+    {
+      title:profile.monthlyLeads||profile.channels?"Lead baseline is partially available":"Lead baseline is missing",
+      severity:(profile.monthlyLeads&&profile.channels?"strength":"attention") as "priority"|"attention"|"strength",
+      area:"Lead generation",
+      evidence:[profile.channels?"Current channels: "+profile.channels:"Acquisition channels not supplied.",profile.monthlyLeads?"Qualified enquiries/month: "+profile.monthlyLeads:"Monthly qualified enquiries not supplied.",profile.conversion?"Enquiry-to-customer rate: "+profile.conversion:"Conversion rate not supplied."],
+      implication:profile.monthlyLeads&&profile.channels
+        ?"Vistaar can start evaluating lead quality and source performance, but source-level attribution is still required."
+        :"There is not enough baseline data to recommend increasing acquisition spend confidently."
+    }
+  ];
+
   const dataSources=["Detailed business assessment"];
   if(site)dataSources.push("Website signal scan");
   if(local)dataSources.push("Local presence signal scan");
@@ -370,6 +422,8 @@ export function runGrowthAudit(
     local,
     google,
     reasoning,
-    diagnosticBasis
+    diagnosticBasis,
+    findings,
+    engine:"rules"
   };
 }
