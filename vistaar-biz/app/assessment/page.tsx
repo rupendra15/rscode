@@ -4,7 +4,15 @@ import { FormEvent, useState } from "react";
 import Link from "next/link";
 import { ArrowRight, ArrowUpRight, Check, ChevronLeft, Building2, Target, Users, Globe2, BarChart3, MessageSquare, Sparkles } from "lucide-react";
 
-const steps = [
+type AssessmentField = [string, string, boolean];
+
+type AssessmentStep = {
+  title: string;
+  icon: typeof Building2;
+  fields: AssessmentField[];
+};
+
+const steps: AssessmentStep[] = [
   { title:"Business foundation", icon:Building2, fields:[["businessName","Business name",true],["industry","Industry / category",true],["city","Primary city / market",true],["serviceArea","Where do you serve customers?",true]] },
   { title:"Customers & offer", icon:Users, fields:[["idealCustomer","Who is your ideal customer?",true],["offerings","What are your main products or services?",true],["differentiator","Why do customers choose you?",true]] },
   { title:"Growth objective", icon:Target, fields:[["goal","Primary growth outcome",true],["target","What would success look like in 3–6 months?",true],["constraint","Biggest obstacle today",true]] },
