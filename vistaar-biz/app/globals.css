@@ -2217,8 +2217,8 @@ body{background:#f7f7fb;color:#17172b}
 
 
 /* VISTAAR-BIZ EXECUTION PLAN — data presentation only; preserves approved dashboard design */
-.modernSite .actionPlan{margin:14px 0 2px;padding:12px 14px;border:1px solid rgba(20,20,20,.08);border-radius:12px;background:rgba(248,248,246,.72);display:grid;gap:7px}
-.modernSite .actionPlan small{font-size:9px;letter-spacing:.12em;font-weight:800;opacity:.58}
-.modernSite .actionPlan ol{margin:0;padding-left:19px;display:grid;gap:5px}
-.modernSite .actionPlan li{font-size:12px;line-height:1.45}
-.modernSite .actionPlan>span{font-size:11px;line-height:1.45;opacity:.78}
+.appShell .actionPlan{margin:14px 0 2px;padding:12px 14px;border:1px solid rgba(20,20,20,.08);border-radius:12px;background:rgba(248,248,246,.72);display:grid;gap:7px}
+.appShell .actionPlan small{font-size:9px;letter-spacing:.12em;font-weight:800;opacity:.58}
+.appShell .actionPlan ol{margin:0;padding-left:19px;display:grid;gap:5px}
+.appShell .actionPlan li{font-size:12px;line-height:1.45}
+.appShell .actionPlan>span{font-size:11px;line-height:1.45;opacity:.78}
