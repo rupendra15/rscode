@@ -59,3 +59,8 @@ create policy "users can read their assessments" on growth_assessments
         and wm.status = 'active'
     )
   );
+
+
+alter table growth_assessments add column if not exists version integer not null default 1;
+create index if not exists growth_assessments_owner_idx on growth_assessments(owner_user_id,created_at desc);
+create index if not exists businesses_owner_idx on businesses(owner_user_id,created_at desc);
