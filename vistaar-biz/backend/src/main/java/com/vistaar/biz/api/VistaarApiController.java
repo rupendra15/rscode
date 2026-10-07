@@ -176,51 +176,70 @@ public class VistaarApiController {
     @GetMapping("/workspace")
     public ResponseEntity<?> workspace(@RequestParam(required=false) String businessId,@RequestParam(required=false) String assessmentId,@RequestParam(required=false) String list,HttpServletRequest r){
         if(!role(r,"admin","manager")) return unauthorized();
-        if("1".equals(list)) return ResponseEntity.ok(Map.of("ok",true,"workspaces",db.queryForList("""
-                select distinct on (lower(b.name),lower(b.city),coalesce(b.owner_email,'')) 
-                       b.id as business_id,b.name,b.industry,b.city,b.goal,b.website,b.workspace_stage,b.last_activity_at,b.created_at,
-                       a.id as assessment_id,a.version as assessment_version,a.created_at as assessment_created_at
-                from businesses b
-                left join lateral (select id,version,created_at from growth_assessments where business_id=b.id order by version desc,created_at desc limit 1) a on true
-                order by lower(b.name),lower(b.city),coalesce(b.owner_email,''),b.last_activity_at desc,b.created_at desc
-                """)));
-        if(businessId==null&&assessmentId==null)return ResponseEntity.badRequest().body(Map.of("ok",false,"error","businessId or assessmentId is required."));
+        try {
+            if("1".equals(list)) return ResponseEntity.ok(Map.of("ok",true,"workspaces",db.queryForList("""
+                    select b.id as business_id,b.name,b.industry,b.city,b.goal,b.website,b.workspace_stage,b.last_activity_at,b.created_at,
+                           a.id as assessment_id,a.version as assessment_version,a.created_at as assessment_created_at
+                    from businesses b
+                    left join lateral (select id,version,created_at from growth_assessments where business_id=b.id order by version desc,created_at desc limit 1) a on true
+                    order by b.last_activity_at desc,b.created_at desc limit 500
+                    """)));
 
-        UUID bid=null; UUID selectedAssessmentId=null; UUID selectedAuditId=null;
-        if(assessmentId!=null){
-            selectedAssessmentId=UUID.fromString(assessmentId);
-            List<Map<String,Object>> aRows=db.queryForList("select id,business_id,audit_id from growth_assessments where id=? limit 1",selectedAssessmentId);
-            if(!aRows.isEmpty()){
-                bid=(UUID)aRows.get(0).get("business_id");
-                Object auditRef=aRows.get(0).get("audit_id");
-                if(auditRef instanceof UUID u) selectedAuditId=u;
+            if(businessId==null&&assessmentId==null)return ResponseEntity.badRequest().body(Map.of("ok",false,"error","businessId or assessmentId is required."));
+
+            UUID bid=null;
+            UUID selectedAssessmentId=null;
+            UUID selectedAuditId=null;
+
+            if(assessmentId!=null&&!assessmentId.isBlank()){
+                selectedAssessmentId=UUID.fromString(assessmentId);
+                List<Map<String,Object>> rows=db.queryForList("select business_id,audit_id from growth_assessments where id=? limit 1",selectedAssessmentId);
+                if(rows.isEmpty()) return ResponseEntity.status(404).body(Map.of("ok",false,"error","The selected assessment does not exist."));
+                bid=(UUID)rows.get(0).get("business_id");
+                Object auditRef=rows.get(0).get("audit_id");
+                if(auditRef instanceof UUID) selectedAuditId=(UUID)auditRef;
+                else if(auditRef!=null) selectedAuditId=UUID.fromString(String.valueOf(auditRef));
+            } else {
+                bid=UUID.fromString(businessId);
+                List<Map<String,Object>> rows=db.queryForList("select id,audit_id from growth_assessments where business_id=? order by version desc,created_at desc limit 1",bid);
+                if(rows.isEmpty()) return ResponseEntity.status(404).body(Map.of("ok",false,"error","No assessment exists for this business."));
+                selectedAssessmentId=(UUID)rows.get(0).get("id");
+                Object auditRef=rows.get(0).get("audit_id");
+                if(auditRef instanceof UUID) selectedAuditId=(UUID)auditRef;
+                else if(auditRef!=null) selectedAuditId=UUID.fromString(String.valueOf(auditRef));
             }
-        } else {
-            bid=UUID.fromString(businessId);
-            List<Map<String,Object>> aRows=db.queryForList("select id,business_id,audit_id from growth_assessments where business_id=? order by version desc,created_at desc limit 1",bid);
-            if(!aRows.isEmpty()){
-                selectedAssessmentId=(UUID)aRows.get(0).get("id");
-                Object auditRef=aRows.get(0).get("audit_id");
-                if(auditRef instanceof UUID u) selectedAuditId=u;
-            }
+
+            if(selectedAuditId==null) return ResponseEntity.status(404).body(Map.of("ok",false,"error","This assessment does not have a saved diagnosis yet."));
+
+            List<Map<String,Object>> bs=db.queryForList("select * from businesses where id=? limit 1",bid);
+            List<Map<String,Object>> au=db.queryForList("select * from growth_audits where id=? and business_id=? limit 1",selectedAuditId,bid);
+            List<Map<String,Object>> assessments=db.queryForList("select * from growth_assessments where id=? limit 1",selectedAssessmentId);
+            if(bs.isEmpty()||au.isEmpty()||assessments.isEmpty())return ResponseEntity.status(404).body(Map.of("ok",false,"error","The selected business diagnosis could not be found."));
+
+            Map<String,Object> b=bs.get(0), a=au.get(0);
+            List<Map<String,Object>> as=db.queryForList("select * from growth_actions where business_id=? and audit_id=? order by impact desc,created_at desc limit 20",bid,selectedAuditId);
+            List<Map<String,Object>> leads=db.queryForList("select * from growth_leads where business_id=? order by created_at desc limit 50",bid);
+            List<Map<String,Object>> measurements=db.queryForList("select * from growth_measurements where business_id=? order by measured_at desc limit 50",bid);
+            List<Map<String,Object>> specialists=db.queryForList("select * from specialist_requests where business_id=? order by created_at desc limit 20",bid);
+            List<Map<String,Object>> evidence=db.queryForList("select * from growth_evidence where business_id=? and (assessment_id=? or audit_id=?) order by observed_at desc limit 100",bid,selectedAssessmentId,selectedAuditId);
+
+            Map<String,Object> out=new LinkedHashMap<>();
+            out.put("ok",true);
+            out.put("business",b);
+            out.put("audit",jsonValue(a.get("result")));
+            out.put("auditId",a.get("id"));
+            out.put("auditCreatedAt",a.get("created_at"));
+            out.put("assessmentId",selectedAssessmentId);
+            out.put("assessment",assessments.get(0));
+            out.put("actions",as);
+            out.put("leads",leads);
+            out.put("measurements",measurements);
+            out.put("specialists",specialists);
+            out.put("evidence",evidence);
+            return ResponseEntity.ok(out);
+        } catch(Exception e) {
+            return ResponseEntity.internalServerError().body(Map.of("ok",false,"error","Workspace could not be loaded.","detail",e.getMessage()==null?e.getClass().getSimpleName():e.getMessage()));
         }
-
-        if(bid==null||selectedAuditId==null)return ResponseEntity.status(404).body(Map.of("ok",false,"error","Workspace diagnosis not found for the selected assessment."));
-        List<Map<String,Object>> bs=db.queryForList("select * from businesses where id=? limit 1",bid);
-        List<Map<String,Object>> au=db.queryForList("select * from growth_audits where id=? limit 1",selectedAuditId);
-        if(bs.isEmpty()||au.isEmpty())return ResponseEntity.status(404).body(Map.of("ok",false,"error","Workspace diagnosis not found."));
-        Map<String,Object> b=bs.get(0), a=au.get(0);
-        List<Map<String,Object>> as=db.queryForList("select * from growth_actions where business_id=? and audit_id=? order by impact desc,created_at desc limit 20",bid,selectedAuditId);
-        List<Map<String,Object>> leads=db.queryForList("select * from growth_leads where business_id=? order by created_at desc limit 50",bid);
-        List<Map<String,Object>> measurements=db.queryForList("select * from growth_measurements where business_id=? order by measured_at desc limit 50",bid);
-        List<Map<String,Object>> specialists=db.queryForList("select * from specialist_requests where business_id=? order by created_at desc limit 20",bid);
-        List<Map<String,Object>> evidence=db.queryForList("select * from growth_evidence where business_id=? and (assessment_id=? or audit_id=?) order by observed_at desc limit 100",bid,selectedAssessmentId,selectedAuditId);
-        List<Map<String,Object>> assessments=db.queryForList("select * from growth_assessments where id=? limit 1",selectedAssessmentId);
-        Map<String,Object> out=new LinkedHashMap<>();
-        out.put("ok",true);out.put("business",b);out.put("audit",jsonValue(a.get("result")));out.put("auditId",a.get("id"));out.put("auditCreatedAt",a.get("created_at"));
-        out.put("assessmentId",selectedAssessmentId);out.put("assessment",assessments.isEmpty()?null:assessments.get(0));
-        out.put("actions",as);out.put("leads",leads);out.put("measurements",measurements);out.put("specialists",specialists);out.put("evidence",evidence);
-        return ResponseEntity.ok(out);
     }
 
     @PatchMapping("/actions")
