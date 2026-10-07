@@ -88,7 +88,7 @@ public class VistaarApiController {
                 db.update("insert into growth_evidence(id,business_id,assessment_id,audit_id,source,evidence_type,claim,value,confidence,metadata) values(?,?,?,?,?,?,?,?,?,?)",
                     UUID.randomUUID(),businessId,assessmentId,auditId,e.get("source"),e.get("evidence_type"),e.get("claim"),e.get("value"),e.getOrDefault("confidence","medium"),jsonb(e.get("metadata")));
             }
-            return ResponseEntity.ok(Map.of("ok",true,"stored",true,"id",assessmentId.toString(),"businessId",businessId.toString(),"auditId",auditId==null?null:auditId.toString(),"profile",profile==null?Map.of():profile,"audit",audit==null?Map.of():audit));
+            Map<String,Object> out=new LinkedHashMap<>(); out.put("ok",true); out.put("stored",true); out.put("id",assessmentId.toString()); out.put("businessId",businessId.toString()); out.put("auditId",auditId==null?null:auditId.toString()); out.put("profile",profile==null?Map.of():profile); out.put("audit",audit==null?Map.of():audit); return ResponseEntity.ok(out);
         } catch(Exception e) { return ResponseEntity.internalServerError().body(Map.of("ok",false,"error","We couldn't save your assessment.","detail",e.getMessage()==null?"":e.getMessage())); }
     }
 
