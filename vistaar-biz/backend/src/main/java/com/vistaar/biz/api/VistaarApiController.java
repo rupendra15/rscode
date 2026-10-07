@@ -98,7 +98,7 @@ public class VistaarApiController {
             Object answers=b.get("answers"); Number score=(Number)b.get("readinessScore");
             if(!(answers instanceof List<?> a)||a.size()!=6||score==null) return ResponseEntity.badRequest().body(Map.of("ok",false,"error","Invalid readiness submission."));
             UUID id=UUID.randomUUID();
-            db.update("insert into readiness_submissions(id,answers,readiness_score) values(?,?,?)",id,jsonb(answers),Math.max(0,Math.min(100,Math.round(score.doubleValue()))));
+            db.update("insert into readiness_submissions(id,answers,readiness_score) values(?,?,?)",id,jsonb(answers),(int)Math.max(0,Math.min(100,Math.round(score.doubleValue()))));
             return ResponseEntity.ok(Map.of("ok",true,"id",id.toString()));
         } catch(Exception e){return ResponseEntity.internalServerError().body(Map.of("ok",false,"error","Readiness submission could not be saved."));}
     }
@@ -135,7 +135,11 @@ public class VistaarApiController {
         List<Map<String,Object>> specialists=db.queryForList("select * from specialist_requests where business_id=? order by created_at desc limit 20",bid);
         List<Map<String,Object>> evidence=db.queryForList("select * from growth_evidence where business_id=? order by observed_at desc limit 100",bid);
         List<Map<String,Object>> assessments=db.queryForList("select * from growth_assessments where business_id=? order by created_at desc limit 1",bid);
-        return ResponseEntity.ok(Map.of("ok",true,"business",b,"audit",a.get("result"),"auditId",a.get("id"),"auditCreatedAt",a.get("created_at"),"assessmentId",assessments.isEmpty()?null:assessments.get(0).get("id"),"assessment",assessments.isEmpty()?null:assessments.get(0),"actions",as,"leads",leads,"measurements",measurements,"specialists",specialists,"evidence",evidence));
+        Map<String,Object> out=new LinkedHashMap<>();
+out.put("ok",true);out.put("business",b);out.put("audit",a.get("result"));out.put("auditId",a.get("id"));out.put("auditCreatedAt",a.get("created_at"));
+out.put("assessmentId",assessments.isEmpty()?null:assessments.get(0).get("id"));out.put("assessment",assessments.isEmpty()?null:assessments.get(0));
+out.put("actions",as);out.put("leads",leads);out.put("measurements",measurements);out.put("specialists",specialists);out.put("evidence",evidence);
+return ResponseEntity.ok(out);
     }
 
     @PatchMapping("/actions")
