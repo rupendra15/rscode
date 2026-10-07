@@ -85,8 +85,8 @@ public class VistaarApiController {
                         Map<String,Object> m=(Map<String,Object>)raw;
                         db.update("insert into growth_actions(id,business_id,audit_id,title,area,impact,effort,mode,status,steps,deliverable,measurement) values(?,?,?,?,?,?,?,?,?,?,?,?)",
                             UUID.randomUUID(),businessId,auditId,String.valueOf(m.get("title")),String.valueOf(m.get("area")),
-                            asInt(m.get("impact")),String.valueOf(m.getOrDefault("effort","medium")),
-                            String.valueOf(m.getOrDefault("mode","vistaar")), "recommended",jsonb(m.get("steps")),m.get("deliverable"),m.get("measurement"));
+                            asInt(m.get("impact")),String.valueOf(m.get("effort")==null?"medium":m.get("effort")),
+                            String.valueOf(m.get("mode")==null?"vistaar":m.get("mode")), "recommended",jsonb(m.get("steps")),m.get("deliverable"),m.get("measurement"));
                     }
                 }
             }
@@ -113,8 +113,8 @@ public class VistaarApiController {
         if(opportunities instanceof List<?> list) for(Object item:list) if(item instanceof Map<?,?> raw){
           Map<String,Object> m=(Map<String,Object>)raw;
           db.update("insert into growth_actions(id,business_id,audit_id,title,area,impact,effort,mode,status,steps,deliverable,measurement) values(?,?,?,?,?,?,?,?,?,?,?,?)",
-            UUID.randomUUID(),bid,aid,String.valueOf(m.get("title")),String.valueOf(m.get("area")),((Number)m.getOrDefault("impact",0)).intValue(),
-            String.valueOf(m.getOrDefault("effort","medium")),String.valueOf(m.getOrDefault("mode","vistaar")),"recommended",jsonb(m.get("steps")),m.get("deliverable"),m.get("measurement"));
+            UUID.randomUUID(),bid,aid,String.valueOf(m.get("title")),String.valueOf(m.get("area")),asInt(m.get("impact")),
+            String.valueOf(m.get("effort")==null?"medium":m.get("effort")),String.valueOf(m.get("mode")==null?"vistaar":m.get("mode")),"recommended",jsonb(m.get("steps")),m.get("deliverable"),m.get("measurement"));
         }
         return ResponseEntity.ok(Map.of("profile",profile,"audit",audit,"businessId",bid.toString(),"auditId",aid.toString()));
     }
