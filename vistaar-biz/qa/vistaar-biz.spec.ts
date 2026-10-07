@@ -192,6 +192,49 @@ test.describe("Vistaar-Biz smoke and UX QA", () => {
     await expect(page).toHaveURL(/\/dashboard\?assessmentId=assessment-v2$/);
   });
 
+  test("quick onboarding creates and opens an audit-only workspace", async ({ page }) => {
+    await page.route("**/api/google/status", route =>
+      route.fulfill({ status:200, contentType:"application/json", body:JSON.stringify({connected:false}) })
+    );
+    await page.route("**/api/audit", route =>
+      route.fulfill({ status:200, contentType:"application/json", body:JSON.stringify({
+        profile:{businessName:"Quick QA Business",industry:"Retail & shops",city:"Rewa",goal:"Get more leads"},
+        audit:{overall:74,maturity:"Growing",summary:"Quick onboarding audit",nextMove:"Improve conversion",metrics:[],opportunities:[],reasoning:[]},
+        businessId:"quick-business",auditId:"quick-audit",assessmentId:""
+      }) })
+    );
+    await page.route("**/api/auth/me", route =>
+      route.fulfill({ status:200, contentType:"application/json", body:JSON.stringify({ok:true,authenticated:true,user:{id:"qa-manager",email:"qa@vistaar-biz.test",role:"manager"}}) })
+    );
+    await page.route("**/api/workspace?list=1", route =>
+      route.fulfill({ status:200, contentType:"application/json", body:JSON.stringify({ok:true,workspaces:[]}) })
+    );
+    await page.route("**/api/workspace?businessId=quick-business", route =>
+      route.fulfill({ status:200, contentType:"application/json", body:JSON.stringify({
+        ok:true,
+        business:{id:"quick-business",name:"Quick QA Business",industry:"Retail & shops",city:"Rewa",goal:"Get more leads",workspace_stage:"diagnosed"},
+        profile:{businessName:"Quick QA Business",industry:"Retail & shops",city:"Rewa",goal:"Get more leads"},
+        audit:{overall:74,maturity:"Growing",summary:"Quick onboarding audit",nextMove:"Improve conversion",metrics:[],opportunities:[],reasoning:[]},
+        actions:[],leads:[],measurements:[],specialists:[],evidence:[],assessment:null,businessId:"quick-business",auditId:"quick-audit",assessmentId:null
+      }) })
+    );
+    await page.route("**/api/readiness", route =>
+      route.fulfill({status:200,contentType:"application/json",body:JSON.stringify({ok:true,submissions:[]})})
+    );
+    await page.route("**/api/enquiries", route =>
+      route.fulfill({status:200,contentType:"application/json",body:JSON.stringify({ok:true,enquiries:[]})})
+    );
+
+    await page.goto("/onboarding", {waitUntil:"networkidle"});
+    await page.getByLabel("Business name").fill("Quick QA Business");
+    await page.getByLabel("City or area").fill("Rewa");
+    await page.getByRole("button", {name:/Continue/i}).click();
+    await page.getByRole("button", {name:/Create my starting point/i}).click();
+    await expect(page).toHaveURL(/\/dashboard\?businessId=quick-business$/);
+    await expect(page.getByText("Quick QA Business")).toBeVisible();
+    await expect(page.getByText("74")).toBeVisible();
+  });
+
   test("onboarding and dashboard render", async ({ page }) => {
     await page.route("**/api/auth/me", async route => route.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify({ ok:true, authenticated:true, user:{ id:"qa-manager", email:"qa@vistaar-biz.test", role:"manager" } }) }));
     await page.route("**/api/workspace?list=1", async route => route.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify({ ok:true, workspaces:[] }) }));
