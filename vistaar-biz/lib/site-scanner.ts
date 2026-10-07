@@ -4,9 +4,11 @@ const cleanUrl=(input:string)=>{let u=input.trim();if(!/^https?:\/\//i.test(u))u
 
 export async function scanWebsite(input?:string):Promise<SiteSignals|null>{
  if(!input?.trim()) return null;
- const url=cleanUrl(input);
- const fallback:SiteSignals={url,reachable:false,https:url.startsWith("https://"),title:"",description:"",hasPhone:false,hasEmail:false,hasWhatsApp:false,hasForm:false,hasCta:false,hasLocalTerms:false,hasReviews:false,hasSocialLinks:false,hasImages:false,imageCount:0,wordCount:0,signals:[]};
+ const fallbackBase=input.trim();
+ const fallbackUrl=/^https?:\/\//i.test(fallbackBase)?fallbackBase:"https://"+fallbackBase;
+ const fallback:SiteSignals={url:fallbackUrl,reachable:false,https:fallbackUrl.startsWith("https://"),title:"",description:"",hasPhone:false,hasEmail:false,hasWhatsApp:false,hasForm:false,hasCta:false,hasLocalTerms:false,hasReviews:false,hasSocialLinks:false,hasImages:false,imageCount:0,wordCount:0,signals:[]};
  try{
+  const url=cleanUrl(input);
   const response=await fetch(url,{redirect:"follow",signal:AbortSignal.timeout(8000),headers:{"user-agent":"Vistaar-Biz-Growth-Audit/1.0"}});
   const html=await response.text();
   const text=html.replace(/<script[\s\S]*?<\/script>/gi," ").replace(/<style[\s\S]*?<\/style>/gi," ").replace(/<[^>]+>/g," ").replace(/&nbsp;/gi," ").replace(/\s+/g," ").trim();
