@@ -32,7 +32,7 @@ public class VistaarApiController {
     private ResponseEntity<Map<String,Object>> forbidden() { return ResponseEntity.status(403).body(Map.of("ok",false,"error","You do not have permission for this operation.")); }
     private PGobject jsonb(Object value) {
         try { PGobject o=new PGobject(); o.setType("jsonb"); o.setValue(json.writeValueAsString(value==null?Map.of():value)); return o; }
-        catch(JsonProcessingException e){ throw new IllegalArgumentException("Invalid JSON data."); }
+        catch(JsonProcessingException | java.sql.SQLException e){ throw new IllegalArgumentException("Invalid JSON data.", e); }
     }
     private String str(Map<String,Object> b,String k){ Object v=b.get(k); return v==null?null:String.valueOf(v).trim(); }
     private int asInt(Object value){ return value instanceof Number n ? n.intValue() : 0; }
