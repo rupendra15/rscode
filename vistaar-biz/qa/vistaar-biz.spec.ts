@@ -136,6 +136,8 @@ test.describe("Vistaar-Biz smoke and UX QA", () => {
     await page.goto("/dashboard", { waitUntil: "networkidle" });
     await expect(page.getByRole("heading", { name: "Urban Grill" })).toBeVisible();
     await expect(page.getByText("Restaurant · Rewa · Focus: More qualified enquiries")).toBeVisible();
+    await expect(page.getByText("Ideal customer")).toBeVisible();
+    await expect(page.getByText("Primary growth outcome")).toBeVisible();
     await expect(page).not.toHaveTitle(/error/i);
   });
 
