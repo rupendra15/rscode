@@ -185,14 +185,14 @@ public class VistaarApiController {
                     order by b.last_activity_at desc,b.created_at desc limit 500
                     """)));
 
-            if(businessId==null&&assessmentId==null)return ResponseEntity.badRequest().body(Map.of("ok",false,"error","businessId or assessmentId is required."));
+            if(isBlankUuidParam(businessId)&&isBlankUuidParam(assessmentId))return ResponseEntity.badRequest().body(Map.of("ok",false,"error","businessId or assessmentId is required."));
 
             UUID bid=null;
             UUID selectedAssessmentId=null;
             UUID selectedAuditId=null;
 
-            if(assessmentId!=null&&!assessmentId.isBlank()){
-                selectedAssessmentId=UUID.fromString(assessmentId);
+            if(!isBlankUuidParam(assessmentId)){
+                selectedAssessmentId=parseUuid(assessmentId,"assessmentId");
                 List<Map<String,Object>> rows=db.queryForList("select business_id,audit_id from growth_assessments where id=? limit 1",selectedAssessmentId);
                 if(rows.isEmpty()) return ResponseEntity.status(404).body(Map.of("ok",false,"error","The selected assessment does not exist."));
                 bid=(UUID)rows.get(0).get("business_id");
@@ -200,7 +200,7 @@ public class VistaarApiController {
                 if(auditRef instanceof UUID) selectedAuditId=(UUID)auditRef;
                 else if(auditRef!=null) selectedAuditId=UUID.fromString(String.valueOf(auditRef));
             } else {
-                bid=UUID.fromString(businessId);
+                bid=parseUuid(businessId,"businessId");
                 List<Map<String,Object>> rows=db.queryForList("select id,audit_id from growth_assessments where business_id=? order by version desc,created_at desc limit 1",bid);
                 if(rows.isEmpty()) return ResponseEntity.status(404).body(Map.of("ok",false,"error","No assessment exists for this business."));
                 selectedAssessmentId=(UUID)rows.get(0).get("id");
