@@ -2262,3 +2262,22 @@ body{background:#f7f7fb;color:#17172b}
 .evidenceGrid p{margin:4px 0 0;font-size:8px;line-height:1.45;color:#7d7e85;overflow-wrap:anywhere}
 @media(max-width:1000px){.evidenceGrid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:700px){.assessmentGrid{gap:28px;padding:28px 0 40px}.assessmentSectionTitle{margin:22px 0 16px}.assessmentFields{gap:14px}.evidenceGrid{grid-template-columns:1fr;padding:0 13px 14px}}
+
+/* Multi-assessment workspace selector — preserves the existing dashboard visual system. */
+.workspaceSelectorWrap{position:relative;margin:0 14px 18px}
+.workspaceSelectorWrap>.workspace{margin:0;width:100%;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.025);color:inherit;text-align:left;cursor:pointer}
+.workspaceSelectorWrap>.workspace:hover{background:rgba(255,255,255,.05)}
+.workspaceSelector{display:flex;align-items:center;gap:10px;padding:10px 9px;border-radius:12px}
+.workspaceSelector>div:nth-child(2){min-width:0;flex:1}
+.workspaceSelector b,.workspaceSelector small{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.workspaceMenu{position:absolute;z-index:50;left:0;right:0;top:calc(100% + 8px);padding:8px;border:1px solid rgba(255,255,255,.1);border-radius:14px;background:#17181d;box-shadow:0 18px 50px rgba(0,0,0,.35);max-height:420px;overflow:auto}
+.workspaceMenuItem{display:flex;align-items:center;gap:9px;width:100%;padding:10px;border:0;border-radius:10px;background:transparent;color:inherit;text-align:left;cursor:pointer}
+.workspaceMenuItem:hover,.workspaceMenuItem.active{background:rgba(255,255,255,.07)}
+.workspaceMenuInitial{display:grid;place-items:center;width:30px;height:30px;border-radius:8px;background:rgba(215,251,104,.12);color:#d7fb68;font-weight:700;flex:0 0 auto}
+.workspaceMenuCopy{display:flex;flex-direction:column;min-width:0;flex:1}
+.workspaceMenuCopy b{font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.workspaceMenuCopy small{font-size:10px;opacity:.65;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.workspaceMenuCopy em{font-size:9px;opacity:.45;font-style:normal;margin-top:2px}
+.workspaceMenuEmpty{padding:14px 10px;font-size:11px;opacity:.6}
+.workspaceAdd{display:flex;align-items:center;justify-content:center;margin-top:6px;padding:10px;border-top:1px solid rgba(255,255,255,.07);color:#d7fb68;text-decoration:none;font-size:11px;font-weight:600}
+@media(max-width:900px){.workspaceMenu{position:fixed;left:14px;right:14px;top:74px;max-height:70vh}}
