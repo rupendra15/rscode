@@ -102,13 +102,41 @@ public class VistaarApiController {
     public ResponseEntity<?> audit(@RequestBody Map<String,Object> b, HttpServletRequest r) {
         Map<String,Object> profile=(Map<String,Object>)b.get("profile");
         Map<String,Object> audit=(Map<String,Object>)b.get("audit");
+        String assessmentIdText=str(b,"assessmentId");
         if(profile==null||audit==null)return ResponseEntity.badRequest().body(Map.of("error","Profile and audit are required."));
         Map<String,Object> u=user(r); UUID owner=u==null?null:UUID.fromString(String.valueOf(u.get("id")));
-        UUID bid=UUID.randomUUID(); UUID aid=UUID.randomUUID();
-        db.update("insert into businesses(id,owner_user_id,owner_email,name,industry,city,goal,website,workspace_stage,last_activity_at) values(?,?,?,?,?,?,?,?,?,now())",
-          bid,owner,u==null?null:u.get("email"),profile.get("businessName"),profile.get("industry"),profile.get("city"),profile.get("goal"),profile.get("website"),"diagnosed");
+
+        UUID bid=null;
+        UUID assessmentId=null;
+        if(assessmentIdText!=null&&!assessmentIdText.isBlank()){
+            assessmentId=UUID.fromString(assessmentIdText);
+            List<Map<String,Object>> rows=db.queryForList("select business_id from growth_assessments where id=? limit 1",assessmentId);
+            if(!rows.isEmpty()) bid=(UUID)rows.get(0).get("business_id");
+        }
+
+        if(bid==null){
+            List<Map<String,Object>> rows=db.queryForList(
+                "select id from businesses where owner_user_id=? and lower(name)=lower(?) and lower(city)=lower(?) order by last_activity_at desc,created_at desc limit 1",
+                owner,profile.get("businessName"),profile.get("city"));
+            if(!rows.isEmpty()) bid=(UUID)rows.get(0).get("id");
+        }
+
+        if(bid==null){
+            bid=UUID.randomUUID();
+            db.update("insert into businesses(id,owner_user_id,owner_email,name,industry,city,goal,website,workspace_stage,last_activity_at) values(?,?,?,?,?,?,?,?,?,now())",
+                bid,owner,u==null?null:u.get("email"),profile.get("businessName"),profile.get("industry"),profile.get("city"),profile.get("goal"),profile.get("website"),"diagnosed");
+        }
+
+        UUID aid=UUID.randomUUID();
         Number score=(Number)audit.getOrDefault("overall",0);
         db.update("insert into growth_audits(id,business_id,overall_score,maturity,result) values(?,?,?,?,?)",aid,bid,score.intValue(),audit.get("maturity"),jsonb(audit));
+
+        if(assessmentId!=null){
+            db.update("delete from growth_actions where audit_id=? and status='recommended'", 
+                db.queryForObject("select audit_id from growth_assessments where id=?",UUID.class,assessmentId));
+            db.update("update growth_assessments set audit_id=?,status='analyzed' where id=?",aid,assessmentId);
+        }
+
         Object opportunities=audit.get("opportunities");
         if(opportunities instanceof List<?> list) for(Object item:list) if(item instanceof Map<?,?> raw){
           Map<String,Object> m=(Map<String,Object>)raw;
@@ -116,7 +144,8 @@ public class VistaarApiController {
             UUID.randomUUID(),bid,aid,String.valueOf(m.get("title")),String.valueOf(m.get("area")),asInt(m.get("impact")),
             String.valueOf(m.get("effort")==null?"medium":m.get("effort")),String.valueOf(m.get("mode")==null?"vistaar":m.get("mode")),"recommended",jsonb(m.get("steps")),m.get("deliverable"),m.get("measurement"));
         }
-        return ResponseEntity.ok(Map.of("profile",profile,"audit",audit,"businessId",bid.toString(),"auditId",aid.toString()));
+        db.update("update businesses set workspace_stage='diagnosed',last_activity_at=now(),goal=?,website=? where id=?",profile.get("goal"),profile.get("website"),bid);
+        return ResponseEntity.ok(Map.of("profile",profile,"audit",audit,"businessId",bid.toString(),"auditId",aid.toString(),"assessmentId",assessmentId==null?"":assessmentId.toString()));
     }
 
     @PostMapping("/readiness")
@@ -148,30 +177,50 @@ public class VistaarApiController {
     public ResponseEntity<?> workspace(@RequestParam(required=false) String businessId,@RequestParam(required=false) String assessmentId,@RequestParam(required=false) String list,HttpServletRequest r){
         if(!role(r,"admin","manager")) return unauthorized();
         if("1".equals(list)) return ResponseEntity.ok(Map.of("ok",true,"workspaces",db.queryForList("""
-                select b.id as business_id,b.name,b.industry,b.city,b.goal,b.website,b.workspace_stage,b.last_activity_at,b.created_at,
+                select distinct on (lower(b.name),lower(b.city),coalesce(b.owner_email,'')) 
+                       b.id as business_id,b.name,b.industry,b.city,b.goal,b.website,b.workspace_stage,b.last_activity_at,b.created_at,
                        a.id as assessment_id,a.version as assessment_version,a.created_at as assessment_created_at
                 from businesses b
                 left join lateral (select id,version,created_at from growth_assessments where business_id=b.id order by version desc,created_at desc limit 1) a on true
-                order by b.last_activity_at desc limit 500""")));
+                order by lower(b.name),lower(b.city),coalesce(b.owner_email,''),b.last_activity_at desc,b.created_at desc
+                """)));
         if(businessId==null&&assessmentId==null)return ResponseEntity.badRequest().body(Map.of("ok",false,"error","businessId or assessmentId is required."));
-        UUID bid=null;
-        if(assessmentId!=null){List<Map<String,Object>> a=db.queryForList("select * from growth_assessments where id=? limit 1",uuid(assessmentId));if(!a.isEmpty())bid=(UUID)a.get(0).get("business_id");}
-        else bid=UUID.fromString(businessId);
+
+        UUID bid=null; UUID selectedAssessmentId=null; UUID selectedAuditId=null;
+        if(assessmentId!=null){
+            selectedAssessmentId=UUID.fromString(assessmentId);
+            List<Map<String,Object>> aRows=db.queryForList("select id,business_id,audit_id from growth_assessments where id=? limit 1",selectedAssessmentId);
+            if(!aRows.isEmpty()){
+                bid=(UUID)aRows.get(0).get("business_id");
+                Object auditRef=aRows.get(0).get("audit_id");
+                if(auditRef instanceof UUID u) selectedAuditId=u;
+            }
+        } else {
+            bid=UUID.fromString(businessId);
+            List<Map<String,Object>> aRows=db.queryForList("select id,business_id,audit_id from growth_assessments where business_id=? order by version desc,created_at desc limit 1",bid);
+            if(!aRows.isEmpty()){
+                selectedAssessmentId=(UUID)aRows.get(0).get("id");
+                Object auditRef=aRows.get(0).get("audit_id");
+                if(auditRef instanceof UUID u) selectedAuditId=u;
+            }
+        }
+
+        if(bid==null||selectedAuditId==null)return ResponseEntity.status(404).body(Map.of("ok",false,"error","Workspace diagnosis not found for the selected assessment."));
         List<Map<String,Object>> bs=db.queryForList("select * from businesses where id=? limit 1",bid);
-        List<Map<String,Object>> au=db.queryForList("select * from growth_audits where business_id=? order by created_at desc limit 1",bid);
-        if(bs.isEmpty()||au.isEmpty())return ResponseEntity.status(404).body(Map.of("ok",false,"error","Workspace not found."));
+        List<Map<String,Object>> au=db.queryForList("select * from growth_audits where id=? limit 1",selectedAuditId);
+        if(bs.isEmpty()||au.isEmpty())return ResponseEntity.status(404).body(Map.of("ok",false,"error","Workspace diagnosis not found."));
         Map<String,Object> b=bs.get(0), a=au.get(0);
-        List<Map<String,Object>> as=db.queryForList("select * from growth_actions where business_id=? order by impact desc,created_at desc limit 20",bid);
+        List<Map<String,Object>> as=db.queryForList("select * from growth_actions where business_id=? and audit_id=? order by impact desc,created_at desc limit 20",bid,selectedAuditId);
         List<Map<String,Object>> leads=db.queryForList("select * from growth_leads where business_id=? order by created_at desc limit 50",bid);
         List<Map<String,Object>> measurements=db.queryForList("select * from growth_measurements where business_id=? order by measured_at desc limit 50",bid);
         List<Map<String,Object>> specialists=db.queryForList("select * from specialist_requests where business_id=? order by created_at desc limit 20",bid);
-        List<Map<String,Object>> evidence=db.queryForList("select * from growth_evidence where business_id=? order by observed_at desc limit 100",bid);
-        List<Map<String,Object>> assessments=db.queryForList("select * from growth_assessments where business_id=? order by created_at desc limit 1",bid);
+        List<Map<String,Object>> evidence=db.queryForList("select * from growth_evidence where business_id=? and (assessment_id=? or audit_id=?) order by observed_at desc limit 100",bid,selectedAssessmentId,selectedAuditId);
+        List<Map<String,Object>> assessments=db.queryForList("select * from growth_assessments where id=? limit 1",selectedAssessmentId);
         Map<String,Object> out=new LinkedHashMap<>();
-out.put("ok",true);out.put("business",b);out.put("audit",jsonValue(a.get("result")));out.put("auditId",a.get("id"));out.put("auditCreatedAt",a.get("created_at"));
-out.put("assessmentId",assessments.isEmpty()?null:assessments.get(0).get("id"));out.put("assessment",assessments.isEmpty()?null:assessments.get(0));
-out.put("actions",as);out.put("leads",leads);out.put("measurements",measurements);out.put("specialists",specialists);out.put("evidence",evidence);
-return ResponseEntity.ok(out);
+        out.put("ok",true);out.put("business",b);out.put("audit",jsonValue(a.get("result")));out.put("auditId",a.get("id"));out.put("auditCreatedAt",a.get("created_at"));
+        out.put("assessmentId",selectedAssessmentId);out.put("assessment",assessments.isEmpty()?null:assessments.get(0));
+        out.put("actions",as);out.put("leads",leads);out.put("measurements",measurements);out.put("specialists",specialists);out.put("evidence",evidence);
+        return ResponseEntity.ok(out);
     }
 
     @PatchMapping("/actions")
