@@ -37,12 +37,24 @@ export async function POST(request: Request) {
       businessName:record.business_name,
       industry:record.industry,
       city:record.city,
+      serviceArea:record.service_area,
+      idealCustomer:record.ideal_customer,
+      offerings:record.offerings,
+      differentiator:record.differentiator,
       goal:record.goal,
-      website:record.website || undefined
+      target:record.target,
+      constraint:record.constraint,
+      channels:record.channels,
+      monthlyLeads:record.monthly_leads||undefined,
+      conversion:record.conversion||undefined,
+      challenge:record.challenge,
+      notes:record.notes||undefined,
+      website:record.website||undefined,
+      google:record.google||undefined,
+      instagram:record.instagram||undefined,
+      otherLinks:record.other_links||undefined
     };
 
-    // The detailed assessment is the source of truth for the workspace.
-    // Run the same evidence layer used by the normal audit flow instead of creating a demo dashboard.
     const site = await scanWebsite(profile.website);
     const siteSignals = site ? {
       website:site.url, reachable:site.reachable, https:site.https, title:site.title,
@@ -50,6 +62,7 @@ export async function POST(request: Request) {
       hasReviews:site.hasReviews, hasLocalTerms:site.hasLocalTerms, hasImages:site.hasImages,
       imageCount:site.imageCount, wordCount:site.wordCount, signals:site.signals
     } : undefined;
+
     const local = await scanLocalPresence(profile.businessName, profile.industry, profile.city);
     const localSignals = {
       found:local.found, matchedName:local.matchedName, displayName:local.displayName,
@@ -65,10 +78,14 @@ export async function POST(request: Request) {
 
     if(url && key){
       const headers={apikey:key,Authorization:"Bearer "+key,"Content-Type":"application/json"};
+
       const businessResponse=await fetch(url+"/rest/v1/businesses",{
         method:"POST",headers,
         body:JSON.stringify({
-          name:record.business_name,industry:record.industry,city:record.city,goal:record.goal,
+          name:record.business_name,
+          industry:record.industry,
+          city:record.city,
+          goal:record.goal,
           website:record.website||null
         }),
         cache:"no-store"
@@ -82,7 +99,10 @@ export async function POST(request: Request) {
         const auditResponse=await fetch(url+"/rest/v1/growth_audits",{
           method:"POST",headers,
           body:JSON.stringify({
-            business_id:businessId,overall_score:audit.overall,maturity:audit.maturity,result:audit
+            business_id:businessId,
+            overall_score:audit.overall,
+            maturity:audit.maturity,
+            result:audit
           }),
           cache:"no-store"
         });
@@ -103,13 +123,31 @@ export async function POST(request: Request) {
         assessmentId=rows?.[0]?.id??null;
       }
 
+      // The relation columns are additive schema support. Older databases can still
+      // recover the workspace by assessment id, so a failed relation patch must not
+      // invalidate a successful assessment.
+      if(assessmentId && (businessId||auditId)){
+        await fetch(url+"/rest/v1/growth_assessments?id=eq."+encodeURIComponent(assessmentId),{
+          method:"PATCH",
+          headers,
+          body:JSON.stringify({business_id:businessId,audit_id:auditId}),
+          cache:"no-store"
+        }).catch(()=>{});
+      }
+
       if(businessId && auditId && audit.opportunities.length){
         await fetch(url+"/rest/v1/growth_actions",{
           method:"POST",
           headers,
           body:JSON.stringify(audit.opportunities.map(o=>({
-            business_id:businessId,audit_id:auditId,title:o.title,area:o.area,
-            impact:o.impact,effort:o.effort,mode:o.mode,status:"recommended"
+            business_id:businessId,
+            audit_id:auditId,
+            title:o.title,
+            area:o.area,
+            impact:o.impact,
+            effort:o.effort,
+            mode:o.mode,
+            status:"recommended"
           }))),
           cache:"no-store"
         });
@@ -117,8 +155,14 @@ export async function POST(request: Request) {
     }
 
     return NextResponse.json({
-      ok:true,stored:Boolean(assessmentId||businessId||auditId),
-      id:assessmentId,businessId,auditId,profile,audit,assessment:record
+      ok:true,
+      stored:Boolean(assessmentId||businessId||auditId),
+      id:assessmentId,
+      businessId,
+      auditId,
+      profile,
+      audit,
+      assessment:record
     });
   } catch {
     return NextResponse.json({ok:false,error:"We couldn't start the assessment. Please try again."},{status:500});
