@@ -21,7 +21,7 @@ useEffect(()=>{
       
       const initialAssessmentId=new URLSearchParams(window.location.search).get("assessmentId")||saved?.assessmentId||assessment?.id||null;
 
-      const listResponse=await fetch("/api/workspaces",{cache:"no-store"});
+      const listResponse=await fetch("/api/workspace?list=1",{cache:"no-store"});
       if(listResponse.ok){
         const listData=await listResponse.json();
         const available=listData.workspaces||[];
