@@ -2464,3 +2464,58 @@ body{background:#f7f7fb;color:#17172b}
   .siteSignalStrip b{font-size:10px}
   .siteSignalStrip span{font-size:7px}
 }
+
+
+/* DASHBOARD 2.0 — readable business workspace hierarchy */
+@media (min-width:1101px){
+  .appShell .dashboardBody{max-width:1820px;padding-left:clamp(34px,4.5vw,76px);padding-right:clamp(34px,4.5vw,76px)}
+  .appShell .contentGrid{grid-template-columns:minmax(0,1.42fr) minmax(360px,.78fr);gap:22px}
+  .appShell .contentPanel{border-radius:14px}
+  .appShell .panelHeader{padding:25px 27px 19px}
+  .appShell .panelHeader h2{font-size:23px;line-height:1.25}
+  .appShell .panelHeader p{font-size:12px;line-height:1.65}
+  .appShell .panelEyebrow{font-size:9px}
+  .appShell .recommendations{padding:0 27px}
+  .appShell .recommendation{grid-template-columns:46px minmax(0,1fr) 72px;gap:16px;padding:22px 0}
+  .appShell .recIcon{width:44px;height:44px;border-radius:11px}
+  .appShell .recMeta>span:first-child{font-size:9px}
+  .appShell .effort{font-size:9px}
+  .appShell .recBody h3{font-size:17px;line-height:1.35;margin:9px 0 7px}
+  .appShell .recBody>p{font-size:12px;line-height:1.75;color:#686a73;max-width:850px}
+  .appShell .recActions button,.appShell .recActions>span{font-size:10px}
+  .appShell .impactScore b{font-size:27px}
+  .appShell .impactScore small{font-size:8px}
+  .serviceTagInline{display:inline-flex!important;align-items:center;padding:4px 7px;border-radius:99px;background:#eeeaff;color:#6754df;font-size:7px!important;font-weight:900!important;letter-spacing:.04em}
+  .appShell .actionPlan{margin-top:16px!important;padding:17px 19px!important;border-radius:12px!important;background:#faf9ff!important;border:1px solid #e3def2!important}
+  .appShell .actionPlan small{font-size:9px!important;letter-spacing:.12em}
+  .appShell .actionPlan ol{margin:10px 0 10px;padding-left:21px}
+  .appShell .actionPlan li{font-size:12px!important;line-height:1.65!important;margin:4px 0}
+  .appShell .actionPlan>span{display:block;font-size:10px!important;line-height:1.55;margin-top:7px}
+  .appShell .leadEmpty{padding:30px 28px!important}
+  .appShell .leadEmpty b{font-size:16px!important}
+  .appShell .leadEmpty p{font-size:12px!important;line-height:1.7!important}
+  .appShell .leadEmpty a{font-size:11px!important}
+  .appShell .assessmentContextItem b{font-size:13px}
+  .appShell .assessmentContextItem p{font-size:11px}
+  .appShell .evidenceGrid{gap:11px;padding:0 27px 24px}
+  .appShell .evidenceGrid article{padding:14px}
+  .appShell .evidenceGrid small,.appShell .evidenceGrid article>div span{font-size:8px}
+  .appShell .evidenceGrid b{font-size:11px}
+  .appShell .evidenceGrid p{font-size:10px;line-height:1.55}
+  .appShell .localPresenceCard{padding:18px 20px}
+  .appShell .localPresenceCard small{font-size:8px}
+  .appShell .localPresenceCard b{font-size:14px}
+  .appShell .localPresenceCard span{font-size:10px;line-height:1.55}
+}
+@media (min-width:701px) and (max-width:1100px){
+  .appShell .recBody h3{font-size:15px}
+  .appShell .recBody>p{font-size:11px;line-height:1.65}
+  .appShell .actionPlan li{font-size:11px!important}
+  .serviceTagInline{display:inline-flex!important}
+}
+@media (max-width:700px){
+  .serviceTagInline{display:block!important;width:max-content;margin-top:4px}
+  .appShell .recBody>p{font-size:10px;line-height:1.65}
+  .appShell .recBody h3{font-size:13px}
+  .appShell .actionPlan li{font-size:9px!important;line-height:1.55!important}
+}
