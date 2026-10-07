@@ -22,6 +22,9 @@ create table if not exists growth_audits (
   created_at timestamptz not null default now()
 );
 
+alter table businesses add column if not exists workspace_stage text not null default 'new';
+alter table businesses add column if not exists last_activity_at timestamptz not null default now();
+
 create table if not exists growth_actions (
   id uuid primary key default gen_random_uuid(),
   business_id uuid not null references businesses(id) on delete cascade,
@@ -32,7 +35,10 @@ create table if not exists growth_actions (
   effort text not null,
   mode text not null,
   status text not null default 'recommended',
-  created_at timestamptz not null default now()
+  created_at timestamptz not null default now(),
+  started_at timestamptz,
+  completed_at timestamptz,
+  outcome text
 );
 
 create index if not exists growth_audits_business_idx on growth_audits(business_id,created_at desc);
