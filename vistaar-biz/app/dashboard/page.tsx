@@ -28,50 +28,57 @@ useEffect(()=>{
       const [listResponse,readinessResponse,enquiriesResponse]=await Promise.all([fetch("/api/workspace?list=1",{cache:"no-store"}),fetch("/api/readiness",{cache:"no-store"}),fetch("/api/enquiries",{cache:"no-store"})]);
       if(readinessResponse.ok){const rd=await readinessResponse.json();setReadinessSubmissions(rd.submissions||[]);}
       if(enquiriesResponse.ok){const eq=await enquiriesResponse.json();setEnquiries(eq.enquiries||[]);}
-      if(listResponse.ok){
-        const listData=await listResponse.json();
-        const available=(listData.workspaces||[]).map((w:any)=>({...w, businessId:w.businessId||w.business_id||w.id, assessmentId:w.assessmentId||w.assessment_id, createdAt:w.createdAt||w.created_at}));
-        setWorkspaces(available);
-        const selected=available.find((w:any)=>w.assessmentId===initialAssessmentId)||available.find((w:any)=>w.businessId===initialBusinessId)||available[0];
-        if(selected){
-          setSelectedAssessmentId(selected.assessmentId);
-          const response=await fetch("/api/workspace?assessmentId="+encodeURIComponent(selected.assessmentId),{cache:"no-store"});
-          if(response.ok){
-            const data=await response.json();
-            if(data?.business?.id&&data?.audit){
-              const workspace={profile:data.profile||{businessName:data.business.name,industry:data.business.industry,city:data.business.city,goal:data.business.goal,website:data.business.website},audit:data.audit,actions:data.actions||[],leads:data.leads||[],measurements:data.measurements||[],specialists:data.specialists||[],evidence:data.evidence||[],assessment:data.assessment||null,businessId:data.business.id,auditId:data.auditId,assessmentId:data.assessmentId,auditCreatedAt:data.auditCreatedAt,businessStage:data.business?.workspace_stage||"diagnosed"};
-              setLive(workspace);
-              localStorage.setItem("vistaar_biz_audit",JSON.stringify(workspace));
-              localStorage.setItem("vistaar_growth_assessment",JSON.stringify(data.assessment||{}));
-              if(window.location.search!==("?assessmentId="+encodeURIComponent(selected.assessmentId))) window.history.replaceState({}, "", "/dashboard?assessmentId="+encodeURIComponent(selected.assessmentId));
-            }else setError("Selected workspace data is incomplete.");
-          }else{
-            const body=await response.json().catch(()=>null);
-            setError(body?.error||"Selected workspace could not be loaded.");
-          }
-        }else if(initialAssessmentId){
-          setSelectedAssessmentId(initialAssessmentId);
-          const response=await fetch("/api/workspace?assessmentId="+encodeURIComponent(initialAssessmentId),{cache:"no-store"});
-          if(response.ok){
-            const data=await response.json();
-            if(data?.business?.id&&data?.audit){
-              const workspace={profile:data.profile||{businessName:data.business.name,industry:data.business.industry,city:data.business.city,goal:data.business.goal,website:data.business.website},audit:data.audit,actions:data.actions||[],leads:data.leads||[],measurements:data.measurements||[],specialists:data.specialists||[],evidence:data.evidence||[],assessment:data.assessment||null,businessId:data.business.id,auditId:data.auditId,assessmentId:data.assessmentId,auditCreatedAt:data.auditCreatedAt,businessStage:data.business?.workspace_stage||"diagnosed"};
-              setLive(workspace);
-              localStorage.setItem("vistaar_biz_audit",JSON.stringify(workspace));
-              localStorage.setItem("vistaar_growth_assessment",JSON.stringify(data.assessment||{}));
-            }else setError("Selected assessment data is incomplete.");
-          }else{
-            const body=await response.json().catch(()=>null);
-            setError(body?.detail||body?.error||"Selected assessment could not be loaded.");
-          }
-        }else{
-          setLive(null);
-          setSelectedAssessmentId(null);
-          setError("No submitted business assessment is available yet.");
-        }
-      }else{
+      if(!listResponse.ok){
         const body=await listResponse.json().catch(()=>null);
         setError(body?.error||"Submitted assessments could not be loaded.");
+        return;
+      }
+      const listData=await listResponse.json();
+      const available=(listData.workspaces||[]).map((w:any)=>({...w, businessId:w.businessId||w.business_id||w.id, assessmentId:w.assessmentId||w.assessment_id, createdAt:w.createdAt||w.created_at}));
+      setWorkspaces(available);
+
+      // A URL containing assessmentId is authoritative. Never replace it with a
+      // business/latest workspace from localStorage or the workspace list.
+      if(initialAssessmentId){
+        setSelectedAssessmentId(initialAssessmentId);
+        const response=await fetch("/api/workspace?assessmentId="+encodeURIComponent(initialAssessmentId),{cache:"no-store"});
+        const data=await response.json().catch(()=>null);
+        if(!response.ok||!data?.business?.id||!data?.audit){
+          setError(data?.detail||data?.error||"Selected assessment could not be loaded.");
+          setLive(null);
+          return;
+        }
+        // Guard against the backend accidentally returning another assessment.
+        if(data.assessmentId!==initialAssessmentId){
+          setError("The selected assessment could not be matched to its report.");
+          setLive(null);
+          return;
+        }
+        const workspace={profile:data.profile||{businessName:data.business.name,industry:data.business.industry,city:data.business.city,goal:data.business.goal,website:data.business.website},audit:data.audit,actions:data.actions||[],leads:data.leads||[],measurements:data.measurements||[],specialists:data.specialists||[],evidence:data.evidence||[],assessment:data.assessment||null,businessId:data.business.id,auditId:data.auditId,assessmentId:data.assessmentId,auditCreatedAt:data.auditCreatedAt,businessStage:data.business?.workspace_stage||"diagnosed"};
+        setLive(workspace);
+        localStorage.setItem("vistaar_biz_audit",JSON.stringify(workspace));
+        localStorage.setItem("vistaar_growth_assessment",JSON.stringify(data.assessment||{}));
+        return;
+      }
+
+      // Only fall back to a business/latest workspace when there is no
+      // assessment-specific URL.
+      const selected=available.find((w:any)=>w.businessId===initialBusinessId)||available[0];
+      if(selected?.assessmentId){
+        setSelectedAssessmentId(selected.assessmentId);
+        const response=await fetch("/api/workspace?assessmentId="+encodeURIComponent(selected.assessmentId),{cache:"no-store"});
+        const data=await response.json().catch(()=>null);
+        if(response.ok&&data?.business?.id&&data?.audit&&data.assessmentId===selected.assessmentId){
+          const workspace={profile:data.profile||{businessName:data.business.name,industry:data.business.industry,city:data.business.city,goal:data.business.goal,website:data.business.website},audit:data.audit,actions:data.actions||[],leads:data.leads||[],measurements:data.measurements||[],specialists:data.specialists||[],evidence:data.evidence||[],assessment:data.assessment||null,businessId:data.business.id,auditId:data.auditId,assessmentId:data.assessmentId,auditCreatedAt:data.auditCreatedAt,businessStage:data.business?.workspace_stage||"diagnosed"};
+          setLive(workspace);
+          localStorage.setItem("vistaar_biz_audit",JSON.stringify(workspace));
+          localStorage.setItem("vistaar_growth_assessment",JSON.stringify(data.assessment||{}));
+          window.history.replaceState({}, "", "/dashboard?assessmentId="+encodeURIComponent(selected.assessmentId));
+        }else setError(data?.error||"Selected workspace could not be loaded.");
+      }else{
+        setLive(null);
+        setSelectedAssessmentId(null);
+        setError("No submitted business assessment is available yet.");
       }
     }catch(e){setError(e instanceof Error?e.message:"Workspace could not be loaded.");}
     finally{setLoading(false);}
