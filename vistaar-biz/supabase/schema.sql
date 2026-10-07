@@ -38,7 +38,10 @@ create table if not exists growth_actions (
   created_at timestamptz not null default now(),
   started_at timestamptz,
   completed_at timestamptz,
-  outcome text
+  outcome text,
+  steps jsonb,
+  deliverable text,
+  measurement text
 );
 
 create index if not exists growth_audits_business_idx on growth_audits(business_id,created_at desc);
