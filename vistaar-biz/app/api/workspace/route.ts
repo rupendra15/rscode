@@ -179,10 +179,26 @@ export async function GET(request:Request){
       const leadsRes=await fetch(url+"/rest/v1/growth_leads?select=*&business_id=eq."+encodeURIComponent(persistedAudit.business_id)+"&order=created_at.desc&limit=50",{headers:headers(key),cache:"no-store"});
       const measurementsRes=await fetch(url+"/rest/v1/growth_measurements?select=*&business_id=eq."+encodeURIComponent(persistedAudit.business_id)+"&order=measured_at.desc&limit=50",{headers:headers(key),cache:"no-store"});
       const specialistsRes=await fetch(url+"/rest/v1/specialist_requests?select=*&business_id=eq."+encodeURIComponent(persistedAudit.business_id)+"&order=created_at.desc&limit=20",{headers:headers(key),cache:"no-store"});
-      const actions=actionsRes.ok?await actionsRes.json():[];
+      let actions=actionsRes.ok?await actionsRes.json():[];
       const leads=leadsRes.ok?await leadsRes.json():[];
       const measurements=measurementsRes.ok?await measurementsRes.json():[];
       const specialists=specialistsRes.ok?await specialistsRes.json():[];
+      // Older workspaces can have a persisted audit but no persisted actions if
+      // the original action insert failed. Repair that gap from the saved audit.
+      if(!actions.length && persistedAudit?.result?.opportunities?.length){
+        const repairResponse=await fetch(url+"/rest/v1/growth_actions",{
+          method:"POST",
+          headers:{...headers(key),Prefer:"return=representation"},
+          body:JSON.stringify(persistedAudit.result.opportunities.map((o:any)=>({
+            business_id:persistedAudit.business_id,
+            audit_id:persistedAudit.id,
+            title:o.title,area:o.area,impact:o.impact,effort:o.effort,mode:o.mode,
+            status:"recommended",steps:o.steps||[],deliverable:o.deliverable||null,measurement:o.measurement||null
+          }))),
+          cache:"no-store"
+        });
+        if(repairResponse.ok) actions=await repairResponse.json();
+      }
       return NextResponse.json({
         ok:true,
         business:{id:persistedAudit.business_id,name:profile.businessName,industry:profile.industry,city:profile.city,goal:profile.goal,website:profile.website,workspace_stage:"diagnosed"},
