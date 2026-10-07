@@ -7,7 +7,7 @@ const nav=[["Overview",LayoutDashboard,"#overview"],["Growth audit",ScanSearch,"
 
 type AuditData = any;
 export default function Dashboard(){const [live,setLive]=useState<AuditData|null>(null);
-const [loading,setLoading]=useState(true); const [accessDenied,setAccessDenied]=useState(false); const [role,setRole]=useState<"admin"|"manager"|"user"|null>(null); const [outreachStatus,setOutreachStatus]=useState("contacted"); const [outreachNotes,setOutreachNotes]=useState(""); const [outreachSending,setOutreachSending]=useState(false);
+const [loading,setLoading]=useState(true); const [accessDenied,setAccessDenied]=useState(false); const [role,setRole]=useState<"admin"|"manager"|null>(null); const [outreachStatus,setOutreachStatus]=useState("contacted"); const [outreachNotes,setOutreachNotes]=useState(""); const [outreachSending,setOutreachSending]=useState(false);
 const [error,setError]=useState("");
 const [updatingAction,setUpdatingAction]=useState<string|null>(null); const [workspaces,setWorkspaces]=useState<any[]>([]);
 const [workspaceOpen,setWorkspaceOpen]=useState(false);
@@ -19,7 +19,6 @@ useEffect(()=>{
       const me=await fetch("/api/auth/me",{cache:"no-store"}); const meData=await me.json().catch(()=>null);
       if(!meData?.authenticated){ setAccessDenied(true); setError("Please sign in to access the Vistaar dashboard."); return; }
       setRole(meData.user?.role||null);
-      if(meData.user?.role==="user"){ setAccessDenied(true); setError("Business user accounts do not have dashboard access."); return; }
       const raw=localStorage.getItem("vistaar_biz_audit");
       const saved=raw?JSON.parse(raw):null;
       
@@ -61,7 +60,7 @@ useEffect(()=>{
   };
   void load();
 },[]);
-  const saveOutreach=async()=>{if(!live?.businessId||role==="user"||outreachSending)return;setOutreachSending(true);try{const response=await fetch("/api/outreach",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({businessId:live.businessId,status:outreachStatus,notes:outreachNotes})});const data=await response.json();if(!response.ok||!data.ok)throw new Error(data.error||"Outreach could not be saved.");setError("");setOutreachNotes("");}catch(e){setError(e instanceof Error?e.message:"Outreach could not be saved.");}finally{setOutreachSending(false);}};
+  const saveOutreach=async()=>{if(!live?.businessId||outreachSending)return;setOutreachSending(true);try{const response=await fetch("/api/outreach",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({businessId:live.businessId,status:outreachStatus,notes:outreachNotes})});const data=await response.json();if(!response.ok||!data.ok)throw new Error(data.error||"Outreach could not be saved.");setError("");setOutreachNotes("");}catch(e){setError(e instanceof Error?e.message:"Outreach could not be saved.");}finally{setOutreachSending(false);}};
   const requestSpecialist=async(action:any)=>{
     if(!live?.businessId||!action?.title) return;
     try{
