@@ -212,6 +212,32 @@ public class VistaarApiController {
 
             if(selectedAuditId==null) return ResponseEntity.status(404).body(Map.of("ok",false,"error","This assessment does not have a saved diagnosis yet."));
 
+            // A historical assessment must own its report. Older data may have accidentally
+            // pointed multiple assessments at the same audit. If that happens, recover the
+            // nearest unclaimed audit for this business instead of showing another assessment's report.
+            if(selectedAssessmentId!=null){
+                Integer auditUsage=db.queryForObject("select count(*) from growth_assessments where audit_id=?",Integer.class,selectedAuditId);
+                if(auditUsage!=null && auditUsage>1){
+                    List<Map<String,Object>> recovered=db.queryForList("""
+                        select ga.id
+                        from growth_audits ga
+                        where ga.business_id=?
+                          and ga.id not in (
+                              select audit_id from growth_assessments
+                              where business_id=? and id<>? and audit_id is not null
+                          )
+                        order by abs(extract(epoch from (ga.created_at - (
+                            select created_at from growth_assessments where id=?
+                        )))), ga.created_at
+                        limit 1
+                        """,bid,bid,selectedAssessmentId,selectedAssessmentId);
+                    if(!recovered.isEmpty()){
+                        selectedAuditId=(UUID)recovered.get(0).get("id");
+                        db.update("update growth_assessments set audit_id=? where id=?",selectedAuditId,selectedAssessmentId);
+                    }
+                }
+            }
+
             List<Map<String,Object>> bs=db.queryForList("select * from businesses where id=? limit 1",bid);
             List<Map<String,Object>> au=db.queryForList("select * from growth_audits where id=? and business_id=? limit 1",selectedAuditId,bid);
             List<Map<String,Object>> assessments=db.queryForList("select * from growth_assessments where id=? limit 1",selectedAssessmentId);
