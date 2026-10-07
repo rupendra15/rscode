@@ -78,7 +78,7 @@ export default function AdminPage(){
 
     <section className="adminPanel">
      <div className="adminPanelHead"><div><span>ACCESS CONTROL</span><h2>Admin · Manager · User</h2></div><small>{users.length} accounts</small></div>
-     <div className="adminUserList">{users.map((u:any)=><article key={u.id}><div><b>{u.email||"Unknown user"}</b><span>{u.confirmed?"Email confirmed":"Email not confirmed"} · {new Date(u.createdAt).toLocaleDateString()}</span></div><select value={u.role||"user"} onChange={e=>updateRole(u.id,e.target.value)}><option value="user">User</option><option value="manager">Manager</option><option value="admin">Admin</option></select></article>)}</div>
+     <div className="adminUserList">{users.map((u:any)=><article key={u.id}><div><b>{u.email||"Unknown user"}</b><span>{u.status==="active"?"Active":"Disabled"} · {new Date(u.created_at).toLocaleDateString()}</span></div><select value={u.role||"user"} onChange={e=>updateRole(u.id,e.target.value)}><option value="user">User</option><option value="manager">Manager</option><option value="admin">Admin</option></select></article>)}</div>
      {users.length===0&&<div className="adminEmpty">No application accounts found yet.</div>}
     </section>
    </>}
