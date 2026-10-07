@@ -26,6 +26,8 @@ test.describe("Vistaar-Biz smoke and UX QA", () => {
       if (route.path === "/dashboard") {
         await page.route("**/api/auth/me", async route => route.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify({ ok:true, authenticated:true, user:{ id:"qa-manager", email:"qa@vistaar-biz.test", role:"manager" } }) }));
         await page.route("**/api/workspace?list=1", async route => route.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify({ ok:true, workspaces:[] }) }));
+        await page.route("**/api/readiness", async route => route.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify({ ok:true, submissions:[] }) }));
+        await page.route("**/api/enquiries", async route => route.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify({ ok:true, enquiries:[] }) }));
       }
       await page.goto(route.path, { waitUntil: "networkidle" });
       await expect(page.locator("body")).toBeVisible();
