@@ -12,6 +12,7 @@ import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.SecureRandom;
 import java.time.Instant;
+import java.sql.Timestamp;
 import java.time.temporal.ChronoUnit;
 import java.util.HexFormat;
 import java.util.Map;
@@ -46,7 +47,7 @@ public class AuthService {
         String tokenHash = sha256(token);
         Instant expires = Instant.now().plus(sessionDays, ChronoUnit.DAYS);
         jdbc.update("insert into app_sessions(user_id,token_hash,expires_at) values(?,?,?)",
-                user.get("id"), tokenHash, expires);
+                user.get("id"), tokenHash, Timestamp.from(expires));
         jdbc.update("update app_users set last_login_at=now(),updated_at=now() where id=?",
                 user.get("id"));
 
