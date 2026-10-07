@@ -2293,3 +2293,174 @@ body{background:#f7f7fb;color:#17172b}
 .adminPage{min-height:100vh;background:#f4f4f0;color:#17171b}.adminHeader{height:72px;padding:0 5vw;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #e3e2dc;background:#fff}.adminHeader>div{display:flex;align-items:center;gap:18px}.adminHeader a{display:inline-flex;align-items:center;gap:4px;color:#17171b;text-decoration:none;font-size:12px;font-weight:800}.adminHeader button{border:1px solid #dddcd5;border-radius:999px;background:#fff;padding:9px 14px;cursor:pointer;font-weight:700}.adminBody{width:min(1200px,90vw);margin:0 auto;padding:62px 0 80px}.adminIntro{max-width:720px;margin-bottom:32px}.adminIntro h1{font-size:58px;line-height:.98;letter-spacing:-.06em;margin:10px 0 14px}.adminIntro h1 em{font-style:normal;color:#6f4df6}.adminIntro p{color:#686870;line-height:1.6}.adminStats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px}.adminStats article{background:#fff;border:1px solid #e1e0da;border-radius:16px;padding:18px;display:grid;gap:8px}.adminStats svg{color:#6f4df6}.adminStats b{font-size:30px}.adminStats span{font-size:11px;color:#777}.adminPanel{background:#fff;border:1px solid #e1e0da;border-radius:18px;margin-top:18px;overflow:hidden}.adminPanelHead{display:flex;justify-content:space-between;align-items:center;padding:20px;border-bottom:1px solid #ecebe6}.adminPanelHead span{font-size:9px;letter-spacing:.14em;font-weight:900;color:#6f4df6}.adminPanelHead h2{margin:5px 0 0;font-size:20px}.adminPanelHead small{color:#777}.adminTable{overflow:auto}.adminRow{min-width:760px;display:grid;grid-template-columns:2fr 1fr 1fr 1fr 90px;gap:16px;padding:13px 20px;border-bottom:1px solid #f0efeb;align-items:center;font-size:12px}.adminRow:last-child{border-bottom:0}.adminRow>span:first-child{display:grid;gap:3px}.adminRow small{color:#888}.adminRowHead{font-size:9px;letter-spacing:.1em;text-transform:uppercase;font-weight:900;color:#888}.adminRow a{display:inline-flex;align-items:center;gap:3px;color:#6f4df6;font-weight:800;text-decoration:none}.adminStage{font-style:normal;font-size:9px;padding:5px 7px;border-radius:999px;background:#f0f0ec;color:#555}.adminAssessmentList article{display:grid;grid-template-columns:2fr 1.4fr auto;gap:20px;align-items:center;padding:15px 20px;border-bottom:1px solid #f0efeb}.adminAssessmentList article:last-child{border-bottom:0}.adminAssessmentList article>div{display:grid;gap:4px}.adminAssessmentList article span,.adminAssessmentList article small{font-size:11px;color:#777}.adminAssessmentList article a{display:inline-flex;align-items:center;gap:4px;color:#6f4df6;font-size:11px;font-weight:800;text-decoration:none}.adminAssessmentList article p{grid-column:1/-1;margin:0;color:#555;font-size:12px;line-height:1.5}.adminEmpty{padding:24px;color:#777}@media(max-width:800px){.authCard{padding:28px;border-radius:18px}.authCard h1{font-size:38px}.adminBody{padding-top:40px}.adminIntro h1{font-size:44px}.adminStats{grid-template-columns:repeat(2,1fr)}.managerOutreachGrid{grid-template-columns:1fr}.adminAssessmentList article{grid-template-columns:1fr}.adminAssessmentList article a{justify-self:start}}
 
 .adminUserList article{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:15px 20px;border-bottom:1px solid #f0efeb}.adminUserList article:last-child{border-bottom:0}.adminUserList article>div{display:grid;gap:4px}.adminUserList article span{font-size:11px;color:#777}.adminUserList select{border:1px solid #dddcd5;border-radius:9px;padding:8px 10px;background:#fafaf8;font-weight:700}
+
+
+/* VISTAAR-BIZ DASHBOARD READABILITY PASS — preserve the approved visual system, improve hierarchy and scanability */
+@media (min-width:1101px){
+  .appShell{grid-template-columns:260px 1fr}
+  .appSidebar{padding:24px 17px 16px}
+  .appSidebar .sideBrand{font-size:21px;margin-bottom:28px}
+  .workspaceSelectorWrap{margin:0 0 22px}
+  .workspaceSelector{padding:12px 11px}
+  .workspaceSelector b{font-size:12px}
+  .workspaceSelector small{font-size:10px;margin-top:5px}
+  .workspaceIcon{width:34px;height:34px;font-size:13px}
+  .sideLabel{font-size:9px;padding:0 11px 11px}
+  .appSidebar .sideItem{font-size:13px;padding:12px 11px;margin:3px 0;gap:12px}
+  .sideCount{font-size:9px}
+  .helpCard{padding:16px;margin:24px 0}
+  .helpCard>b{font-size:12px;margin-top:13px}
+  .helpCard p{font-size:10px}
+  .helpCard>a{font-size:10px}
+  .profile{padding-top:17px}
+  .profile b{font-size:12px}
+  .profile small{font-size:10px}
+  .profileAvatar,.topAvatar{width:34px;height:34px;font-size:10px}
+
+  .appTopbar{height:68px;padding:0 clamp(28px,4vw,64px)}
+  .breadcrumb{font-size:12px}
+  .topTools{gap:20px}
+  .adminTopLink{font-size:12px}
+
+  .appShell .dashboardBody{padding:34px clamp(28px,4vw,64px) 40px;max-width:1760px}
+  .welcomeRow{margin-bottom:24px}
+  .dashEyebrow{font-size:10px;letter-spacing:1.3px}
+  .statusPill{font-size:9px;padding:6px 9px}
+  .welcomeRow h1{font-size:clamp(32px,2.8vw,44px);letter-spacing:-1.8px;margin:14px 0 8px}
+  .welcomeRow p{font-size:13px}
+  .outlineButton{padding:12px 15px;font-size:11px}
+
+  .contentGrid{gap:18px}
+  .contentPanel{border-radius:12px}
+  .panelHeader{padding:22px 23px 17px}
+  .panelEyebrow{font-size:9px;letter-spacing:1.1px}
+  .panelHeader h2{font-size:20px;margin:9px 0 6px}
+  .panelHeader p{font-size:11px;line-height:1.55}
+  .recommendations{padding:0 23px}
+  .recommendation{grid-template-columns:40px 1fr 62px;gap:13px;padding:18px 0}
+  .recIcon{width:38px;height:38px;border-radius:10px}
+  .recMeta>span:first-child{font-size:8px;letter-spacing:.9px}
+  .recBody h3{font-size:14px;margin:8px 0 6px}
+  .recBody p{font-size:11px;line-height:1.65}
+  .recActions{margin-top:12px}
+  .recActions button{font-size:10px}
+  .recActions>span{font-size:9px}
+  .impactScore b{font-size:24px}
+  .impactScore small{font-size:8px}
+  .filterButton{font-size:10px;padding:9px 10px}
+
+  .liveAuditPanel{padding:28px;border-radius:22px;margin-bottom:18px}
+  .liveAuditHead{gap:28px}
+  .liveAuditHead h2{font-size:29px}
+  .liveAuditHead p{font-size:13px;line-height:1.65;max-width:760px}
+  .liveAuditScore{min-width:170px;padding:15px 17px}
+  .liveAuditScore small{font-size:8px}
+  .liveAuditScore b{font-size:42px}
+  .liveAuditScore span{font-size:9px}
+  .liveAuditMetrics{gap:11px;margin-top:22px}
+  .liveAuditMetrics article{padding:16px;border-radius:14px}
+  .liveAuditMetrics article b{font-size:11px}
+  .auditStatus{font-size:7px!important;padding:4px 6px}
+  .liveAuditMetrics article>strong{font-size:32px;margin:10px 0 6px}
+  .liveAuditMetrics article>i{height:5px}
+  .liveAuditMetrics article small{font-size:8px;line-height:1.55;margin-top:9px}
+  .liveAuditNext{margin-top:13px;padding:16px 18px}
+  .liveAuditNext small{font-size:8px}
+  .liveAuditNext b{font-size:13px}
+  .liveAuditNext span{font-size:9px}
+  .liveAuditNext button{padding:11px 15px;font-size:10px}
+
+  .siteSignalStrip{margin-top:12px;padding:14px 17px}
+  .siteSignalStrip small{font-size:8px}
+  .siteSignalStrip b{font-size:11px}
+  .siteSignalStrip span{font-size:8px}
+  .siteSignalChips{gap:6px}
+  .siteSignalChips span{padding:6px 9px;font-size:8px}
+
+  .reasoningPanel{padding:26px;border-radius:20px}
+  .reasoningHead h2,.googleSignalHead h2{font-size:24px}
+  .reasoningHead p,.googleSignalHead p{font-size:11px}
+  .reasoningBadge,.googleLive{font-size:8px}
+  .reasoningGrid{gap:10px;margin-top:19px}
+  .reasoningStep{padding:14px;min-height:120px}
+  .reasoningStep span{width:25px;height:25px;font-size:8px}
+  .reasoningStep p{font-size:9px;line-height:1.6;margin-top:10px}
+  .localPresenceCard{padding:15px 17px}
+  .localPresenceCard small{font-size:8px}
+  .localPresenceCard b{font-size:12px}
+  .localPresenceCard span{font-size:8px}
+  .localStats strong{font-size:28px}
+
+  .googleSignalPanel{padding:26px;border-radius:20px}
+  .googleSignalGrid{gap:10px;margin-top:19px}
+  .googleSignalGrid article{padding:15px}
+  .googleSignalGrid small{font-size:8px}
+  .googleSignalGrid b{font-size:27px}
+  .googleSignalGrid em{font-size:9px}
+  .googleSignalGrid span{font-size:8px}
+
+  .assessmentContextGrid{gap:11px;padding:0 23px 22px}
+  .assessmentContextItem{padding:14px;border-radius:10px}
+  .assessmentContextItem small{font-size:8px;margin-bottom:6px}
+  .assessmentContextItem b{font-size:12px}
+  .assessmentContextItem p{font-size:10px;line-height:1.55}
+
+  .actionPlan{padding:15px 17px!important;border-radius:13px!important}
+  .appShell .actionPlan small{font-size:9px}
+  .appShell .actionPlan li{font-size:13px;line-height:1.5}
+  .appShell .actionPlan>span{font-size:11px}
+
+  .leadSummary{gap:14px;padding:0 23px 19px}
+  .leadSummary>div{padding:15px;border-radius:8px}
+  .leadSummary small{font-size:9px}
+  .leadSummary b{font-size:24px}
+  .leadList{padding:0 23px}
+  .leadRow{padding:15px 0}
+  .leadAvatar{width:34px;height:34px;font-size:10px}
+  .leadIdentity b{font-size:11px}
+  .leadIdentity small{font-size:9px}
+  .leadRight>b{font-size:11px}
+  .leadStatus{font-size:8px;padding:5px 7px}
+
+  .bottomInsight{padding:18px 21px;gap:15px}
+  .bottomInsight b{font-size:12px}
+  .bottomInsight p{font-size:10px}
+  .bottomInsight>a{font-size:9px}
+
+  .managerOutreachGrid{padding:0 23px 23px}
+}
+
+/* Keep the readability improvement responsive rather than shrinking back to the old 6–9px dashboard type. */
+@media (min-width:701px) and (max-width:1100px){
+  .appSidebar{padding:20px 14px}
+  .appShell{grid-template-columns:230px 1fr}
+  .appSidebar .sideItem{font-size:12px}
+  .dashboardBody{padding:28px 24px}
+  .welcomeRow h1{font-size:32px}
+  .welcomeRow p{font-size:12px}
+  .panelHeader h2{font-size:19px}
+  .panelHeader p{font-size:10px}
+  .recBody h3{font-size:13px}
+  .recBody p{font-size:10px}
+  .liveAuditHead h2{font-size:27px}
+  .liveAuditHead p{font-size:12px}
+  .liveAuditMetrics article b{font-size:10px}
+  .liveAuditMetrics article>strong{font-size:29px}
+  .liveAuditMetrics article small{font-size:8px}
+}
+
+@media (max-width:700px){
+  .appShell .dashboardBody{padding:20px 15px 30px}
+  .panelHeader h2{font-size:16px}
+  .panelHeader p{font-size:10px}
+  .recBody h3{font-size:12px}
+  .recBody p{font-size:9px}
+  .liveAuditHead h2{font-size:23px}
+  .liveAuditHead p{font-size:10px}
+  .liveAuditMetrics article b{font-size:9px}
+  .liveAuditMetrics article>strong{font-size:25px}
+  .liveAuditMetrics article small{font-size:7px}
+  .siteSignalStrip small{font-size:7px}
+  .siteSignalStrip b{font-size:10px}
+  .siteSignalStrip span{font-size:7px}
+}
