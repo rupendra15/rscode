@@ -136,7 +136,10 @@ export async function GET(request:Request){
               impact:o.impact,
               effort:o.effort,
               mode:o.mode,
-              status:"recommended"
+              status:"recommended",
+              steps:o.steps,
+              deliverable:o.deliverable,
+              measurement:o.measurement
             }))),
             cache:"no-store"
           });
