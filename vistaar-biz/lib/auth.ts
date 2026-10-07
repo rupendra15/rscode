@@ -57,14 +57,16 @@ async function refreshSession(refreshToken: string) {
 
 async function roleFor(userId: string, email: string | null): Promise<VistaarRole> {
   const { url, key } = config();
-  const query = new URLSearchParams({ select: "role,status", user_id: "eq." + userId, status: "eq.active", limit: "1" });
+  const query = new URLSearchParams({ select: "role,status", user_id: "eq." + userId, limit: "1" });
   const response = await fetch(url + "/rest/v1/user_roles?" + query.toString(), {
     headers: { apikey: key, Authorization: "Bearer " + key },
     cache: "no-store"
   });
   if (response.ok) {
     const rows = await response.json();
-    const role = rows?.[0]?.role;
+    const row = rows?.[0];
+    if (row?.status === "disabled") throw new Error("ACCOUNT_DISABLED");
+    const role = row?.role;
     if (role === "admin" || role === "manager" || role === "user") return role;
   }
   const configuredAdmins = String(process.env.VISTAAR_ADMIN_EMAILS || "").split(",").map(v => v.trim().toLowerCase()).filter(Boolean);
