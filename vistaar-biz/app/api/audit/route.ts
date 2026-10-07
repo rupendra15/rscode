@@ -11,8 +11,8 @@ export async function POST(request:Request){
     if(!profile.businessName||!profile.industry||!profile.city||!profile.goal)return NextResponse.json({error:"Business name, category, city and goal are required."},{status:400});
     const site=await scanWebsite(profile.website);
     const siteSignals=site?{website:site.url,reachable:site.reachable,https:site.https,title:site.title,hasCta:site.hasCta,hasContactPath:site.hasPhone||site.hasEmail||site.hasWhatsApp,hasReviews:site.hasReviews,hasLocalTerms:site.hasLocalTerms,hasImages:site.hasImages,imageCount:site.imageCount,wordCount:site.wordCount,signals:site.signals}:undefined;
-    const local=await scanLocalPresence(profile.businessName,profile.industry,profile.city);
-    const localSignals={found:local.found,matchedName:local.matchedName,displayName:local.displayName,nearbyCount:local.nearbyCount,category:local.category,signals:local.signals};
+    const local=await scanLocalPresence(profile.businessName,profile.industry,profile.city,profile.google);
+    const localSignals={found:local.found,matchedName:local.matchedName,displayName:local.displayName,nearbyCount:local.nearbyCount,category:local.category,googleUrlSupplied:local.googleUrlSupplied,googleProfileDetected:local.googleProfileDetected,signals:local.signals};
     const google=body.google?{website:body.google.website||"",rating:body.google.rating??null,reviewCount:body.google.reviewCount??null,websiteClicks:Number(body.google.performance?.websiteClicks||0),phoneCalls:Number(body.google.performance?.phoneCalls||0),directionRequests:Number(body.google.performance?.directionRequests||0),signals:body.google.signals||[]}:undefined;
     const audit=runGrowthAudit(profile,siteSignals,localSignals,google);
     const r=await backendFetch("/api/audit",{method:"POST",body:JSON.stringify({profile,audit})});
