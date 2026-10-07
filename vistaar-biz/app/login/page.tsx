@@ -1,0 +1,8 @@
+"use client";
+import Link from "next/link";
+import { FormEvent, useState } from "react";
+export default function LoginPage(){
+ const [email,setEmail]=useState(""); const [password,setPassword]=useState(""); const [error,setError]=useState(""); const [sending,setSending]=useState(false);
+ const submit=async(e:FormEvent)=>{e.preventDefault();setError("");setSending(true);try{const r=await fetch("/api/auth/login",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({email,password})});const d=await r.json();if(!r.ok||!d.ok)throw new Error(d.error||"Unable to sign in.");const next=new URLSearchParams(window.location.search).get("next");window.location.href=next||"/";}catch(e){setError(e instanceof Error?e.message:"Unable to sign in.");}finally{setSending(false);}};
+ return <main className="authPage"><div className="authCard"><Link href="/" className="authBrand">vistaar<span>-</span>biz<sup>AI</sup></Link><span className="authKicker">VISTAAR-BIZ ACCOUNT</span><h1>Welcome <em>back.</em></h1><p>Sign in to continue. Business users can submit questions and assessments; Vistaar managers and admins get the workspace dashboard.</p><form onSubmit={submit}><label>Email<input type="email" value={email} onChange={e=>setEmail(e.target.value)} required autoComplete="email"/></label><label>Password<input type="password" value={password} onChange={e=>setPassword(e.target.value)} required autoComplete="current-password"/></label>{error&&<div className="authError">{error}</div>}<button disabled={sending}>{sending?"Signing in…":"Sign in"}</button></form><div className="authFoot">New to Vistaar? <Link href="/signup">Create a user account</Link></div><Link href="/" className="authBack">← Back to Vistaar-Biz</Link></div></main>
+}
