@@ -1,96 +1,133 @@
 import { cookies } from "next/headers";
+import { createHash, randomBytes, scryptSync, timingSafeEqual } from "node:crypto";
 
 export type VistaarRole = "admin" | "manager" | "user";
 
 export type AuthContext = {
   userId: string;
-  email: string | null;
+  name: string;
+  email: string;
   role: VistaarRole;
   accessToken: string;
 };
 
-const ACCESS_COOKIE = "vistaar_access_token";
-const REFRESH_COOKIE = "vistaar_refresh_token";
+const SESSION_COOKIE = "vistaar_session";
+const SESSION_DAYS = 30;
 
-function config() {
+function databaseConfig() {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || process.env.SUPABASE_SERVICE_ROLE_KEY;
-  if (!url || !key) throw new Error("Supabase authentication is not configured.");
+  const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  if (!url || !key) throw new Error("Vistaar database is not configured.");
   return { url, key };
 }
 
-async function setSession(accessToken: string, refreshToken?: string) {
+function headers(key: string, extra?: Record<string,string>) {
+  return { apikey: key, Authorization: "Bearer " + key, "Content-Type": "application/json", ...extra };
+}
+
+function hashSessionToken(token: string) {
+  return createHash("sha256").update(token).digest("hex");
+}
+
+function hashPassword(password: string, salt: string) {
+  return scryptSync(password, salt, 64).toString("hex");
+}
+
+function passwordMatches(password: string, salt: string, storedHash: string) {
+  const expected = Buffer.from(storedHash, "hex");
+  const actual = Buffer.from(hashPassword(password, salt), "hex");
+  return expected.length === actual.length && timingSafeEqual(expected, actual);
+}
+
+async function setSession(userId: string) {
+  const { url, key } = databaseConfig();
+  const token = randomBytes(32).toString("hex");
+  const expires = new Date(Date.now() + SESSION_DAYS * 24 * 60 * 60 * 1000).toISOString();
+  const response = await fetch(url + "/rest/v1/app_sessions", {
+    method: "POST",
+    headers: headers(key, { Prefer: "return=minimal" }),
+    body: JSON.stringify({ user_id: userId, token_hash: hashSessionToken(token), expires_at: expires }),
+    cache: "no-store"
+  });
+  if (!response.ok) throw new Error("Could not create your login session.");
   const jar = await cookies();
-  jar.set(ACCESS_COOKIE, accessToken, { httpOnly: true, sameSite: "lax", secure: process.env.NODE_ENV === "production", path: "/", maxAge: 60 * 60 });
-  if (refreshToken) {
-    jar.set(REFRESH_COOKIE, refreshToken, { httpOnly: true, sameSite: "lax", secure: process.env.NODE_ENV === "production", path: "/", maxAge: 60 * 60 * 24 * 30 });
-  }
+  jar.set(SESSION_COOKIE, token, {
+    httpOnly: true,
+    sameSite: "lax",
+    secure: process.env.NODE_ENV === "production",
+    path: "/",
+    maxAge: SESSION_DAYS * 24 * 60 * 60
+  });
 }
 
 export async function clearAuthCookies() {
   const jar = await cookies();
-  jar.delete(ACCESS_COOKIE);
-  jar.delete(REFRESH_COOKIE);
-}
-
-async function verifyAccessToken(accessToken: string) {
-  const { url, key } = config();
-  const response = await fetch(url + "/auth/v1/user", {
-    headers: { apikey: key, Authorization: "Bearer " + accessToken },
-    cache: "no-store"
-  });
-  if (!response.ok) return null;
-  return await response.json();
-}
-
-async function refreshSession(refreshToken: string) {
-  const { url, key } = config();
-  const response = await fetch(url + "/auth/v1/token?grant_type=refresh_token", {
-    method: "POST",
-    headers: { apikey: key, "Content-Type": "application/json" },
-    body: JSON.stringify({ refresh_token: refreshToken }),
-    cache: "no-store"
-  });
-  if (!response.ok) return null;
-  return await response.json();
-}
-
-async function roleFor(userId: string, email: string | null): Promise<VistaarRole> {
-  const { url, key } = config();
-  const query = new URLSearchParams({ select: "role,status", user_id: "eq." + userId, limit: "1" });
-  const response = await fetch(url + "/rest/v1/user_roles?" + query.toString(), {
-    headers: { apikey: key, Authorization: "Bearer " + key },
-    cache: "no-store"
-  });
-  if (response.ok) {
-    const rows = await response.json();
-    const row = rows?.[0];
-    if (row?.status === "disabled") throw new Error("ACCOUNT_DISABLED");
-    const role = row?.role;
-    if (role === "admin" || role === "manager" || role === "user") return role;
+  const token = jar.get(SESSION_COOKIE)?.value;
+  if (token) {
+    try {
+      const { url, key } = databaseConfig();
+      await fetch(url + "/rest/v1/app_sessions?token_hash=eq." + encodeURIComponent(hashSessionToken(token)), {
+        method: "DELETE",
+        headers: headers(key),
+        cache: "no-store"
+      });
+    } catch {}
   }
-  const configuredAdmins = String(process.env.VISTAAR_ADMIN_EMAILS || "").split(",").map(v => v.trim().toLowerCase()).filter(Boolean);
-  return email && configuredAdmins.includes(email.toLowerCase()) ? "admin" : "user";
+  jar.delete(SESSION_COOKIE);
+}
+
+async function findUserById(userId: string) {
+  const { url, key } = databaseConfig();
+  const response = await fetch(url + "/rest/v1/app_users?id=eq." + encodeURIComponent(userId) + "&select=id,name,email,role,status&limit=1", {
+    headers: headers(key),
+    cache: "no-store"
+  });
+  if (!response.ok) return null;
+  const rows = await response.json();
+  return rows?.[0] || null;
+}
+
+async function findUserByEmail(email: string) {
+  const { url, key } = databaseConfig();
+  const response = await fetch(url + "/rest/v1/app_users?email=eq." + encodeURIComponent(email) + "&select=id,name,email,password_hash,password_salt,role,status&limit=1", {
+    headers: headers(key),
+    cache: "no-store"
+  });
+  if (!response.ok) throw new Error("Could not reach the Vistaar database.");
+  const rows = await response.json();
+  return rows?.[0] || null;
 }
 
 export async function getAuthContext(): Promise<AuthContext | null> {
   try {
     const jar = await cookies();
-    let accessToken = jar.get(ACCESS_COOKIE)?.value;
-    const refreshToken = jar.get(REFRESH_COOKIE)?.value;
-    let user = accessToken ? await verifyAccessToken(accessToken) : null;
+    const token = jar.get(SESSION_COOKIE)?.value;
+    if (!token) return null;
 
-    if (!user && refreshToken) {
-      const refreshed = await refreshSession(refreshToken);
-      if (refreshed?.access_token) {
-        accessToken = refreshed.access_token;
-        await setSession(refreshed.access_token, refreshed.refresh_token || refreshToken);
-        user = await verifyAccessToken(refreshed.access_token);
-      }
-    }
+    const { url, key } = databaseConfig();
+    const sessionResponse = await fetch(
+      url + "/rest/v1/app_sessions?token_hash=eq." + encodeURIComponent(hashSessionToken(token)) +
+      "&expires_at=gt." + encodeURIComponent(new Date().toISOString()) +
+      "&select=user_id&limit=1",
+      { headers: headers(key), cache: "no-store" }
+    );
+    if (!sessionResponse.ok) return null;
+    const sessions = await sessionResponse.json();
+    const session = sessions?.[0];
+    if (!session?.user_id) return null;
 
-    if (!user || !accessToken || !user.id) return null;
-    return { userId: user.id, email: user.email || null, role: await roleFor(user.id, user.email || null), accessToken };
+    const user = await findUserById(session.user_id);
+    if (!user || user.status !== "active") return null;
+    if (user.role !== "admin" && user.role !== "manager" && user.role !== "user") return null;
+
+    await fetch(url + "/rest/v1/app_sessions?token_hash=eq." + encodeURIComponent(hashSessionToken(token)), {
+      method: "PATCH",
+      headers: headers(key, { Prefer: "return=minimal" }),
+      body: JSON.stringify({ last_seen_at: new Date().toISOString() }),
+      cache: "no-store"
+    }).catch(() => {});
+
+    return { userId: user.id, name: user.name, email: user.email, role: user.role, accessToken: token };
   } catch {
     return null;
   }
@@ -104,29 +141,57 @@ export async function requireRole(roles: VistaarRole[]): Promise<AuthContext> {
 }
 
 export async function signIn(email: string, password: string) {
-  const { url, key } = config();
-  const response = await fetch(url + "/auth/v1/token?grant_type=password", {
-    method: "POST",
-    headers: { apikey: key, "Content-Type": "application/json" },
-    body: JSON.stringify({ email, password }),
+  if (!email || !password) throw new Error("Email and password are required.");
+  const user = await findUserByEmail(email.toLowerCase());
+  if (!user || !passwordMatches(password, user.password_salt, user.password_hash)) {
+    throw new Error("Invalid email or password.");
+  }
+  if (user.status !== "active") throw new Error("This account is disabled. Please contact Vistaar.");
+  const { url, key } = databaseConfig();
+  await fetch(url + "/rest/v1/app_users?id=eq." + encodeURIComponent(user.id), {
+    method: "PATCH",
+    headers: headers(key, { Prefer: "return=minimal" }),
+    body: JSON.stringify({ last_login_at: new Date().toISOString(), updated_at: new Date().toISOString() }),
     cache: "no-store"
   });
-  const data = await response.json().catch(() => ({}));
-  if (!response.ok || !data.access_token) throw new Error(data.error_description || data.msg || "Invalid email or password.");
-  await setSession(data.access_token, data.refresh_token);
-  return data;
+  await setSession(user.id);
+  return { id: user.id, email: user.email, role: user.role };
 }
 
 export async function signUp(email: string, password: string, name?: string) {
-  const { url, key } = config();
-  const response = await fetch(url + "/auth/v1/signup", {
+  const cleanEmail = email.trim().toLowerCase();
+  const cleanName = (name || "").trim();
+  if (!cleanName) throw new Error("Name is required.");
+  if (!cleanEmail) throw new Error("Email is required.");
+  if (password.length < 8) throw new Error("Password must be at least 8 characters.");
+
+  const existing = await findUserByEmail(cleanEmail);
+  if (existing) throw new Error("An account with this email already exists. Please sign in.");
+
+  const salt = randomBytes(16).toString("hex");
+  const passwordHash = hashPassword(password, salt);
+  const { url, key } = databaseConfig();
+  const response = await fetch(url + "/rest/v1/app_users", {
     method: "POST",
-    headers: { apikey: key, "Content-Type": "application/json" },
-    body: JSON.stringify({ email, password, data: { full_name: name || "" } }),
+    headers: headers(key, { Prefer: "return=representation" }),
+    body: JSON.stringify({
+      name: cleanName,
+      email: cleanEmail,
+      password_hash: passwordHash,
+      password_salt: salt,
+      role: "user",
+      status: "active"
+    }),
     cache: "no-store"
   });
-  const data = await response.json().catch(() => ({}));
-  if (!response.ok) throw new Error(data.msg || data.error_description || "Unable to create your account.");
-  if (data.access_token) await setSession(data.access_token, data.refresh_token);
-  return data;
+  if (!response.ok) {
+    const detail = await response.text().catch(() => "");
+    if (response.status === 409) throw new Error("An account with this email already exists. Please sign in.");
+    throw new Error(detail || "Unable to create your account.");
+  }
+  const rows = await response.json();
+  const user = rows?.[0];
+  if (!user?.id) throw new Error("Account was created but the login session could not be started.");
+  await setSession(user.id);
+  return { id: user.id, email: user.email, role: user.role };
 }
