@@ -253,6 +253,8 @@ export function runGrowthAudit(
   if(site)dataSources.push("Website signal scan");
   if(local)dataSources.push("Local presence signal scan");
   if(google)dataSources.push("Google Business Profile");
+  if(profile.website)dataSources.push("Website URL supplied");
+  if(profile.google)dataSources.push("Google Business Profile URL supplied");
   if(profile.instagram)dataSources.push("Instagram supplied");
   if(profile.otherLinks)dataSources.push("Other digital links supplied");
 
@@ -264,7 +266,11 @@ export function runGrowthAudit(
     "Goal: "+profile.goal+(profile.target?" · success target: "+profile.target:""),
     profile.constraint?"Constraint: "+profile.constraint:"Constraint: not supplied",
     profile.channels?"Current acquisition: "+profile.channels:"Current acquisition: not supplied",
-    profile.challenge?"Investigation request: "+profile.challenge:"Investigation request: not supplied"
+    profile.challenge?"Investigation request: "+profile.challenge:"Investigation request: not supplied",
+    profile.monthlyLeads?"Qualified enquiries/month: "+profile.monthlyLeads:"Qualified enquiries/month: not supplied",
+    profile.conversion?"Enquiry-to-customer rate: "+profile.conversion:"Enquiry-to-customer rate: not supplied",
+    profile.notes?"Additional business notes: "+profile.notes:"Additional business notes: not supplied",
+    digitalContext||"Digital links: none supplied"
   ];
 
   const reasoning=[
@@ -278,7 +284,13 @@ export function runGrowthAudit(
     "Decision: "+nextMove+" is first because "+ranked[0].reason.toLowerCase()
   ];
 
-  const contextHint=[target,challenge,constraint,channels,audience,offer,differentiator].filter(Boolean).join(" ");
+  const digitalContext=[
+    profile.website?"Website supplied: "+profile.website:"",
+    profile.google?"Google Business Profile supplied: "+profile.google:"",
+    profile.instagram?"Instagram supplied: "+profile.instagram:"",
+    profile.otherLinks?"Other digital links supplied: "+profile.otherLinks:""
+  ].filter(Boolean).join(" · ");
+  const contextHint=[target,challenge,constraint,channels,audience,offer,differentiator,profile.notes,digitalContext].filter(Boolean).join(" ");
   const summary=profile.businessName+" has a "+maturity.toLowerCase()+" foundation based on the business context and evidence currently available. "+(contextHint
     ?"The diagnosis also incorporates the specific goals, constraints and customer context you supplied. "
     :"")+"The highest-value opportunity is "+nextMove.toLowerCase()+".";
