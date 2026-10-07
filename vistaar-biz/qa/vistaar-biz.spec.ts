@@ -52,7 +52,7 @@ test.describe("Vistaar-Biz smoke and UX QA", () => {
     await page.goto("/", { waitUntil: "networkidle" });
     await expect(page.getByRole("heading", { name: /You run the business\. We build the growth\./i })).toBeVisible();
 
-    await page.getByRole("link", { name: /Discover your growth readiness/i }).click();
+    await page.getByRole("link", { name: /Check your growth readiness/i }).click();
     await expect(page.locator("#audit")).toBeInViewport();
 
     const service = page.locator("#platform .serviceCard").first();
