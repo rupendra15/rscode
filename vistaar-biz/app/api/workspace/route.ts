@@ -159,7 +159,16 @@ export async function GET(request:Request){
       }
 
       const actionsRes=await fetch(url+"/rest/v1/growth_actions?select=*&business_id=eq."+encodeURIComponent(persistedAudit.business_id)+"&audit_id=eq."+encodeURIComponent(persistedAudit.id)+"&order=impact.desc",{headers:headers(key),cache:"no-store"});
+      const leadsRes=await fetch(url+"/rest/v1/growth_leads?select=*&business_id=eq."+encodeURIComponent(persistedAudit.business_id)+"&order=created_at.desc&limit=50",{headers:headers(key),cache:"no-store"});
+      const measurementsRes=await fetch(url+"/rest/v1/growth_measurements?select=*&business_id=eq."+encodeURIComponent(persistedAudit.business_id)+"&order=measured_at.desc&limit=50",{headers:headers(key),cache:"no-store"});
+      const specialistsRes=await fetch(url+"/rest/v1/specialist_requests?select=*&business_id=eq."+encodeURIComponent(persistedAudit.business_id)+"&order=created_at.desc&limit=20",{headers:headers(key),cache:"no-store"});
       const actions=actionsRes.ok?await actionsRes.json():[];
+    const leads=leadsRes.ok?await leadsRes.json():[];
+    const measurements=measurementsRes.ok?await measurementsRes.json():[];
+    const specialists=specialistsRes.ok?await specialistsRes.json():[];
+      const leads=leadsRes.ok?await leadsRes.json():[];
+      const measurements=measurementsRes.ok?await measurementsRes.json():[];
+      const specialists=specialistsRes.ok?await specialistsRes.json():[];
       return NextResponse.json({
         ok:true,
         business:{id:persistedAudit.business_id,name:profile.businessName,industry:profile.industry,city:profile.city,goal:profile.goal,website:profile.website},
@@ -169,16 +178,22 @@ export async function GET(request:Request){
         auditCreatedAt:persistedAudit.created_at,
         assessmentId,
         assessment:a,
-        actions
+        actions,
+        leads,
+        measurements,
+        specialists
       });
     }
 
     if(!businessId) return NextResponse.json({ok:false,error:"businessId or assessmentId is required."},{status:400});
 
-    const [businessRes,auditRes,actionsRes]=await Promise.all([
+    const [businessRes,auditRes,actionsRes,leadsRes,measurementsRes,specialistsRes]=await Promise.all([
       fetch(url+"/rest/v1/businesses?select=*&id=eq."+encodeURIComponent(businessId)+"&limit=1",{headers:headers(key),cache:"no-store"}),
       fetch(url+"/rest/v1/growth_audits?select=*&business_id=eq."+encodeURIComponent(businessId)+"&order=created_at.desc&limit=1",{headers:headers(key),cache:"no-store"}),
-      fetch(url+"/rest/v1/growth_actions?select=*&business_id=eq."+encodeURIComponent(businessId)+"&order=impact.desc,created_at.desc&limit=20",{headers:headers(key),cache:"no-store"})
+      fetch(url+"/rest/v1/growth_actions?select=*&business_id=eq."+encodeURIComponent(businessId)+"&order=impact.desc,created_at.desc&limit=20",{headers:headers(key),cache:"no-store"}),
+      fetch(url+"/rest/v1/growth_leads?select=*&business_id=eq."+encodeURIComponent(businessId)+"&order=created_at.desc&limit=50",{headers:headers(key),cache:"no-store"}),
+      fetch(url+"/rest/v1/growth_measurements?select=*&business_id=eq."+encodeURIComponent(businessId)+"&order=measured_at.desc&limit=50",{headers:headers(key),cache:"no-store"}),
+      fetch(url+"/rest/v1/specialist_requests?select=*&business_id=eq."+encodeURIComponent(businessId)+"&order=created_at.desc&limit=20",{headers:headers(key),cache:"no-store"})
     ]);
 
     if(!businessRes.ok||!auditRes.ok) return NextResponse.json({ok:false,error:"Workspace data could not be loaded."},{status:502});
@@ -207,7 +222,10 @@ export async function GET(request:Request){
       auditCreatedAt:latest.created_at,
       assessmentId:assessment?.id||null,
       assessment,
-      actions
+      actions,
+      leads,
+      measurements,
+      specialists
     });
   }catch{
     return NextResponse.json({ok:false,error:"Unable to load the workspace."},{status:500});
