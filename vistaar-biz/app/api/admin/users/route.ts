@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { requireRole } from "../../../lib/auth";
+import { requireRole } from "../../../../lib/auth";
 const headers=(key:string)=>({apikey:key,Authorization:"Bearer "+key,"Content-Type":"application/json"});
 export async function GET(){
  try{
