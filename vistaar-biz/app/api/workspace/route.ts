@@ -179,10 +179,12 @@ export async function GET(request:Request){
       const leadsRes=await fetch(url+"/rest/v1/growth_leads?select=*&business_id=eq."+encodeURIComponent(persistedAudit.business_id)+"&order=created_at.desc&limit=50",{headers:headers(key),cache:"no-store"});
       const measurementsRes=await fetch(url+"/rest/v1/growth_measurements?select=*&business_id=eq."+encodeURIComponent(persistedAudit.business_id)+"&order=measured_at.desc&limit=50",{headers:headers(key),cache:"no-store"});
       const specialistsRes=await fetch(url+"/rest/v1/specialist_requests?select=*&business_id=eq."+encodeURIComponent(persistedAudit.business_id)+"&order=created_at.desc&limit=20",{headers:headers(key),cache:"no-store"});
+      const evidenceRes=await fetch(url+"/rest/v1/growth_evidence?select=*&business_id=eq."+encodeURIComponent(persistedAudit.business_id)+"&order=observed_at.desc&limit=100",{headers:headers(key),cache:"no-store"});
       let actions=actionsRes.ok?await actionsRes.json():[];
       const leads=leadsRes.ok?await leadsRes.json():[];
       const measurements=measurementsRes.ok?await measurementsRes.json():[];
       const specialists=specialistsRes.ok?await specialistsRes.json():[];
+      const evidence=evidenceRes.ok?await evidenceRes.json():[];
       // Older workspaces can have a persisted audit but no persisted actions if
       // the original action insert failed. Repair that gap from the saved audit.
       if(!actions.length && persistedAudit?.result?.opportunities?.length){
@@ -211,7 +213,8 @@ export async function GET(request:Request){
         actions,
         leads,
         measurements,
-        specialists
+        specialists,
+        evidence
       });
     }
 
@@ -223,7 +226,8 @@ export async function GET(request:Request){
       fetch(url+"/rest/v1/growth_actions?select=*&business_id=eq."+encodeURIComponent(businessId)+"&order=impact.desc,created_at.desc&limit=20",{headers:headers(key),cache:"no-store"}),
       fetch(url+"/rest/v1/growth_leads?select=*&business_id=eq."+encodeURIComponent(businessId)+"&order=created_at.desc&limit=50",{headers:headers(key),cache:"no-store"}),
       fetch(url+"/rest/v1/growth_measurements?select=*&business_id=eq."+encodeURIComponent(businessId)+"&order=measured_at.desc&limit=50",{headers:headers(key),cache:"no-store"}),
-      fetch(url+"/rest/v1/specialist_requests?select=*&business_id=eq."+encodeURIComponent(businessId)+"&order=created_at.desc&limit=20",{headers:headers(key),cache:"no-store"})
+      fetch(url+"/rest/v1/specialist_requests?select=*&business_id=eq."+encodeURIComponent(businessId)+"&order=created_at.desc&limit=20",{headers:headers(key),cache:"no-store"}),
+      fetch(url+"/rest/v1/growth_evidence?select=*&business_id=eq."+encodeURIComponent(businessId)+"&order=observed_at.desc&limit=100",{headers:headers(key),cache:"no-store"})
     ]);
 
     if(!businessRes.ok||!auditRes.ok) return NextResponse.json({ok:false,error:"Workspace data could not be loaded."},{status:502});
@@ -233,6 +237,7 @@ export async function GET(request:Request){
     const leads=leadsRes.ok?await leadsRes.json():[];
     const measurements=measurementsRes.ok?await measurementsRes.json():[];
     const specialists=specialistsRes.ok?await specialistsRes.json():[];
+    const evidence=evidenceRes.ok?await evidenceRes.json():[];
     if(!businesses?.[0]||!audits?.[0]) return NextResponse.json({ok:false,error:"Workspace not found."},{status:404});
 
     const b=businesses[0], latest=audits[0];
@@ -270,7 +275,8 @@ export async function GET(request:Request){
       actions,
       leads,
       measurements,
-      specialists
+      specialists,
+      evidence
     });
   }catch{
     return NextResponse.json({ok:false,error:"Unable to load the workspace."},{status:500});
