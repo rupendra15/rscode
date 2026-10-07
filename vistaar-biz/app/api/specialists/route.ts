@@ -1,7 +1,9 @@
 import { NextResponse } from "next/server";
+import { requireRole } from "../../../../lib/auth";
 
 export async function POST(request:Request){
   try{
+    await requireRole(["admin","manager"]);
     const body=await request.json();
     const businessId=String(body.businessId||"").trim();
     const specialistType=String(body.specialistType||"").trim();
