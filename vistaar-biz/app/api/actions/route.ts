@@ -34,7 +34,7 @@ export async function PATCH(request:Request){
         method:"PATCH",
         headers:{apikey:key,Authorization:"Bearer "+key,"Content-Type":"application/json"},
         body:JSON.stringify({
-          workspace_stage:status==="done"?"executing":"executing",
+          workspace_stage:status==="in_progress"?"executing":status==="done"?"measuring":status==="blocked"?"blocked":"diagnosed",
           last_activity_at:now
         }),
         cache:"no-store"
