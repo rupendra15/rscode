@@ -3,7 +3,7 @@ import { requireRole } from "../../../../lib/auth";
 
 export async function POST(request:Request){
   try{
-    await requireRole(["admin","manager"]);
+    await requireRole(["admin"]);
     const body=await request.json();
     const businessId=String(body.businessId||"").trim();
     const source=String(body.source||"").trim();
@@ -25,5 +25,5 @@ export async function POST(request:Request){
   }catch(e){
     const message=e instanceof Error?e.message:"";
     if(message==="UNAUTHENTICATED") return NextResponse.json({ok:false,error:"Please sign in."},{status:401});
-    if(message==="FORBIDDEN") return NextResponse.json({ok:false,error:"This operation is available only to Vistaar admin and manager accounts."},{status:403});return NextResponse.json({ok:false,error:"Unable to save lead."},{status:500});}
+    if(message==="FORBIDDEN") return NextResponse.json({ok:false,error:"This operation is available only to Vistaar admin accounts."},{status:403});return NextResponse.json({ok:false,error:"Unable to save lead."},{status:500});}
 }
