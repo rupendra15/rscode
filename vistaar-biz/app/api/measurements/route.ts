@@ -20,6 +20,15 @@ export async function POST(request:Request){
     });
     if(!response.ok) return NextResponse.json({ok:false,error:"Measurement could not be saved."},{status:502});
     const rows=await response.json();
-    return NextResponse.json({ok:true,measurement:rows?.[0]||null});
+    const measurement=rows?.[0]||null;
+    if(measurement?.business_id){
+      await fetch(url+"/rest/v1/businesses?id=eq."+encodeURIComponent(measurement.business_id),{
+        method:"PATCH",
+        headers:{apikey:key,Authorization:"Bearer "+key,"Content-Type":"application/json"},
+        body:JSON.stringify({workspace_stage:"learning",last_activity_at:new Date().toISOString()}),
+        cache:"no-store"
+      }).catch(()=>{});
+    }
+    return NextResponse.json({ok:true,measurement});
   }catch{return NextResponse.json({ok:false,error:"Unable to save measurement."},{status:500});}
 }
