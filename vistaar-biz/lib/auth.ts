@@ -1,7 +1,7 @@
 import { cookies } from "next/headers";
 import { createHash, randomBytes, scryptSync, timingSafeEqual } from "node:crypto";
 
-export type VistaarRole = "admin" | "manager" | "user";
+export type VistaarRole = "admin" | "manager";
 
 export type AuthContext = {
   userId: string;
@@ -118,7 +118,7 @@ export async function getAuthContext(): Promise<AuthContext | null> {
 
     const user = await findUserById(session.user_id);
     if (!user || user.status !== "active") return null;
-    if (user.role !== "admin" && user.role !== "manager" && user.role !== "user") return null;
+    if (user.role !== "admin" && user.role !== "manager") return null;
 
     await fetch(url + "/rest/v1/app_sessions?token_hash=eq." + encodeURIComponent(hashSessionToken(token)), {
       method: "PATCH",
@@ -147,6 +147,7 @@ export async function signIn(email: string, password: string) {
     throw new Error("Invalid email or password.");
   }
   if (user.status !== "active") throw new Error("This account is disabled. Please contact Vistaar.");
+  if (user.role !== "admin" && user.role !== "manager") throw new Error("Business owner accounts do not use Vistaar login.");
   const { url, key } = databaseConfig();
   await fetch(url + "/rest/v1/app_users?id=eq." + encodeURIComponent(user.id), {
     method: "PATCH",
@@ -158,42 +159,3 @@ export async function signIn(email: string, password: string) {
   return { id: user.id, email: user.email, role: user.role };
 }
 
-export async function signUp(email: string, password: string, name?: string) {
-  const cleanEmail = email.trim().toLowerCase();
-  const cleanName = (name || "").trim();
-  if (!cleanName) throw new Error("Name is required.");
-  if (!cleanEmail) throw new Error("Email is required.");
-  if (password.length < 8) throw new Error("Password must be at least 8 characters.");
-
-  const existing = await findUserByEmail(cleanEmail);
-  if (existing) throw new Error("An account with this email already exists. Please sign in.");
-
-  const salt = randomBytes(16).toString("hex");
-  const passwordHash = hashPassword(password, salt);
-  const adminEmails = String(process.env.VISTAAR_ADMIN_EMAILS || "").split(",").map(v => v.trim().toLowerCase()).filter(Boolean);
-  const role: VistaarRole = adminEmails.includes(cleanEmail) ? "admin" : "user";
-  const { url, key } = databaseConfig();
-  const response = await fetch(url + "/rest/v1/app_users", {
-    method: "POST",
-    headers: headers(key, { Prefer: "return=representation" }),
-    body: JSON.stringify({
-      name: cleanName,
-      email: cleanEmail,
-      password_hash: passwordHash,
-      password_salt: salt,
-      role,
-      status: "active"
-    }),
-    cache: "no-store"
-  });
-  if (!response.ok) {
-    const detail = await response.text().catch(() => "");
-    if (response.status === 409) throw new Error("An account with this email already exists. Please sign in.");
-    throw new Error(detail || "Unable to create your account.");
-  }
-  const rows = await response.json();
-  const user = rows?.[0];
-  if (!user?.id) throw new Error("Account was created but the login session could not be started.");
-  await setSession(user.id);
-  return { id: user.id, email: user.email, role: user.role };
-}
