@@ -12,7 +12,7 @@ export async function GET(){
   ]);
   if(!usersRes.ok) return NextResponse.json({ok:false,error:"Auth users could not be loaded."},{status:502});
   const usersData=await usersRes.json(); const roles=rolesRes.ok?await rolesRes.json():[];
-  const roleMap=new Map((roles||[]).map((r:any)=>[r.user_id,r]));
+  const roleMap=new Map<string, any>((roles||[]).map((r:any)=>[String(r.user_id),r]));
   return NextResponse.json({ok:true,users:(usersData.users||[]).map((u:any)=>({id:u.id,email:u.email,createdAt:u.created_at,confirmed:Boolean(u.email_confirmed_at),role:roleMap.get(u.id)?.role||"user",status:roleMap.get(u.id)?.status||"active"}))});
  }catch(e){const m=e instanceof Error?e.message:"Unable to load users.";return NextResponse.json({ok:false,error:m==="FORBIDDEN"?"Admin access is required.":m},{status:m==="FORBIDDEN"?403:500});}
 }
