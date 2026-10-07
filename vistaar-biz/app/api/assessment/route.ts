@@ -80,7 +80,7 @@ export async function POST(request: Request) {
       const headers={apikey:key,Authorization:"Bearer "+key,"Content-Type":"application/json"};
 
       const businessResponse=await fetch(url+"/rest/v1/businesses",{
-        method:"POST",headers,
+        method:"POST",headers:{...headers,Prefer:"return=representation"},
         body:JSON.stringify({
           name:record.business_name,
           industry:record.industry,
@@ -99,7 +99,7 @@ export async function POST(request: Request) {
 
       if(businessId){
         const auditResponse=await fetch(url+"/rest/v1/growth_audits",{
-          method:"POST",headers,
+          method:"POST",headers:{...headers,Prefer:"return=representation"},
           body:JSON.stringify({
             business_id:businessId,
             overall_score:audit.overall,
