@@ -32,5 +32,8 @@ export async function POST(request:Request){
       }).catch(()=>{});
     }
     return NextResponse.json({ok:true,measurement});
-  }catch{return NextResponse.json({ok:false,error:"Unable to save measurement."},{status:500});}
+  }catch(e){
+    const message=e instanceof Error?e.message:"";
+    if(message==="UNAUTHENTICATED") return NextResponse.json({ok:false,error:"Please sign in."},{status:401});
+    if(message==="FORBIDDEN") return NextResponse.json({ok:false,error:"This operation is available only to Vistaar admin and manager accounts."},{status:403});return NextResponse.json({ok:false,error:"Unable to save measurement."},{status:500});}
 }
