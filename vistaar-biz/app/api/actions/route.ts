@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { requireRole } from "../../../../lib/auth";
+import { requireRole } from "../../../lib/auth";
 
 const allowed=["recommended","planned","in_progress","blocked","done","dismissed"];
 
