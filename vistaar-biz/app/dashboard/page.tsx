@@ -22,7 +22,7 @@ useEffect(()=>{
       // Try the strongest identifier first, then recover through the assessment,
       // then let the server recover the latest submitted workspace. A stale
       // browser businessId must never strand the user on an empty dashboard.
-      const queries=[businessId?"businessId="+encodeURIComponent(businessId):"",assessmentId?"assessmentId="+encodeURIComponent(assessmentId):"",""].filter((q,i,a)=>a.indexOf(q)===i);
+      const queries=[businessId?"businessId="+encodeURIComponent(businessId):"",assessmentId?"assessmentId="+encodeURIComponent(assessmentId):""].filter(Boolean).filter((q,i,a)=>a.indexOf(q)===i);
       let loaded=false;
       let lastError="";
       for(const query of queries){
