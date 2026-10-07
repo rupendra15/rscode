@@ -92,6 +92,25 @@ public class VistaarApiController {
         } catch(Exception e) { return ResponseEntity.internalServerError().body(Map.of("ok",false,"error","We couldn't save your assessment.","detail",e.getMessage()==null?"":e.getMessage())); }
     }
 
+    @PostMapping("/audit")
+    public ResponseEntity<?> audit(@RequestBody Map<String,Object> b, HttpServletRequest r) {
+        Map<String,Object> profile=(Map<String,Object>)b.get("profile");
+        Map<String,Object> audit=(Map<String,Object>)b.get("audit");
+        if(profile==null||audit==null)return ResponseEntity.badRequest().body(Map.of("error","Profile and audit are required."));
+        Map<String,Object> u=user(r); UUID owner=u==null?null:UUID.fromString(String.valueOf(u.get("id")));
+        UUID bid=UUID.randomUUID(); UUID aid=UUID.randomUUID();
+        db.update("insert into businesses(id,owner_user_id,owner_email,name,industry,city,goal,website,workspace_stage,last_activity_at) values(?,?,?,?,?,?,?,?,?,now())",
+          bid,owner,u==null?null:u.get("email"),profile.get("businessName"),profile.get("industry"),profile.get("city"),profile.get("goal"),profile.get("website"),"diagnosed");
+        Number score=(Number)audit.getOrDefault("overall",0);
+        db.update("insert into growth_audits(id,business_id,overall_score,maturity,result) values(?,?,?,?,?)",aid,bid,score.intValue(),audit.get("maturity"),jsonb(audit));
+        Object opportunities=audit.get("opportunities");
+        if(opportunities instanceof List<?> list) for(Object item:list) if(item instanceof Map<?,?> m)
+          db.update("insert into growth_actions(id,business_id,audit_id,title,area,impact,effort,mode,status,steps,deliverable,measurement) values(?,?,?,?,?,?,?,?,?,?,?,?)",
+            UUID.randomUUID(),bid,aid,String.valueOf(m.get("title")),String.valueOf(m.get("area")),((Number)m.getOrDefault("impact",0)).intValue(),
+            String.valueOf(m.getOrDefault("effort","medium")),String.valueOf(m.getOrDefault("mode","vistaar")),"recommended",jsonb(m.get("steps")),m.get("deliverable"),m.get("measurement"));
+        return ResponseEntity.ok(Map.of("profile",profile,"audit",audit,"businessId",bid.toString(),"auditId",aid.toString()));
+    }
+
     @PostMapping("/readiness")
     public ResponseEntity<?> readiness(@RequestBody Map<String,Object> b) {
         try {
