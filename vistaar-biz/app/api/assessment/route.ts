@@ -47,7 +47,8 @@ export async function POST(request:Request){
     if(siteSignals)evidence.push(["website","technical","Website reachable",String(siteSignals.reachable),"high"],["website","conversion","CTA present",String(siteSignals.hasCta),"high"],["website","conversion","Contact path present",String(siteSignals.hasContactPath),"high"],["website","trust","Reviews detected",String(siteSignals.hasReviews),"medium"],["website","content","Images detected",String(siteSignals.imageCount),"high"],["website","content","Word count",String(siteSignals.wordCount),"medium"]);
     if(localSignals)evidence.push(["local","discovery","Local listing signal found",String(localSignals.found),"medium"],["local","discovery","Business-name match",String(localSignals.matchedName),"medium"],["local","market","Nearby category signals",String(localSignals.nearbyCount),"medium"]);
     const auth=await getAuthContext();
-    const r=await backendFetch("/api/assessment",{method:"POST",body:JSON.stringify({assessment:record,profile,audit,evidence,ownerUserId:auth?.userId||null})});
+    const evidenceRecords=evidence.map(([source,evidence_type,claim,value,confidence])=>({source,evidence_type,claim,value,confidence}));
+    const r=await backendFetch("/api/assessment",{method:"POST",body:JSON.stringify({assessment:record,profile,audit,evidence:evidenceRecords,ownerUserId:auth?.userId||null})});
     const result=await r.json();
     return NextResponse.json({...result,profile,audit,assessment:record},{status:r.status});
   }catch{return NextResponse.json({ok:false,error:"We couldn't start the assessment. Please try again."},{status:500});}
