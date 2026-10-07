@@ -1,10 +1,12 @@
-export type LocalSignals={query:string;found:boolean;matchedName:boolean;displayName:string;address:string;lat?:number;lon?:number;category:string;nearbyCount:number;source:"OpenStreetMap";signals:string[]};
+export type LocalSignals={query:string;found:boolean;matchedName:boolean;displayName:string;address:string;lat?:number;lon?:number;category:string;nearbyCount:number;source:"OpenStreetMap";googleUrlSupplied:boolean;googleProfileDetected:boolean;signals:string[]};
 
 const esc=(s:string)=>encodeURIComponent(s.trim());
 
-export async function scanLocalPresence(businessName:string,industry:string,city:string):Promise<LocalSignals>{
+export async function scanLocalPresence(businessName:string,industry:string,city:string,googleUrl?:string):Promise<LocalSignals>{
  const query=businessName+", "+city;
- const fallback:LocalSignals={query,found:false,matchedName:false,displayName:"",address:"",category:"",nearbyCount:0,source:"OpenStreetMap",signals:["Local directory scan unavailable"]};
+ const googleUrlSupplied=Boolean(googleUrl?.trim());
+ const googleProfileDetected=Boolean(googleUrlSupplied&&/google\.(com|co\.in)\/maps|maps\.app\.goo\.gl|business\.google\./i.test(googleUrl||""));
+ const fallback:LocalSignals={query,found:false,matchedName:false,displayName:"",address:"",category:"",nearbyCount:0,source:"OpenStreetMap",googleUrlSupplied,googleProfileDetected,signals:[googleProfileDetected?"Google Business/Maps link supplied; public listing verification is pending":"Local directory scan unavailable"]};
  try{
   const headers={"user-agent":"Vistaar-Biz/1.0 growth-audit","accept-language":"en"};
   const r=await fetch("https://nominatim.openstreetmap.org/search?format=jsonv2&limit=8&q="+esc(query),{headers,signal:AbortSignal.timeout(7000)});
@@ -15,6 +17,11 @@ export async function scanLocalPresence(businessName:string,industry:string,city
   const nearby=await nr.json() as unknown[];
   const found=Boolean(hit);
   const matchedName=Boolean(hit&&words.filter(w=>hit.display_name.toLowerCase().includes(w)).length>=Math.min(2,words.length||1));
-  return {query,found,matchedName,displayName:hit?.display_name||"",address:hit?.display_name||"",lat:hit?Number(hit.lat):undefined,lon:hit?Number(hit.lon):undefined,category:hit?.type||hit?.class||"",nearbyCount:nearby.length,source:"OpenStreetMap",signals:[found?"A local directory listing was found":"No matching local directory listing was found",matchedName?"Business-name terms match the listing":"Business-name match is weak",nearby.length?nearby.length+" nearby category results detected":"Few nearby category results detected"]};
+  return {query,found,matchedName,displayName:hit?.display_name||"",address:hit?.display_name||"",lat:hit?Number(hit.lat):undefined,lon:hit?Number(hit.lon):undefined,category:hit?.type||hit?.class||"",nearbyCount:nearby.length,source:"OpenStreetMap",googleUrlSupplied,googleProfileDetected,signals:[
+   googleProfileDetected?"Google Business/Maps link supplied by the business":"No Google Business/Maps link supplied",
+   found?"An independent local directory listing was found":"Independent directory match was not found",
+   matchedName?"Business-name terms match the independent listing":"Independent business-name match is weak",
+   nearby.length?nearby.length+" nearby category results detected":"Few nearby category results detected"
+ ]};
  }catch{return fallback;}
 }
