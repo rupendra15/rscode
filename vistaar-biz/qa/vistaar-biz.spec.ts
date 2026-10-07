@@ -60,8 +60,9 @@ test.describe("Vistaar-Biz smoke and UX QA", () => {
     await expect(page.getByText(/HOW VISTAAR-BIZ HELPS/i)).toBeVisible();
     await page.locator(".detailClose").click();
 
-    await page.locator(".footerContactButton").scrollIntoViewIfNeeded();
-    await page.locator(".footerContactButton").click();
+    const contactCta = page.getByRole("button", { name: /Talk to Vistaar about growth/i }).first();
+    await expect(contactCta).toBeVisible();
+    await contactCta.click();
     await expect(page.getByRole("dialog", { name: /Talk to Vistaar-Biz/i })).toBeVisible();
 
     const modal = page.getByRole("dialog");
