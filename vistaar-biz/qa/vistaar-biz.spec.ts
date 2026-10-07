@@ -112,6 +112,33 @@ test.describe("Vistaar-Biz smoke and UX QA", () => {
     await expect(audit.locator(".readinessScore b")).toBeVisible();
   });
 
+
+  test("dashboard recovers the submitted business workspace when a browser ID is stale", async ({ page }) => {
+    const workspace = {
+      ok: true,
+      business: { id: "urban-business", name: "Urban Grill", industry: "Restaurant", city: "Rewa", goal: "More qualified enquiries", workspace_stage: "diagnosed" },
+      profile: { businessName: "Urban Grill", industry: "Restaurant", city: "Rewa", goal: "More qualified enquiries", idealCustomer: "Local diners", offerings: "Dining", constraint: "Visibility", challenge: "Improve enquiries" },
+      audit: { overall: 71, maturity: "Growing", summary: "Urban Grill has a clear opportunity to improve local discovery.", nextMove: "Improve local discovery", metrics: [], opportunities: [], reasoning: [] },
+      actions: [], leads: [], measurements: [], specialists: [], assessment: { id: "urban-assessment" }, businessId: "urban-business", auditId: "urban-audit", assessmentId: "urban-assessment", auditCreatedAt: new Date().toISOString()
+    };
+
+    await page.addInitScript(() => {
+      localStorage.setItem("vistaar_growth_assessment", JSON.stringify({ id: "urban-assessment", businessId: "stale-business" }));
+      localStorage.setItem("vistaar_biz_audit", JSON.stringify({ businessId: "stale-business" }));
+    });
+    await page.route("**/api/workspace?businessId=stale-business", route =>
+      route.fulfill({ status: 404, contentType: "application/json", body: JSON.stringify({ ok: false, error: "Workspace not found." }) })
+    );
+    await page.route("**/api/workspace?assessmentId=urban-assessment", route =>
+      route.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify(workspace) })
+    );
+
+    await page.goto("/dashboard", { waitUntil: "networkidle" });
+    await expect(page.getByRole("heading", { name: "Urban Grill" })).toBeVisible();
+    await expect(page.getByText("Restaurant · Rewa · Focus: More qualified enquiries")).toBeVisible();
+    await expect(page).not.toHaveTitle(/error/i);
+  });
+
   test("onboarding and dashboard render", async ({ page }) => {
     await page.goto("/onboarding", { waitUntil: "networkidle" });
     await expect(page.locator("body")).toContainText(/business/i);
