@@ -50,20 +50,8 @@ export async function GET(request:Request){
   if(!url||!key) return NextResponse.json({ok:false,stored:false},{status:503});
 
   try{
-    // If the browser has lost its local workspace IDs, recover the most recently submitted assessment.
-    // This keeps the dashboard usable after refresh/new browser sessions without inventing a workspace.
-    if(!businessId && !assessmentId){
-      const latestRes=await fetch(url+"/rest/v1/growth_assessments?select=*&order=created_at.desc&limit=1",{headers:headers(key),cache:"no-store"});
-      if(!latestRes.ok) return NextResponse.json({ok:false,error:"No saved assessment could be loaded."},{status:502});
-      const latestRows=await latestRes.json();
-      const latest=latestRows?.[0];
-      if(!latest) return NextResponse.json({ok:false,error:"No assessment has been submitted yet."},{status:404});
-      const recoveredId=latest.id;
-      const recoveredUrl=new URL(request.url);
-      recoveredUrl.searchParams.set("assessmentId",recoveredId);
-      return GET(new Request(recoveredUrl.toString(),request));
-    }
-
+    // A workspace must always be explicit. The dashboard selects an assessment
+    // from /api/workspaces so one submission can never silently replace another.
     if(assessmentId){
       const assessmentRes=await fetch(url+"/rest/v1/growth_assessments?select=*&id=eq."+encodeURIComponent(assessmentId)+"&limit=1",{headers:headers(key),cache:"no-store"});
       if(!assessmentRes.ok) return NextResponse.json({ok:false,error:"Assessment could not be loaded."},{status:502});
