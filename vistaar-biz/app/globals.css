@@ -2139,3 +2139,78 @@ body{background:#f7f7fb;color:#17172b}
   .modernSite .heroRight{min-width:0;overflow:visible;}
   .modernSite .heroProduct{width:min(100%,490px);max-width:490px;}
 }
+
+/* VISTAAR-BIZ LAYOUT LOCK — spacing consistency only; preserve approved visual system */
+@media (min-width:1101px){
+  /* Hero: reduce the empty ceiling without redesigning the approved composition. */
+  .modernSite .newHero{
+    padding-top:70px;
+    padding-bottom:104px;
+  }
+  .modernSite .newHero > .heroLeft,
+  .modernSite .newHero > .heroRight{
+    top:-34px;
+  }
+
+  /* One predictable vertical rhythm across the public homepage sections. */
+  .modernSite .sectionShell,
+  .modernSite .approachSection,
+  .modernSite .auditSection,
+  .modernSite .trustSection,
+  .modernSite .testimonialSection,
+  .modernSite .audienceSection{
+    padding-top:80px !important;
+    padding-bottom:80px !important;
+  }
+  .modernSite .contactSection{
+    padding-top:76px !important;
+    padding-bottom:76px !important;
+  }
+
+  /* Keep section headings and their grids from creating accidental large gaps. */
+  .modernSite .sectionHead,
+  .modernSite .trustIntro,
+  .modernSite .auditIntro{
+    margin-bottom:42px;
+  }
+  .modernSite .serviceGrid,
+  .modernSite .trustCards,
+  .modernSite .storyShowcase,
+  .modernSite .audienceGrid{
+    margin-top:0;
+  }
+}
+
+@media (max-width:1100px){
+  /* Preserve the responsive layout; only remove excessive vertical air. */
+  .modernSite .newHero{
+    padding-top:72px;
+    padding-bottom:88px;
+  }
+}
+
+@media (max-width:700px){
+  .modernSite .newHero{
+    padding-top:64px;
+    padding-bottom:76px;
+  }
+  .modernSite .newHero > .heroLeft,
+  .modernSite .newHero > .heroRight{
+    top:0;
+  }
+  .modernSite .sectionShell,
+  .modernSite .approachSection,
+  .modernSite .auditSection,
+  .modernSite .trustSection,
+  .modernSite .testimonialSection,
+  .modernSite .audienceSection,
+  .modernSite .contactSection{
+    padding-top:68px !important;
+    padding-bottom:68px !important;
+  }
+  .modernSite .sectionHead,
+  .modernSite .trustIntro,
+  .modernSite .auditIntro{
+    margin-bottom:30px;
+  }
+}
