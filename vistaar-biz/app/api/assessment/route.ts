@@ -140,7 +140,7 @@ export async function POST(request: Request) {
       if(businessId && auditId && audit.opportunities.length){
         await fetch(url+"/rest/v1/growth_actions",{
           method:"POST",
-          headers,
+          headers:{...headers,Prefer:"return=representation"},
           body:JSON.stringify(audit.opportunities.map(o=>({
             business_id:businessId,
             audit_id:auditId,
