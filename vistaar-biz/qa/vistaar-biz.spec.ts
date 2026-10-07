@@ -51,7 +51,8 @@ test.describe("Vistaar-Biz smoke and UX QA", () => {
   test("homepage primary interactions work", async ({ page }) => {
     let enquiryPayload: Record<string, unknown> | null = null;
     await page.route("**/api/enquiries", async route => {
-      enquiryPayload = route.request().postDataJSON() as Record<string, unknown> | null;
+      const postData = route.request().postData();
+      enquiryPayload = postData ? JSON.parse(postData) as Record<string, unknown> : null;
       await route.fulfill({
         status: 200,
         contentType: "application/json",
