@@ -152,7 +152,7 @@ alter table growth_evidence enable row level security;
 
 -- Role-based access control and workspace ownership.
 create table if not exists user_roles (
-  user_id uuid primary key references auth.users(id) on delete cascade,
+  user_id uuid primary key,
   role text not null default 'user' check (role in ('admin','manager','user')),
   status text not null default 'active' check (status in ('active','disabled')),
   created_at timestamptz not null default now(),
@@ -188,3 +188,30 @@ alter table manager_outreach enable row level security;
 
 alter table workspace_members drop constraint if exists workspace_members_role_check;
 alter table workspace_members add constraint workspace_members_role_check check (role in ('admin','manager','user','owner'));
+
+
+-- Application-owned authentication. No Supabase Auth is required.
+create table if not exists app_users (
+  id uuid primary key default gen_random_uuid(),
+  name text not null,
+  email text not null,
+  password_hash text not null,
+  password_salt text not null,
+  role text not null default 'user' check (role in ('admin','manager','user')),
+  status text not null default 'active' check (status in ('active','disabled')),
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now(),
+  last_login_at timestamptz
+);
+create unique index if not exists app_users_email_unique_idx on app_users(lower(email));
+create index if not exists app_users_role_idx on app_users(role,status);
+create table if not exists app_sessions (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid not null references app_users(id) on delete cascade,
+  token_hash text not null unique,
+  expires_at timestamptz not null,
+  created_at timestamptz not null default now(),
+  last_seen_at timestamptz not null default now()
+);
+create index if not exists app_sessions_user_idx on app_sessions(user_id);
+create index if not exists app_sessions_expires_idx on app_sessions(expires_at);
