@@ -2222,3 +2222,22 @@ body{background:#f7f7fb;color:#17172b}
 .appShell .actionPlan ol{margin:0;padding-left:19px;display:grid;gap:5px}
 .appShell .actionPlan li{font-size:12px;line-height:1.45}
 .appShell .actionPlan>span{font-size:11px;line-height:1.45;opacity:.78}
+
+/* VISTAAR-BIZ WORKSPACE DENSITY — keep the approved visual language, remove unnecessary vertical gaps */
+.appShell .dashboardBody{padding-top:24px;padding-bottom:18px}
+.appShell .welcomeRow{margin-bottom:14px}
+.appShell .liveAuditPanel{margin-bottom:14px;padding:20px}
+.appShell .reasoningPanel{margin-bottom:14px;padding:18px}
+.appShell .contentGrid{gap:12px}
+.appShell .contentPanel[style*="margin-top:20px"]{margin-top:12px!important}
+.appShell .panelHeader{padding:17px 19px 13px}
+.appShell .recommendation{padding:13px 0}
+.appShell .googleSignalPanel{margin-top:12px!important}
+.appShell .bottomInsight{margin-top:12px!important}
+.assessmentContextGrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;padding:0 20px 18px}
+.assessmentContextItem{padding:11px 12px;border:1px solid #ecebe5;border-radius:8px;background:#fafaf8;min-width:0}
+.assessmentContextItem small{display:block;font-size:6px;letter-spacing:.1em;font-weight:900;color:#766b83;margin-bottom:5px}
+.assessmentContextItem b{display:block;font-size:9px;line-height:1.35}
+.assessmentContextItem p{margin:5px 0 0;font-size:8px;line-height:1.5;color:#7d7e85;overflow-wrap:anywhere}
+@media(max-width:1000px){.assessmentContextGrid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:700px){.appShell .dashboardBody{padding-top:18px}.appShell .liveAuditPanel{padding:16px}.assessmentContextGrid{grid-template-columns:1fr;padding:0 13px 14px}}
