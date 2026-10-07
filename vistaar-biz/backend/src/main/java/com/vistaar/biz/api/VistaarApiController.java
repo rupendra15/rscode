@@ -242,6 +242,19 @@ public class VistaarApiController {
         }
     }
 
+    private static boolean isBlankUuidParam(String value){
+        return value==null||value.isBlank()||"null".equalsIgnoreCase(value);
+    }
+
+    private static UUID parseUuid(String value,String field){
+        if(isBlankUuidParam(value)) throw new IllegalArgumentException("Missing "+field+".");
+        try{
+            return UUID.fromString(value);
+        }catch(IllegalArgumentException e){
+            throw new IllegalArgumentException("Invalid "+field+" UUID: "+value);
+        }
+    }
+
     @PatchMapping("/actions")
     public ResponseEntity<?> action(@RequestBody Map<String,Object> b,HttpServletRequest r){
         if(!role(r,"admin"))return forbidden(); String id=str(b,"id"), status=str(b,"status");
