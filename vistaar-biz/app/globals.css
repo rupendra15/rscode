@@ -2121,3 +2121,21 @@ body{background:#f7f7fb;color:#17172b}
   .modernSite .heroFloat.floatOne{left:-8px;}
   .modernSite .heroFloat.floatTwo{right:-8px;}
 }
+
+
+/* Final hero overlap fix — preserve approved copy/design, constrain only the headline */
+@media (min-width:1101px) and (max-width:1450px){
+  .modernSite .heroLeft{min-width:0;max-width:100%;}
+  .modernSite .heroLeft h1{
+    max-width:610px;
+    font-size:clamp(50px,4.45vw,62px);
+    line-height:.96;
+  }
+  .modernSite .heroLeft h1 span{
+    display:block;
+    max-width:610px;
+    white-space:normal;
+  }
+  .modernSite .heroRight{min-width:0;overflow:visible;}
+  .modernSite .heroProduct{width:min(100%,490px);max-width:490px;}
+}
