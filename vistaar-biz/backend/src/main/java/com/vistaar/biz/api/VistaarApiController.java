@@ -35,7 +35,7 @@ public class VistaarApiController {
         catch(JsonProcessingException e){ throw new IllegalArgumentException("Invalid JSON data."); }
     }
     private String str(Map<String,Object> b,String k){ Object v=b.get(k); return v==null?null:String.valueOf(v).trim(); }
-    private Object uuid(String s){ return s==null||s.isBlank()?null:UUID.fromString(s); }
+    private int asInt(Object value){ return value instanceof Number n ? n.intValue() : 0; }\n    private Object uuid(String s){ return s==null||s.isBlank()?null:UUID.fromString(s); }
 
     @PostMapping("/assessment")
     public ResponseEntity<?> assessment(@RequestBody Map<String,Object> b, HttpServletRequest r) {
@@ -79,7 +79,7 @@ public class VistaarApiController {
                     if(item instanceof Map<?,?> m){
                         db.update("insert into growth_actions(id,business_id,audit_id,title,area,impact,effort,mode,status,steps,deliverable,measurement) values(?,?,?,?,?,?,?,?,?,?,?,?)",
                             UUID.randomUUID(),businessId,auditId,String.valueOf(m.get("title")),String.valueOf(m.get("area")),
-                            ((Number)m.getOrDefault("impact",0)).intValue(),String.valueOf(m.getOrDefault("effort","medium")),
+                            asInt(m.get("impact")),String.valueOf(m.getOrDefault("effort","medium")),
                             String.valueOf(m.getOrDefault("mode","vistaar")), "recommended",jsonb(m.get("steps")),m.get("deliverable"),m.get("measurement"));
                     }
                 }
