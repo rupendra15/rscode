@@ -163,7 +163,12 @@ export async function POST(request: Request) {
           ["assessment","target","Success target",record.target,"high"],
           ["assessment","constraint","Business constraint",record.constraint,"high"],
           ["assessment","acquisition","Current acquisition channels",record.channels,"high"],
-          ["assessment","challenge","Investigation request",record.challenge,"high"]
+          ["assessment","challenge","Investigation request",record.challenge,"high"],
+          ...(record.notes?[["assessment","notes","Additional business notes",record.notes,"medium"]]:[]),
+          ...(record.website?[["digital","website","Website supplied",record.website,"high"]]:[]),
+          ...(record.google?[["digital","google","Google Business Profile supplied",record.google,"medium"]]:[]),
+          ...(record.instagram?[["digital","instagram","Instagram supplied",record.instagram,"medium"]]:[]),
+          ...(record.other_links?[["digital","other","Other digital links supplied",record.other_links,"medium"]]:[])
         ];
         if(record.monthly_leads) evidence.push(["assessment","baseline","Qualified enquiries per month",record.monthly_leads,"medium"]);
         if(record.conversion) evidence.push(["assessment","baseline","Enquiry-to-customer rate",record.conversion,"medium"]);
