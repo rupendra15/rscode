@@ -28,10 +28,10 @@ export async function POST(request:Request){
   const admin=await requireRole(["admin"]);
   const body=await request.json();
   const userId=String(body.userId||"").trim();
-  const role=String(body.role||"user").trim();
+  const role=String(body.role||"manager").trim();
   const status=String(body.status||"active").trim();
-  if(!userId||!["admin","manager","user"].includes(role)||!["active","disabled"].includes(status)) {
-   return NextResponse.json({ok:false,error:"Valid user, role and status are required."},{status:400});
+  if(!userId||!["admin","manager"].includes(role)||!["active","disabled"].includes(status)) {
+   return NextResponse.json({ok:false,error:"Valid internal account, role and status are required."},{status:400});
   }
   if(userId===admin.userId && role!=="admin") {
    return NextResponse.json({ok:false,error:"The active admin account cannot remove its own admin role."},{status:400});
