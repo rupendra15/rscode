@@ -212,30 +212,17 @@ public class VistaarApiController {
 
             if(selectedAuditId==null) return ResponseEntity.status(404).body(Map.of("ok",false,"error","This assessment does not have a saved diagnosis yet."));
 
-            // A historical assessment must own its report. Older data may have accidentally
-            // pointed multiple assessments at the same audit. If that happens, recover the
-            // nearest unclaimed audit for this business instead of showing another assessment's report.
+            // Historical data can contain multiple assessments pointing at the same audit.
+            // Never make the current URL choose an arbitrary "unclaimed" audit: that caused
+            // two different assessment URLs to resolve to the same report. Repair the duplicate
+            // mapping as a one-to-one assignment using assessment/audit creation times.
             if(selectedAssessmentId!=null){
-                Integer auditUsage=db.queryForObject("select count(*) from growth_assessments where audit_id=?",Integer.class,selectedAuditId);
-                if(auditUsage!=null && auditUsage>1){
-                    List<Map<String,Object>> recovered=db.queryForList("""
-                        select ga.id
-                        from growth_audits ga
-                        where ga.business_id=?
-                          and ga.id not in (
-                              select audit_id from growth_assessments
-                              where business_id=? and id<>? and audit_id is not null
-                          )
-                        order by abs(extract(epoch from (ga.created_at - (
-                            select created_at from growth_assessments where id=?
-                        )))), ga.created_at
-                        limit 1
-                        """,bid,bid,selectedAssessmentId,selectedAssessmentId);
-                    if(!recovered.isEmpty()){
-                        selectedAuditId=(UUID)recovered.get(0).get("id");
-                        db.update("update growth_assessments set audit_id=? where id=?",selectedAuditId,selectedAssessmentId);
-                    }
-                }
+                repairDuplicateAssessmentAudits(bid,selectedAuditId);
+                Object repaired=db.queryForObject(
+                    "select audit_id from growth_assessments where id=?",
+                    Object.class,selectedAssessmentId);
+                if(repaired instanceof UUID) selectedAuditId=(UUID)repaired;
+                else if(repaired!=null) selectedAuditId=UUID.fromString(String.valueOf(repaired));
             }
 
             List<Map<String,Object>> bs=db.queryForList("select * from businesses where id=? limit 1",bid);
@@ -266,6 +253,72 @@ public class VistaarApiController {
             return ResponseEntity.ok(out);
         } catch(Exception e) {
             return ResponseEntity.internalServerError().body(Map.of("ok",false,"error","Workspace could not be loaded.","detail",e.getMessage()==null?e.getClass().getSimpleName():e.getMessage()));
+        }
+    }
+
+    private Instant asInstant(Object value){
+        if(value instanceof Instant i) return i;
+        if(value instanceof java.sql.Timestamp t) return t.toInstant();
+        if(value instanceof java.util.Date d) return d.toInstant();
+        try { return Instant.parse(String.valueOf(value)); }
+        catch(Exception ignored) { return Instant.EPOCH; }
+    }
+
+    private void repairDuplicateAssessmentAudits(UUID businessId, UUID duplicatedAuditId){
+        Integer usage=db.queryForObject(
+            "select count(*) from growth_assessments where business_id=? and audit_id=?",
+            Integer.class,businessId,duplicatedAuditId);
+        if(usage==null || usage<2) return;
+
+        List<Map<String,Object>> assessments=db.queryForList("""
+            select id,created_at
+            from growth_assessments
+            where business_id=? and audit_id=?
+            order by created_at,id
+            """,businessId,duplicatedAuditId);
+        if(assessments.size()<2) return;
+
+        // Include the shared audit itself plus only audits that are not already owned by
+        // another assessment. This prevents stealing a valid report from a third assessment.
+        List<Map<String,Object>> audits=db.queryForList("""
+            select ga.id,ga.created_at
+            from growth_audits ga
+            where ga.business_id=?
+              and (
+                  ga.id=?
+                  or ga.id not in (
+                      select audit_id
+                      from growth_assessments
+                      where business_id=? and audit_id is not null and audit_id<>?
+                  )
+              )
+            order by ga.created_at,ga.id
+            """,businessId,duplicatedAuditId,businessId,duplicatedAuditId);
+
+        if(audits.size()<assessments.size()) return;
+
+        Set<UUID> used=new HashSet<>();
+        for(Map<String,Object> assessmentRow:assessments){
+            UUID assessmentId=(UUID)assessmentRow.get("id");
+            Instant assessmentTime=asInstant(assessmentRow.get("created_at"));
+            UUID bestAudit=null;
+            long bestDistance=Long.MAX_VALUE;
+
+            for(Map<String,Object> auditRow:audits){
+                UUID auditId=(UUID)auditRow.get("id");
+                if(used.contains(auditId)) continue;
+                Instant auditTime=asInstant(auditRow.get("created_at"));
+                long distance=Math.abs(auditTime.toEpochMilli()-assessmentTime.toEpochMilli());
+                if(distance<bestDistance){
+                    bestDistance=distance;
+                    bestAudit=auditId;
+                }
+            }
+
+            if(bestAudit!=null){
+                used.add(bestAudit);
+                db.update("update growth_assessments set audit_id=? where id=?",bestAudit,assessmentId);
+            }
         }
     }
 
