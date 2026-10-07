@@ -37,6 +37,10 @@ public class VistaarApiController {
     private String str(Map<String,Object> b,String k){ Object v=b.get(k); return v==null?null:String.valueOf(v).trim(); }
     private int asInt(Object value){ return value instanceof Number n ? n.intValue() : 0; }
     private Object uuid(String s){ return s==null||s.isBlank()?null:UUID.fromString(s); }
+    private Object jsonValue(Object value){
+        if(value instanceof PGobject p){ try { return json.readValue(p.getValue(), Object.class); } catch(Exception ignored) { return p.getValue(); } }
+        return value;
+    }
 
     @PostMapping("/assessment")
     public ResponseEntity<?> assessment(@RequestBody Map<String,Object> b, HttpServletRequest r) {
@@ -159,7 +163,7 @@ public class VistaarApiController {
         List<Map<String,Object>> evidence=db.queryForList("select * from growth_evidence where business_id=? order by observed_at desc limit 100",bid);
         List<Map<String,Object>> assessments=db.queryForList("select * from growth_assessments where business_id=? order by created_at desc limit 1",bid);
         Map<String,Object> out=new LinkedHashMap<>();
-out.put("ok",true);out.put("business",b);out.put("audit",a.get("result"));out.put("auditId",a.get("id"));out.put("auditCreatedAt",a.get("created_at"));
+out.put("ok",true);out.put("business",b);out.put("audit",jsonValue(a.get("result")));out.put("auditId",a.get("id"));out.put("auditCreatedAt",a.get("created_at"));
 out.put("assessmentId",assessments.isEmpty()?null:assessments.get(0).get("id"));out.put("assessment",assessments.isEmpty()?null:assessments.get(0));
 out.put("actions",as);out.put("leads",leads);out.put("measurements",measurements);out.put("specialists",specialists);out.put("evidence",evidence);
 return ResponseEntity.ok(out);
