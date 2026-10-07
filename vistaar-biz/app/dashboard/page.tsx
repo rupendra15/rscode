@@ -15,12 +15,15 @@ useEffect(()=>{
       const raw=localStorage.getItem("vistaar_biz_audit");
       const saved=raw?JSON.parse(raw):null;
       if(saved?.profile&&saved?.audit)setLive(saved);
-      const businessId=saved?.businessId||JSON.parse(localStorage.getItem("vistaar_growth_assessment")||"null")?.businessId;
-      if(businessId){
-        const response=await fetch("/api/workspace?businessId="+encodeURIComponent(businessId),{cache:"no-store"});
+      const assessment=JSON.parse(localStorage.getItem("vistaar_growth_assessment")||"null");
+      const businessId=saved?.businessId||assessment?.businessId;
+      const assessmentId=assessment?.id;
+      if(businessId||assessmentId){
+        const query=businessId?"businessId="+encodeURIComponent(businessId):"assessmentId="+encodeURIComponent(assessmentId);
+        const response=await fetch("/api/workspace?"+query,{cache:"no-store"});
         if(response.ok){
           const data=await response.json();
-          const workspace={profile:{businessName:data.business.name,industry:data.business.industry,city:data.business.city,goal:data.business.goal,website:data.business.website},audit:data.audit,businessId:data.business.id,auditId:data.auditId};
+          const workspace={profile:{businessName:data.business.name,industry:data.business.industry,city:data.business.city,goal:data.business.goal,website:data.business.website},audit:data.audit,businessId:data.business.id,auditId:data.auditId,assessmentId:data.assessmentId};
           setLive(workspace);
           localStorage.setItem("vistaar_biz_audit",JSON.stringify(workspace));
         }
