@@ -86,7 +86,9 @@ export async function POST(request: Request) {
           industry:record.industry,
           city:record.city,
           goal:record.goal,
-          website:record.website||null
+          website:record.website||null,
+          workspace_stage:"diagnosed",
+          last_activity_at:new Date().toISOString()
         }),
         cache:"no-store"
       });
