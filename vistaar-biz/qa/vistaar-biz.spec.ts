@@ -185,11 +185,11 @@ test.describe("Vistaar-Biz smoke and UX QA", () => {
 
     await page.goto("/dashboard?assessmentId=assessment-v1", { waitUntil:"networkidle" });
     await expect(page.getByText("61")).toBeVisible();
-    await expect(page.locator("body")).toContainText("assessment-v1");
+    await expect(page).toHaveURL(/\/dashboard\?assessmentId=assessment-v1$/);
 
     await page.goto("/dashboard?assessmentId=assessment-v2", { waitUntil:"networkidle" });
     await expect(page.getByText("82")).toBeVisible();
-    await expect(page.locator("body")).toContainText("assessment-v2");
+    await expect(page).toHaveURL(/\/dashboard\?assessmentId=assessment-v2$/);
   });
 
   test("onboarding and dashboard render", async ({ page }) => {
