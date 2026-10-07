@@ -84,7 +84,7 @@ public class AuthService {
     public String logout(HttpServletRequest request) {
         var cookie = WebUtils.getCookie(request, COOKIE);
         if (cookie != null) jdbc.update("delete from app_sessions where token_hash=?", sha256(cookie.getValue()));
-        return ResponseCookie.from(COOKIE, "").httpOnly(true).secure(false).sameSite("Lax")
+        return ResponseCookie.from(COOKIE, "").httpOnly(true).secure(secureCookies).sameSite("Lax")
                 .path("/").maxAge(0).build().toString();
     }
 
