@@ -203,14 +203,21 @@ public class VistaarApiController {
             } else {
                 bid=parseUuid(businessId,"businessId");
                 List<Map<String,Object>> rows=db.queryForList("select id,audit_id from growth_assessments where business_id=? order by version desc,created_at desc limit 1",bid);
-                if(rows.isEmpty()) return ResponseEntity.status(404).body(Map.of("ok",false,"error","No assessment exists for this business."));
-                selectedAssessmentId=(UUID)rows.get(0).get("id");
-                Object auditRef=rows.get(0).get("audit_id");
-                if(auditRef instanceof UUID) selectedAuditId=(UUID)auditRef;
-                else if(auditRef!=null) selectedAuditId=UUID.fromString(String.valueOf(auditRef));
+                if(!rows.isEmpty()){
+                    selectedAssessmentId=(UUID)rows.get(0).get("id");
+                    Object auditRef=rows.get(0).get("audit_id");
+                    if(auditRef instanceof UUID) selectedAuditId=(UUID)auditRef;
+                    else if(auditRef!=null) selectedAuditId=UUID.fromString(String.valueOf(auditRef));
+                } else {
+                    // Quick onboarding creates a business + audit without a detailed assessment.
+                    // That workspace must still be loadable by businessId.
+                    List<Map<String,Object>> audits=db.queryForList(
+                        "select id from growth_audits where business_id=? order by created_at desc limit 1",bid);
+                    if(!audits.isEmpty()) selectedAuditId=(UUID)audits.get(0).get("id");
+                }
             }
 
-            if(selectedAuditId==null) return ResponseEntity.status(404).body(Map.of("ok",false,"error","This assessment does not have a saved diagnosis yet."));
+            if(selectedAuditId==null) return ResponseEntity.status(404).body(Map.of("ok",false,"error","This business does not have a saved diagnosis yet."));
 
             // Historical data can contain multiple assessments pointing at the same audit.
             // Never make the current URL choose an arbitrary "unclaimed" audit: that caused
@@ -227,8 +234,10 @@ public class VistaarApiController {
 
             List<Map<String,Object>> bs=db.queryForList("select * from businesses where id=? limit 1",bid);
             List<Map<String,Object>> au=db.queryForList("select * from growth_audits where id=? and business_id=? limit 1",selectedAuditId,bid);
-            List<Map<String,Object>> assessments=db.queryForList("select * from growth_assessments where id=? limit 1",selectedAssessmentId);
-            if(bs.isEmpty()||au.isEmpty()||assessments.isEmpty())return ResponseEntity.status(404).body(Map.of("ok",false,"error","The selected business diagnosis could not be found."));
+            List<Map<String,Object>> assessments=selectedAssessmentId==null
+                ? List.of()
+                : db.queryForList("select * from growth_assessments where id=? limit 1",selectedAssessmentId);
+            if(bs.isEmpty()||au.isEmpty()||(selectedAssessmentId!=null&&assessments.isEmpty()))return ResponseEntity.status(404).body(Map.of("ok",false,"error","The selected business diagnosis could not be found."));
 
             Map<String,Object> b=bs.get(0), a=au.get(0);
             List<Map<String,Object>> as=db.queryForList("select * from growth_actions where business_id=? and audit_id=? order by impact desc,created_at desc limit 20",bid,selectedAuditId);
@@ -244,7 +253,7 @@ public class VistaarApiController {
             out.put("auditId",a.get("id"));
             out.put("auditCreatedAt",a.get("created_at"));
             out.put("assessmentId",selectedAssessmentId);
-            out.put("assessment",assessments.get(0));
+            out.put("assessment",selectedAssessmentId==null?null:assessments.get(0));
             out.put("actions",as);
             out.put("leads",leads);
             out.put("measurements",measurements);
