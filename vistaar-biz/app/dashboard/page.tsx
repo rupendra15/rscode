@@ -23,7 +23,7 @@ useEffect(()=>{
       const raw=localStorage.getItem("vistaar_biz_audit");
       const saved=raw?JSON.parse(raw):null;
       
-      const initialAssessmentId=new URLSearchParams(window.location.search).get("assessmentId")||saved?.assessmentId||assessment?.id||null;
+      const initialAssessmentId=new URLSearchParams(window.location.search).get("assessmentId")||saved?.assessmentId||null;
 
       const listResponse=await fetch("/api/workspace?list=1",{cache:"no-store"});
       if(listResponse.ok){
