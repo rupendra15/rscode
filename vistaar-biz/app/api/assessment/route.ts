@@ -147,6 +147,60 @@ export async function POST(request: Request) {
         }).catch(()=>{});
       }
 
+      // 4b. Persist the evidence ledger separately from the diagnosis.
+      // This lets the workspace explain not only what Vistaar decided, but why.
+      if(businessId){
+        const evidence:any[]=[
+          ["assessment","business_context","Business identity",record.business_name,"high"],
+          ["assessment","market","Industry / market",record.industry,"high"],
+          ["assessment","market","Primary city / market",record.city,"high"],
+          ["assessment","market","Service area",record.service_area,"high"],
+          ["assessment","customer","Ideal customer",record.ideal_customer,"high"],
+          ["assessment","offer","Products / services",record.offerings,"high"],
+          ["assessment","positioning","Differentiator",record.differentiator,"high"],
+          ["assessment","goal","Primary growth outcome",record.goal,"high"],
+          ["assessment","target","Success target",record.target,"high"],
+          ["assessment","constraint","Business constraint",record.constraint,"high"],
+          ["assessment","acquisition","Current acquisition channels",record.channels,"high"],
+          ["assessment","challenge","Investigation request",record.challenge,"high"]
+        ];
+        if(record.monthly_leads) evidence.push(["assessment","baseline","Qualified enquiries per month",record.monthly_leads,"medium"]);
+        if(record.conversion) evidence.push(["assessment","baseline","Enquiry-to-customer rate",record.conversion,"medium"]);
+        if(siteSignals) evidence.push(
+          ["website","technical","Website reachable",String(siteSignals.reachable),"high"],
+          ["website","conversion","CTA present",String(siteSignals.hasCta),"high"],
+          ["website","conversion","Contact path present",String(siteSignals.hasContactPath),"high"],
+          ["website","trust","Reviews detected",String(siteSignals.hasReviews),"medium"],
+          ["website","content","Images detected",String(siteSignals.imageCount),"high"],
+          ["website","content","Word count",String(siteSignals.wordCount),"medium"]
+        );
+        if(localSignals) evidence.push(
+          ["local","discovery","Local listing signal found",String(localSignals.found),"medium"],
+          ["local","discovery","Business-name match",String(localSignals.matchedName),"medium"],
+          ["local","market","Nearby category signals",String(localSignals.nearbyCount),"medium"]
+        );
+        if(audit.google) evidence.push(
+          ["google","reputation","Google rating",String(audit.google.rating??"—"),"high"],
+          ["google","reputation","Google review count",String(audit.google.reviewCount??0),"high"],
+          ["google","engagement","Website clicks",String(audit.google.websiteClicks),"high"],
+          ["google","engagement","Phone calls",String(audit.google.phoneCalls),"high"],
+          ["google","engagement","Direction requests",String(audit.google.directionRequests),"high"]
+        );
+        const evidenceResponse=await fetch(url+"/rest/v1/growth_evidence",{
+          method:"POST",
+          headers:representationHeaders,
+          body:JSON.stringify(evidence.map(([source,evidence_type,claim,value,confidence])=>({
+            business_id:businessId,assessment_id:assessmentId,audit_id:auditId,
+            source,evidence_type,claim,value,confidence
+          }))),
+          cache:"no-store"
+        });
+        if(!evidenceResponse.ok){
+          // Evidence persistence is additive. Do not invalidate an otherwise valid
+          // assessment if an older Supabase project has not applied the migration yet.
+        }
+      }
+
       // 5. Turn diagnosis into executable, persisted actions.
       if(businessId && auditId && audit.opportunities.length){
         await fetch(url+"/rest/v1/growth_actions",{
