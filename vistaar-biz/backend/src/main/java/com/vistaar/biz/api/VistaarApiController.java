@@ -76,7 +76,8 @@ public class VistaarApiController {
                 db.update("update growth_assessments set audit_id=? where id=?",auditId,assessmentId);
                 Object opportunities=audit.get("opportunities");
                 if(opportunities instanceof List<?> list) for(Object item:list){
-                    if(item instanceof Map<?,?> m){
+                    if(item instanceof Map<?,?> raw){
+                        Map<String,Object> m=(Map<String,Object>)raw;
                         db.update("insert into growth_actions(id,business_id,audit_id,title,area,impact,effort,mode,status,steps,deliverable,measurement) values(?,?,?,?,?,?,?,?,?,?,?,?)",
                             UUID.randomUUID(),businessId,auditId,String.valueOf(m.get("title")),String.valueOf(m.get("area")),
                             asInt(m.get("impact")),String.valueOf(m.getOrDefault("effort","medium")),
@@ -104,10 +105,12 @@ public class VistaarApiController {
         Number score=(Number)audit.getOrDefault("overall",0);
         db.update("insert into growth_audits(id,business_id,overall_score,maturity,result) values(?,?,?,?,?)",aid,bid,score.intValue(),audit.get("maturity"),jsonb(audit));
         Object opportunities=audit.get("opportunities");
-        if(opportunities instanceof List<?> list) for(Object item:list) if(item instanceof Map<?,?> m)
+        if(opportunities instanceof List<?> list) for(Object item:list) if(item instanceof Map<?,?> raw){
+          Map<String,Object> m=(Map<String,Object>)raw;
           db.update("insert into growth_actions(id,business_id,audit_id,title,area,impact,effort,mode,status,steps,deliverable,measurement) values(?,?,?,?,?,?,?,?,?,?,?,?)",
             UUID.randomUUID(),bid,aid,String.valueOf(m.get("title")),String.valueOf(m.get("area")),((Number)m.getOrDefault("impact",0)).intValue(),
             String.valueOf(m.getOrDefault("effort","medium")),String.valueOf(m.getOrDefault("mode","vistaar")),"recommended",jsonb(m.get("steps")),m.get("deliverable"),m.get("measurement"));
+        }
         return ResponseEntity.ok(Map.of("profile",profile,"audit",audit,"businessId",bid.toString(),"auditId",aid.toString()));
     }
 
