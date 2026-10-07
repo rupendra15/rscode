@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { requireRole } from "../../../lib/auth";
 
 type Enquiry = {
   name: string;
@@ -75,4 +76,16 @@ export async function POST(request: Request) {
     console.error("Vistaar enquiry request failed:", error);
     return NextResponse.json({ ok: false, error: "Something went wrong. Please try again or contact us directly." }, { status: 500 });
   }
+}
+
+export async function GET(){
+  try{
+    await requireRole(["admin","manager"]);
+    const supabaseUrl=process.env.NEXT_PUBLIC_SUPABASE_URL;
+    const serviceKey=process.env.SUPABASE_SERVICE_ROLE_KEY;
+    if(!supabaseUrl||!serviceKey) return NextResponse.json({ok:true,enquiries:[]});
+    const response=await fetch(supabaseUrl+"/rest/v1/enquiries?select=*&order=created_at.desc&limit=100",{headers:{apikey:serviceKey,Authorization:"Bearer "+serviceKey},cache:"no-store"});
+    if(!response.ok) return NextResponse.json({ok:false,error:"Enquiries could not be loaded."},{status:502});
+    return NextResponse.json({ok:true,enquiries:await response.json()});
+  }catch(e){const m=e instanceof Error?e.message:"Unable to load enquiries.";return NextResponse.json({ok:false,error:m==="FORBIDDEN"?"Manager or admin access is required.":m},{status:m==="FORBIDDEN"?403:500});}
 }
