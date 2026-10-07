@@ -28,10 +28,12 @@ public class AuthService {
     private final boolean secureCookies;
 
     public AuthService(JdbcTemplate jdbc, PasswordEncoder encoder,
-                       @Value("${app.session.days:30}") int sessionDays) {
+                       @Value("${app.session.days:30}") int sessionDays,
+                       @Value("${app.session.secure:false}") boolean secureCookies) {
         this.jdbc = jdbc;
         this.encoder = encoder;
         this.sessionDays = sessionDays;
+        this.secureCookies = secureCookies;
     }
 
     public Map<String, Object> signIn(String email, String password) {
