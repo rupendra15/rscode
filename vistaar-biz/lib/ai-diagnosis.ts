@@ -54,9 +54,11 @@ function normalizeMetric(m:any,i:number){
     reason:cleanText(m?.reason)||"Insufficient evidence to make a stronger claim."};
 }
 
-export async function runAiDiagnosis(input:AiInput):Promise<AiDiagnosis|null>{
+export type AiDiagnosisResult = { diagnosis: AiDiagnosis|null; error?: string; model?: string };
+
+export async function runAiDiagnosisDetailed(input:AiInput):Promise<AiDiagnosisResult>{
   const apiKey=process.env.OPENAI_API_KEY?.trim();
-  if(!apiKey)return null;
+  if(!apiKey)return {diagnosis:null,error:"OPENAI_API_KEY is not available to the Next.js server. Check vistaar-biz/.env.local and restart npm run dev."};
   const model=process.env.OPENAI_MODEL?.trim()||"gpt-6-luna";
   const payload={
     business:input.profile,
@@ -90,11 +92,20 @@ export async function runAiDiagnosis(input:AiInput):Promise<AiDiagnosis|null>{
       body:JSON.stringify({model,input:[{role:"system",content:instructions}],text:{format:{type:"json_schema",name:"vistaar_growth_diagnosis",strict:true,schema}},max_output_tokens:4500}),
       signal:AbortSignal.timeout(30000)
     });
-    if(!response.ok)return null;
+    if(!response.ok){
+      const detail=await response.text().catch(()=>"");
+      let message=`OpenAI API returned HTTP ${response.status}.`;
+      try{const parsedError=JSON.parse(detail);const apiMessage=parsedError?.error?.message;if(typeof apiMessage==="string"&&apiMessage.trim())message+=` ${apiMessage.trim()}`;}catch{}
+      return {diagnosis:null,error:message,model};
+    }
     const raw=await response.json() as any;
-    const parsed=JSON.parse(raw.output_text||"");
-    if(!parsed||!Array.isArray(parsed.opportunities)||!Array.isArray(parsed.metrics))return null;
-    return {
+    const outputText=typeof raw.output_text==="string"?raw.output_text:
+      Array.isArray(raw.output)?raw.output.flatMap((item:any)=>Array.isArray(item?.content)?item.content:[]).map((item:any)=>item?.text).filter((value:any)=>typeof value==="string").join(""):"";
+    if(!outputText)return {diagnosis:null,error:"OpenAI returned no structured diagnosis output.",model};
+    let parsed:any;
+    try{parsed=JSON.parse(outputText);}catch{return {diagnosis:null,error:"OpenAI returned output that was not valid JSON.",model};}
+    if(!parsed||!Array.isArray(parsed.opportunities)||!Array.isArray(parsed.metrics))return {diagnosis:null,error:"OpenAI returned an incomplete diagnosis payload.",model};
+    return {diagnosis:{
       overall:Math.max(20,Math.min(95,Number(parsed.overall)||input.baseline.overall)),
       maturity:cleanText(parsed.maturity)||input.baseline.maturity,
       summary:cleanText(parsed.summary)||input.baseline.summary,
@@ -115,6 +126,14 @@ export async function runAiDiagnosis(input:AiInput):Promise<AiDiagnosis|null>{
         deliverable:cleanText(o.deliverable)||"A concrete implementation brief.",
         measurement:cleanText(o.measurement)||"Qualified enquiries and conversion outcomes."
       }))
-    };
-  }catch{return null;}
+    }};
+  }catch(error){
+    const message=error instanceof Error?error.message:"Unknown OpenAI request error.";
+    return {diagnosis:null,error:`OpenAI diagnosis request failed: ${message}`,model};
+  }
+}
+
+export async function runAiDiagnosis(input:AiInput):Promise<AiDiagnosis|null>{
+  const result=await runAiDiagnosisDetailed(input);
+  return result.diagnosis;
 }
