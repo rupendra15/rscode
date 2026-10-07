@@ -49,18 +49,9 @@ test.describe("Vistaar-Biz smoke and UX QA", () => {
   }
 
   test("homepage primary interactions work", async ({ page }) => {
+    let enquiryPayload: Record<string, unknown> | null = null;
     await page.route("**/api/enquiries", async route => {
-      const request = route.request();
-      const body = request.postDataJSON() as Record<string, unknown> | null;
-      expect(request.method()).toBe("POST");
-      expect(body).toMatchObject({
-        name: "QA User",
-        businessName: "QA Business",
-        phone: "+919876543210",
-        email: "qa@example.com",
-        need: "Get an AI growth plan",
-        question: "Testing the Vistaar-Biz enquiry flow."
-      });
+      enquiryPayload = route.request().postDataJSON() as Record<string, unknown> | null;
       await route.fulfill({
         status: 200,
         contentType: "application/json",
@@ -96,6 +87,14 @@ test.describe("Vistaar-Biz smoke and UX QA", () => {
     await modal.getByLabel("Your question").fill("Testing the Vistaar-Biz enquiry flow.");
     await modal.getByRole("button", { name: /Send my enquiry/i }).click();
     await expect(modal).toContainText(/Thanks — we have your enquiry/i);
+    expect(enquiryPayload).toMatchObject({
+      name: "QA User",
+      businessName: "QA Business",
+      phone: "+919876543210",
+      email: "qa@example.com",
+      need: "Get an AI growth plan",
+      question: "Testing the Vistaar-Biz enquiry flow."
+    });
 
     await modal.getByRole("button", { name: "Close" }).click();
     await expect(page.getByRole("dialog")).toHaveCount(0);
