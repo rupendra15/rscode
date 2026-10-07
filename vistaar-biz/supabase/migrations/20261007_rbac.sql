@@ -64,3 +64,64 @@ create policy "users can read their assessments" on growth_assessments
 alter table growth_assessments add column if not exists version integer not null default 1;
 create index if not exists growth_assessments_owner_idx on growth_assessments(owner_user_id,created_at desc);
 create index if not exists businesses_owner_idx on businesses(owner_user_id,created_at desc);
+
+
+-- Read access for authenticated workspace participants and Vistaar operators.
+create policy "workspace members can read workspace members" on workspace_members
+  for select using (
+    user_id = auth.uid()::text
+    or exists (select 1 from user_roles ur where ur.user_id = auth.uid() and ur.role in ('admin','manager') and ur.status='active')
+  );
+
+create policy "workspace participants can read audits" on growth_audits
+  for select using (
+    exists (select 1 from user_roles ur where ur.user_id = auth.uid() and ur.role in ('admin','manager') and ur.status='active')
+    or exists (select 1 from businesses b where b.id=growth_audits.business_id and b.owner_user_id=auth.uid()::text)
+    or exists (select 1 from workspace_members wm where wm.business_id=growth_audits.business_id and wm.user_id=auth.uid()::text and wm.status='active')
+  );
+
+create policy "workspace participants can read actions" on growth_actions
+  for select using (
+    exists (select 1 from user_roles ur where ur.user_id = auth.uid() and ur.role in ('admin','manager') and ur.status='active')
+    or exists (select 1 from businesses b where b.id=growth_actions.business_id and b.owner_user_id=auth.uid()::text)
+    or exists (select 1 from workspace_members wm where wm.business_id=growth_actions.business_id and wm.user_id=auth.uid()::text and wm.status='active')
+  );
+
+create policy "workspace participants can read leads" on growth_leads
+  for select using (
+    exists (select 1 from user_roles ur where ur.user_id = auth.uid() and ur.role in ('admin','manager') and ur.status='active')
+    or exists (select 1 from businesses b where b.id=growth_leads.business_id and b.owner_user_id=auth.uid()::text)
+    or exists (select 1 from workspace_members wm where wm.business_id=growth_leads.business_id and wm.user_id=auth.uid()::text and wm.status='active')
+  );
+
+create policy "workspace participants can read measurements" on growth_measurements
+  for select using (
+    exists (select 1 from user_roles ur where ur.user_id = auth.uid() and ur.role in ('admin','manager') and ur.status='active')
+    or exists (select 1 from businesses b where b.id=growth_measurements.business_id and b.owner_user_id=auth.uid()::text)
+    or exists (select 1 from workspace_members wm where wm.business_id=growth_measurements.business_id and wm.user_id=auth.uid()::text and wm.status='active')
+  );
+
+create policy "workspace participants can read specialist requests" on specialist_requests
+  for select using (
+    exists (select 1 from user_roles ur where ur.user_id = auth.uid() and ur.role in ('admin','manager') and ur.status='active')
+    or exists (select 1 from businesses b where b.id=specialist_requests.business_id and b.owner_user_id=auth.uid()::text)
+    or exists (select 1 from workspace_members wm where wm.business_id=specialist_requests.business_id and wm.user_id=auth.uid()::text and wm.status='active')
+  );
+
+create policy "workspace participants can read evidence" on growth_evidence
+  for select using (
+    exists (select 1 from user_roles ur where ur.user_id = auth.uid() and ur.role in ('admin','manager') and ur.status='active')
+    or exists (select 1 from businesses b where b.id=growth_evidence.business_id and b.owner_user_id=auth.uid()::text)
+    or exists (select 1 from workspace_members wm where wm.business_id=growth_evidence.business_id and wm.user_id=auth.uid()::text and wm.status='active')
+  );
+
+create policy "operators can read enquiries" on enquiries
+  for select using (
+    exists (select 1 from user_roles ur where ur.user_id = auth.uid() and ur.role in ('admin','manager') and ur.status='active')
+  );
+
+create policy "operators can read outreach" on manager_outreach
+  for select using (
+    exists (select 1 from user_roles ur where ur.user_id = auth.uid() and ur.role='admin' and ur.status='active')
+    or manager_user_id = auth.uid()::text
+  );
