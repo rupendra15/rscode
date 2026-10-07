@@ -50,8 +50,19 @@ export async function GET(request:Request){
   if(!url||!key) return NextResponse.json({ok:false,stored:false},{status:503});
 
   try{
+    if(params.get("list")==="1"){
+      const assessmentsResponse=await fetch(url+"/rest/v1/growth_assessments?select=id,business_id,business_name,industry,city,goal,status,created_at,audit_id&order=created_at.desc&limit=100",{headers:headers(key),cache:"no-store"});
+      if(!assessmentsResponse.ok) return NextResponse.json({ok:false,error:"Submitted assessments could not be loaded."},{status:502});
+      const assessments=await assessmentsResponse.json();
+      return NextResponse.json({ok:true,workspaces:assessments.map((a:any)=>({
+        assessmentId:a.id,businessId:a.business_id,auditId:a.audit_id,
+        businessName:a.business_name,industry:a.industry,city:a.city,goal:a.goal,
+        status:a.status,createdAt:a.created_at
+      }))});
+    }
+
     // A workspace must always be explicit. The dashboard selects an assessment
-    // from /api/workspaces so one submission can never silently replace another.
+    // from the submitted-assessment list so one submission can never silently replace another.
     if(assessmentId){
       const assessmentRes=await fetch(url+"/rest/v1/growth_assessments?select=*&id=eq."+encodeURIComponent(assessmentId)+"&limit=1",{headers:headers(key),cache:"no-store"});
       if(!assessmentRes.ok) return NextResponse.json({ok:false,error:"Assessment could not be loaded."},{status:502});
