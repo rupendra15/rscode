@@ -7,7 +7,7 @@ import { runAiDiagnosisDetailed } from "../../../lib/ai-diagnosis";
 
 export async function POST(request:Request){
   try{
-    const body=await request.json() as BusinessProfile & {google?:any};
+    const body=await request.json() as BusinessProfile & {google?:any;assessmentId?:string};
     const profile=body;
     if(!profile.businessName||!profile.industry||!profile.city||!profile.goal)return NextResponse.json({error:"Business name, category, city and goal are required."},{status:400});
     const site=await scanWebsite(profile.website);
@@ -21,7 +21,7 @@ export async function POST(request:Request){
       return NextResponse.json({error:aiResult.error||"OpenAI diagnosis was not generated.",aiModel:aiResult.model||process.env.OPENAI_MODEL?.trim()||"gpt-6-luna"},{status:503});
     }
     const audit={...baseline,...aiResult.diagnosis,engine:"ai" as const,aiModel:aiResult.model||process.env.OPENAI_MODEL?.trim()||"gpt-6-luna"};
-    const r=await backendFetch("/api/audit",{method:"POST",body:JSON.stringify({profile,audit})});
+    const r=await backendFetch("/api/audit",{method:"POST",body:JSON.stringify({profile,audit,assessmentId:body.assessmentId||null})});
     const persisted=await r.json();
     return NextResponse.json({...persisted,generatedAt:new Date().toISOString()},{status:r.status});
   }catch{return NextResponse.json({error:"Unable to generate the growth audit."},{status:500});}
