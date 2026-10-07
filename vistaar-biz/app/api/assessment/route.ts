@@ -143,6 +143,15 @@ export async function POST(request: Request) {
           businessId=businesses?.[0]?.id??null;
         }
       }
+      if(auth?.userId && businessId){
+        await fetch(url+"/rest/v1/workspace_members?on_conflict=business_id,user_id",{
+          method:"POST",
+          headers:{...representationHeaders,Prefer:"resolution=merge-duplicates,return=minimal"},
+          body:JSON.stringify({business_id:businessId,user_id:auth.userId,role:"user",status:"active"}),
+          cache:"no-store"
+        }).catch(()=>{});
+      }
+
       if(assessmentId){
         await fetch(url+"/rest/v1/growth_assessments?id=eq."+encodeURIComponent(assessmentId),{
           method:"PATCH",
