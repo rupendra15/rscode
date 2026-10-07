@@ -29,7 +29,7 @@ export async function POST(request: Request) {
       return NextResponse.json({ ok: false, error: "Please complete the required fields." }, { status: 400 });
     }
 
-    if (enquiry.phone.replace(/D/g, "").length < 8) {
+    if (enquiry.phone.replace(/\D/g, "").length < 8) {
       return NextResponse.json({ ok: false, error: "Please enter a valid phone number." }, { status: 400 });
     }
 
