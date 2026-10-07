@@ -28,11 +28,26 @@ jobs:
       - name: Install Playwright browsers
         run: npx playwright install --with-deps chromium webkit
 
-      - name: Build application
+      - name: Build application once
         run: npm run build
 
-      - name: Run browser QA
-        run: npm run qa
+      - name: QA 1 — homepage smoke
+        run: npx playwright test -g "loads homepage without console/page errors"
+
+      - name: QA 2 — onboarding smoke
+        run: npx playwright test -g "loads onboarding without console/page errors"
+
+      - name: QA 3 — dashboard smoke
+        run: npx playwright test -g "loads dashboard without console/page errors"
+
+      - name: QA 4 — homepage primary interactions
+        run: npx playwright test -g "homepage primary interactions work"
+
+      - name: QA 5 — readiness questionnaire
+        run: npx playwright test -g "readiness questionnaire progresses and returns a result"
+
+      - name: QA 6 — onboarding and dashboard render
+        run: npx playwright test -g "onboarding and dashboard render"
 
       - name: Upload QA report
         if: always()
