@@ -77,6 +77,7 @@ export async function POST(request: Request) {
     let assessmentId:string|null=null;
     let businessId:string|null=null;
     let auditId:string|null=null;
+    let persistedEvidence:any[]=[];
 
     if(url && key){
       const headers={apikey:key,Authorization:"Bearer "+key,"Content-Type":"application/json"};
@@ -149,7 +150,6 @@ export async function POST(request: Request) {
 
       // 4b. Persist the evidence ledger separately from the diagnosis.
       // This lets the workspace explain not only what Vistaar decided, but why.
-      let persistedEvidence:any[]=[];
       if(businessId){
         const evidence:any[]=[
           ["assessment","business_context","Business identity",record.business_name,"high"],
