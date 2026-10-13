@@ -1,6 +1,6 @@
 {
   "source": "NSE CM Market MCP",
   "status": "error",
-  "error": "HTTP Error 400: Bad Request",
-  "retrieved_at": "2026-10-13T02:06:28Z"
+  "error": "HTTP Error 504: Gateway Time-out",
+  "retrieved_at": "2026-10-13T09:20:06Z"
 }
