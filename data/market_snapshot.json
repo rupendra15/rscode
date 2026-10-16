@@ -1,54 +1,54 @@
 {
   "owner": "Rupendra",
   "engine_version": "6.0",
-  "timestamp": "2026-10-16T04:45:42.687616+00:00",
-  "ist_time": "2026-10-16T10:15:42.687607+05:30",
+  "timestamp": "2026-10-16T09:19:59.058826+00:00",
+  "ist_time": "2026-10-16T14:49:59.058816+05:30",
   "market_open": true,
   "market_status": "MARKET OPEN",
   "decision": "NO TRADE",
   "decision_type": "ABSTAIN",
-  "signal_strength": 61.4,
-  "model_score": 5.6,
-  "confidence": 0.614,
-  "reason": "NO TRADE — insufficient synchronized public market inputs; options chain unavailable/not fresh; no liquid option candidate; elevated event risk; evidence confluence below trade threshold",
-  "nifty": 23103.9,
-  "vix": 14.03,
-  "regime": "BULLISH",
+  "signal_strength": 35.4,
+  "model_score": -0.9,
+  "confidence": 0.354,
+  "reason": "NO TRADE \u2014 insufficient synchronized public market inputs; options chain unavailable/not fresh; no liquid option candidate; elevated event risk; evidence confluence below trade threshold",
+  "nifty": 23108.55,
+  "vix": 13.9,
+  "regime": "MIXED",
   "market": {
     "NIFTY": {
-      "price": 23103.9,
-      "change_pct": 0.04,
-      "ema20": 23009.98,
-      "ema50": 22980.65,
-      "rsi14": 71.71,
-      "atr14": 42.69,
+      "price": 23108.55,
+      "change_pct": 0.0,
+      "ema20": 23106.17,
+      "ema50": 23097.06,
+      "rsi14": 39.66,
+      "atr14": 15.15,
       "vwap": null,
-      "momentum5m_pct": 0.041,
-      "momentum15m_pct": 0.225,
-      "high_5d": 23103.9,
+      "momentum5m_pct": 0.0,
+      "momentum15m_pct": 0.107,
+      "high_5d": 23149.85,
       "low_5d": 22288.7,
       "volume": 0,
-      "bars": 311,
-      "bar_epoch": 1792125941,
-      "age_seconds": 1.8,
+      "bars": 366,
+      "bar_epoch": 1792142398,
+      "age_seconds": 1.3,
       "fresh": true
     },
     "VIX": {
-      "price": 14.03,
-      "change_pct": -0.3,
-      "ema20": 14.22,
-      "ema50": 14.36,
-      "rsi14": 50.27,
-      "atr14": 0.22,
+      "price": 13.9,
+      "change_pct": -0.07,
+      "ema20": 13.93,
+      "ema50": 13.99,
+      "rsi14": 53.21,
+      "atr14": 0.05,
       "vwap": null,
-      "momentum5m_pct": -0.302,
-      "momentum15m_pct": -0.971,
+      "momentum5m_pct": -0.072,
+      "momentum15m_pct": -0.162,
       "high_5d": 15.54,
       "low_5d": 12.79,
       "volume": 0,
-      "bars": 311,
-      "bar_epoch": 1792125941,
-      "age_seconds": 1.9,
+      "bars": 366,
+      "bar_epoch": 1792142398,
+      "age_seconds": 1.4,
       "fresh": true
     },
     "SPX": {
@@ -66,7 +66,7 @@
       "volume": 0,
       "bars": 391,
       "bar_epoch": 1792094400,
-      "age_seconds": 31542.9,
+      "age_seconds": 47999.5,
       "fresh": false
     },
     "NASDAQ": {
@@ -84,98 +84,94 @@
       "volume": 0,
       "bars": 391,
       "bar_epoch": 1792094400,
-      "age_seconds": 31543.0,
+      "age_seconds": 47999.6,
       "fresh": false
     },
     "USDINR": {
-      "price": 94.85,
-      "change_pct": 0.01,
-      "ema20": 94.84,
-      "ema50": 94.91,
-      "rsi14": 68.13,
+      "price": 94.91,
+      "change_pct": -0.0,
+      "ema20": 94.95,
+      "ema50": 94.96,
+      "rsi14": 33.96,
       "atr14": 0.03,
       "vwap": null,
-      "momentum5m_pct": 0.005,
-      "momentum15m_pct": 0.047,
+      "momentum5m_pct": -0.003,
+      "momentum15m_pct": 0.0,
       "high_5d": 95.99,
       "low_5d": 94.66,
       "volume": 0,
-      "bars": 376,
-      "bar_epoch": 1792125929,
-      "age_seconds": 14.1,
+      "bars": 431,
+      "bar_epoch": 1792142370,
+      "age_seconds": 29.8,
       "fresh": true
     },
     "CRUDE": {
-      "price": 95.85,
+      "price": 95.52,
       "change_pct": 0.0,
-      "ema20": 95.82,
-      "ema50": 95.88,
-      "rsi14": 48.48,
-      "atr14": 0.07,
-      "vwap": 95.95,
+      "ema20": 95.59,
+      "ema50": 95.69,
+      "rsi14": 41.67,
+      "atr14": 0.19,
+      "vwap": 95.7,
       "momentum5m_pct": 0.0,
-      "momentum15m_pct": 0.073,
+      "momentum15m_pct": 0.042,
       "high_5d": 96.74,
       "low_5d": 90.18,
       "volume": 0,
-      "bars": 1110,
-      "bar_epoch": 1792125334,
-      "age_seconds": 609.3,
+      "bars": 1164,
+      "bar_epoch": 1792141795,
+      "age_seconds": 604.9,
       "fresh": false
     },
     "GOLD": {
-      "price": 4198.3,
-      "change_pct": 0.01,
-      "ema20": 4196.4,
-      "ema50": 4190.19,
-      "rsi14": 60.3,
-      "atr14": 5.19,
-      "vwap": 4186.59,
-      "momentum5m_pct": 0.014,
-      "momentum15m_pct": -0.048,
+      "price": 4211.5,
+      "change_pct": 0.0,
+      "ema20": 4206.52,
+      "ema50": 4202.31,
+      "rsi14": 69.57,
+      "atr14": 2.82,
+      "vwap": 4199.86,
+      "momentum5m_pct": 0.002,
+      "momentum15m_pct": 0.021,
       "high_5d": 4228.5,
       "low_5d": 4095.0,
       "volume": 0,
-      "bars": 1112,
-      "bar_epoch": 1792125336,
-      "age_seconds": 607.4,
+      "bars": 1166,
+      "bar_epoch": 1792141794,
+      "age_seconds": 606.1,
       "fresh": false
     }
   },
   "structure": {
-    "ema9": 23039.986206942824,
-    "ema20": 23010.063073492744,
-    "ema50": 22980.686554367392,
-    "ema200": 22792.348271763392,
-    "rsi14": 71.77586687450321,
-    "atr14": 42.753348214285715,
-    "macd": 23.325194695105893,
-    "adx14": 75.23832775297619,
-    "bb_upper": 23093.421285294477,
-    "bb_mid": 22985.45224609375,
-    "bb_lower": 22877.483206893026,
-    "momentum1m": 0.044382861720326794,
-    "momentum5": 0.5262368043525312,
-    "momentum15": 0.7184008110850515,
-    "momentum30": 0.3093320598259064,
+    "ema9": 23101.041202045744,
+    "ema20": 23106.15049531852,
+    "ema50": 23097.053983648628,
+    "ema200": 22928.28605426592,
+    "rsi14": 39.55949376992743,
+    "atr14": 15.149972098214286,
+    "macd": -4.256916138390807,
+    "adx14": 37.50521816916809,
+    "bb_upper": 23148.08386662821,
+    "bb_mid": 23112.27744140625,
+    "bb_lower": 23076.471016184292,
+    "momentum1m": -0.00043105175105973004,
+    "momentum5": 0.09963028669341956,
+    "momentum15": -0.1052605627416936,
+    "momentum30": 0.00692269304423121,
     "patterns": [
       "doji",
-      "breakout",
-      "double_bottom_candidate",
-      "volatility_compression",
-      "triple_bottom_candidate"
+      "triple_top_candidate",
+      "descending_triangle_candidate"
     ],
-    "support_20": 22914.30078125,
-    "resistance_20": 23104.75,
-    "support_50": 22914.30078125,
-    "resistance_50": 23104.75
+    "support_20": 23072.349609375,
+    "resistance_20": 23141.55078125,
+    "support_50": 23059.44921875,
+    "resistance_50": 23141.55078125
   },
   "patterns": [
     "doji",
-    "breakout",
-    "double_bottom_candidate",
-    "volatility_compression",
-    "triple_bottom_candidate"
+    "triple_top_candidate",
+    "descending_triangle_candidate"
   ],
   "option_data": {
     "status": "BLOCKED_NO_RELIABLE_FREE_CHAIN",
@@ -202,15 +198,13 @@
   },
   "sentiment": {
     "bias": "BEARISH",
-    "positive_terms": 1,
-    "negative_terms": 8,
+    "positive_terms": 0,
+    "negative_terms": 7,
     "risk_terms": [
       "rbi",
       "fed",
       "inflation",
-      "war",
-      "rate hike",
-      "rate cut"
+      "rate hike"
     ],
     "risk_level": "ELEVATED"
   },
@@ -219,29 +213,29 @@
     "valuation": "NOT_INFERRED",
     "earnings": "NOT_INFERRED",
     "macro": "HEADLINE_LAYER",
-    "last": 23081.6,
-    "pChange": 0.37
+    "last": 23105.3,
+    "pChange": 0.47
   },
   "news": [
     {
-      "title": "India’s Stock Market Slump: Oil, Fed and RBI Rate Hikes Explained - MarketExpress",
+      "title": "India\u2019s Stock Market Slump: Oil, Fed and RBI Rate Hikes Explained - MarketExpress",
       "published": "Tue, 13 Oct 2026 07:00:00 GMT"
+    },
+    {
+      "title": "Sensex settles 1,050 pts lower, Nifty ends below 22,250: Surging crude prices among key factors behind... - Moneycontrol.com",
+      "published": "Thu, 08 Oct 2026 07:00:00 GMT"
     },
     {
       "title": "US Fed, Bank of Japan and others impact on Indian stock markets: Global rate hike cycle begins - Sensex, Nifty outlook - Livemint",
       "published": "Mon, 21 Sep 2026 07:00:00 GMT"
     },
     {
-      "title": "Sensex settles 1,050 pts lower, Nifty ends below 22,250: Surging crude prices among key factors behind... - Moneycontrol.com",
-      "published": "Thu, 08 Oct 2026 04:17:01 GMT"
-    },
-    {
-      "title": "India's stock benchmarks ascend towards new peaks on Fed, RBI rate cut optimism - Reuters",
-      "published": "Tue, 25 Nov 2025 08:00:00 GMT"
-    },
-    {
       "title": "India VIX Eases as Nifty Rebounds Ahead of RBI Policy - HDFC Sky",
       "published": "Mon, 05 Oct 2026 07:00:00 GMT"
+    },
+    {
+      "title": "JP Morgan projects Nifty base case of 27,000 as investors shift to broader markets - CNBC TV18",
+      "published": "Mon, 21 Sep 2026 07:00:00 GMT"
     },
     {
       "title": "Volatility index India VIX up 36% since September - What it indicates about market? Should you be worried? Explained - Livemint",
@@ -268,130 +262,129 @@
       "published": "Mon, 12 Oct 2026 05:18:00 GMT"
     },
     {
-      "title": "RBI may announce unscheduled rate hike amid inflation, rupee pressures: Union Bank report - bfsi.economictimes.indiatimes.com",
-      "published": "Thu, 15 Oct 2026 08:17:30 GMT"
+      "title": "India\u2019s inflation hits near two-year high of 5.54% in September, backing RBI\u2019s rate hike - ThePrint",
+      "published": "Mon, 12 Oct 2026 15:29:24 GMT"
     },
     {
-      "title": "India’s inflation hits near two-year high of 5.54% in September, backing RBI’s rate hike - ThePrint",
-      "published": "Mon, 12 Oct 2026 15:29:24 GMT"
+      "title": "RBI may announce unscheduled rate hike amid inflation, rupee pressures: Union Bank report - ANI News",
+      "published": "Thu, 15 Oct 2026 07:54:00 GMT"
     },
     {
       "title": "Rupee Rises 31 Paise Against US Dollar Amid RBI Action - Rediff MoneyWiz",
       "published": "Thu, 15 Oct 2026 04:44:05 GMT"
     },
     {
-      "title": "Indian Rupee gains further on RBI’s fresh measures to lower US Dollar’s demand - tmgm.com",
+      "title": "Indian Rupee gains further on RBI\u2019s fresh measures to lower US Dollar\u2019s demand - tmgm.com",
       "published": "Tue, 13 Oct 2026 11:35:16 GMT"
     }
   ],
   "validation": {
-    "samples": 173,
-    "hit_rate": 56.1,
+    "samples": 209,
+    "hit_rate": 55.0,
     "method": "rolling 5m EMA20/EMA50 + RSI; 3-bar forward direction"
   },
   "validation_detail": {
     "5m": {
-      "samples": 173,
-      "hit_rate": 56.1
+      "samples": 209,
+      "hit_rate": 55.0
     },
     "15m": {
-      "samples": 107,
-      "hit_rate": 60.7
+      "samples": 124,
+      "hit_rate": 59.7
     },
     "combined": {
-      "samples": 280,
-      "hit_rate": 57.9,
+      "samples": 333,
+      "hit_rate": 56.8,
       "method": "walk-forward EMA20/EMA50 + RSI on 5m and 15m"
     }
   },
   "multi_timeframe": {
     "1m": {
       "status": "READY",
-      "close": 23104.15,
-      "ema20": 23053.25,
-      "ema50": 23010.13,
-      "rsi": 90.06,
-      "macd": 27.0171,
-      "adx": 75.0,
-      "direction": "BULLISH",
+      "close": 23108.2,
+      "ema20": 23096.42,
+      "ema50": 23099.51,
+      "rsi": 80.5,
+      "macd": 3.3043,
+      "adx": 90.88,
+      "direction": "MIXED",
       "patterns": [
         "doji",
-        "breakout",
-        "double_bottom_candidate",
+        "volatility_compression",
         "triple_bottom_candidate",
         "ascending_triangle_candidate"
       ],
-      "bar_epoch": 1792125939
+      "bar_epoch": 1792142403
     },
     "5m": {
       "status": "READY",
-      "close": 23104.1,
-      "ema20": 23010.0,
-      "ema50": 22980.66,
-      "rsi": 71.73,
-      "macd": 23.2733,
-      "adx": 75.19,
+      "close": 23108.2,
+      "ema20": 23106.11,
+      "ema50": 23097.04,
+      "rsi": 39.45,
+      "macd": -4.2843,
+      "adx": 37.51,
       "direction": "BULLISH",
       "patterns": [
         "doji",
-        "breakout",
-        "double_bottom_candidate",
-        "volatility_compression",
-        "triple_bottom_candidate"
+        "triple_top_candidate",
+        "descending_triangle_candidate"
       ],
-      "bar_epoch": 1792125946
+      "bar_epoch": 1792142403
     },
     "15m": {
       "status": "READY",
-      "close": 23104.1,
-      "ema20": 22987.24,
-      "ema50": 22871.15,
-      "rsi": 61.53,
-      "macd": 54.7551,
-      "adx": 28.69,
+      "close": 23108.2,
+      "ema20": 23092.62,
+      "ema50": 22999.71,
+      "rsi": 45.01,
+      "macd": 28.5,
+      "adx": 32.51,
       "direction": "BULLISH",
       "patterns": [
         "doji",
-        "breakout",
-        "double_bottom_candidate",
-        "ascending_triangle_candidate"
+        "volatility_compression",
+        "converging_triangle_candidate",
+        "triple_top_candidate",
+        "symmetrical_triangle_candidate"
       ],
-      "bar_epoch": 1792125946
+      "bar_epoch": 1792142403
     },
     "30m": {
       "status": "READY",
-      "close": 23104.1,
-      "ema20": 22924.96,
-      "ema50": 22766.34,
-      "rsi": 72.11,
-      "macd": 106.7824,
-      "adx": 33.74,
+      "close": 23108.2,
+      "ema20": 23042.74,
+      "ema50": 22880.14,
+      "rsi": 75.67,
+      "macd": 82.5585,
+      "adx": 32.47,
       "direction": "BULLISH",
       "patterns": [
         "doji",
-        "breakout",
+        "volatility_compression",
+        "converging_triangle_candidate",
         "ascending_triangle_candidate"
       ],
-      "bar_epoch": 1792125946
+      "bar_epoch": 1792142403
     },
     "confluence": {
       "ready": 4,
-      "bullish": 4,
+      "bullish": 3,
       "bearish": 0,
       "direction": "BULLISH"
     }
   },
   "plan": {},
   "evidence": [
-    "Structure: {'ema9': 23039.986206942824, 'ema20': 23010.063073492744, 'ema50': 22980.686554367392, 'ema200': 22792.348271763392, 'rsi14': 71.77586687450321, 'atr14': 42.753348214285715, 'macd': 23.325194695105893, 'adx14': 75.23832775297619, 'bb_upper': 23093.421285294477, 'bb_mid': 22985.45224609375, 'bb_lower': 22877.483206893026, 'momentum1m': 0.044382861720326794, 'momentum5': 0.5262368043525312, 'momentum15': 0.7184008110850515, 'momentum30': 0.3093320598259064, 'patterns': ['doji', 'breakout', 'double_bottom_candidate', 'volatility_compression', 'triple_bottom_candidate'], 'support_20': 22914.30078125, 'resistance_20': 23104.75, 'support_50': 22914.30078125, 'resistance_50': 23104.75}",
+    "Structure: {'ema9': 23101.041202045744, 'ema20': 23106.15049531852, 'ema50': 23097.053983648628, 'ema200': 22928.28605426592, 'rsi14': 39.55949376992743, 'atr14': 15.149972098214286, 'macd': -4.256916138390807, 'adx14': 37.50521816916809, 'bb_upper': 23148.08386662821, 'bb_mid': 23112.27744140625, 'bb_lower': 23076.471016184292, 'momentum1m': -0.00043105175105973004, 'momentum5': 0.09963028669341956, 'momentum15': -0.1052605627416936, 'momentum30': 0.00692269304423121, 'patterns': ['doji', 'triple_top_candidate', 'descending_triangle_candidate'], 'support_20': 23072.349609375, 'resistance_20': 23141.55078125, 'support_50': 23059.44921875, 'resistance_50': 23141.55078125}",
     "Options: {'status': 'UNAVAILABLE'}",
     "Breadth: {'status': 'UNAVAILABLE', 'error': '404 Client Error: Not Found for url: https://www.nseindia.com/api/equity-stockIndices?index=NIFTY+50'}",
-    "Sentiment: {'bias': 'BEARISH', 'positive_terms': 1, 'negative_terms': 8, 'risk_terms': ['rbi', 'fed', 'inflation', 'war', 'rate hike', 'rate cut'], 'risk_level': 'ELEVATED'}",
-    "Fundamental/background: {'status': 'READY_PUBLIC_INDEX', 'valuation': 'NOT_INFERRED', 'earnings': 'NOT_INFERRED', 'macro': 'HEADLINE_LAYER', 'last': 23081.6, 'pChange': 0.37}",
-    "Validation: {'samples': 173, 'hit_rate': 56.1, 'method': 'rolling 5m EMA20/EMA50 + RSI; 3-bar forward direction'}",
-    "Multi-timeframe: {'1m': {'status': 'READY', 'close': 23104.15, 'ema20': 23053.25, 'ema50': 23010.13, 'rsi': 90.06, 'macd': 27.0171, 'adx': 75.0, 'direction': 'BULLISH', 'patterns': ['doji', 'breakout', 'double_bottom_candidate', 'triple_bottom_candidate', 'ascending_triangle_candidate'], 'bar_epoch': 1792125939}, '5m': {'status': 'READY', 'close': 23104.1, 'ema20': 23010.0, 'ema50': 22980.66, 'rsi': 71.73, 'macd': 23.2733, 'adx': 75.19, 'direction': 'BULLISH', 'patterns': ['doji', 'breakout', 'double_bottom_candidate', 'volatility_compression', 'triple_bottom_candidate'], 'bar_epoch': 1792125946}, '15m': {'status': 'READY', 'close': 23104.1, 'ema20': 22987.24, 'ema50': 22871.15, 'rsi': 61.53, 'macd': 54.7551, 'adx': 28.69, 'direction': 'BULLISH', 'patterns': ['doji', 'breakout', 'double_bottom_candidate', 'ascending_triangle_candidate'], 'bar_epoch': 1792125946}, '30m': {'status': 'READY', 'close': 23104.1, 'ema20': 22924.96, 'ema50': 22766.34, 'rsi': 72.11, 'macd': 106.7824, 'adx': 33.74, 'direction': 'BULLISH', 'patterns': ['doji', 'breakout', 'ascending_triangle_candidate'], 'bar_epoch': 1792125946}, 'confluence': {'ready': 4, 'bullish': 4, 'bearish': 0, 'direction': 'BULLISH'}}",
+    "Sentiment: {'bias': 'BEARISH', 'positive_terms': 0, 'negative_terms': 7, 'risk_terms': ['rbi', 'fed', 'inflation', 'rate hike'], 'risk_level': 'ELEVATED'}",
+    "Fundamental/background: {'status': 'READY_PUBLIC_INDEX', 'valuation': 'NOT_INFERRED', 'earnings': 'NOT_INFERRED', 'macro': 'HEADLINE_LAYER', 'last': 23105.3, 'pChange': 0.47}",
+    "Validation: {'samples': 209, 'hit_rate': 55.0, 'method': 'rolling 5m EMA20/EMA50 + RSI; 3-bar forward direction'}",
+    "Multi-timeframe: {'1m': {'status': 'READY', 'close': 23108.2, 'ema20': 23096.42, 'ema50': 23099.51, 'rsi': 80.5, 'macd': 3.3043, 'adx': 90.88, 'direction': 'MIXED', 'patterns': ['doji', 'volatility_compression', 'triple_bottom_candidate', 'ascending_triangle_candidate'], 'bar_epoch': 1792142403}, '5m': {'status': 'READY', 'close': 23108.2, 'ema20': 23106.11, 'ema50': 23097.04, 'rsi': 39.45, 'macd': -4.2843, 'adx': 37.51, 'direction': 'BULLISH', 'patterns': ['doji', 'triple_top_candidate', 'descending_triangle_candidate'], 'bar_epoch': 1792142403}, '15m': {'status': 'READY', 'close': 23108.2, 'ema20': 23092.62, 'ema50': 22999.71, 'rsi': 45.01, 'macd': 28.5, 'adx': 32.51, 'direction': 'BULLISH', 'patterns': ['doji', 'volatility_compression', 'converging_triangle_candidate', 'triple_top_candidate', 'symmetrical_triangle_candidate'], 'bar_epoch': 1792142403}, '30m': {'status': 'READY', 'close': 23108.2, 'ema20': 23042.74, 'ema50': 22880.14, 'rsi': 75.67, 'macd': 82.5585, 'adx': 32.47, 'direction': 'BULLISH', 'patterns': ['doji', 'volatility_compression', 'converging_triangle_candidate', 'ascending_triangle_candidate'], 'bar_epoch': 1792142403}, 'confluence': {'ready': 4, 'bullish': 3, 'bearish': 0, 'direction': 'BULLISH'}}",
     "Option Greeks: {}",
-    "Global: {'SPX': 0.0, 'NASDAQ': 0.0, 'USDINR': 0.01, 'CRUDE': 0.0, 'GOLD': 0.01}"
+    "Global: {'SPX': 0.0, 'NASDAQ': 0.0, 'USDINR': -0.0, 'CRUDE': 0.0, 'GOLD': 0.0}"
   ],
   "previous_decision": null,
   "journal_stats": {
@@ -404,7 +397,7 @@
   },
   "learning": {
     "lessons": {},
-    "last_updated": "2026-10-16T04:45:48.543289+00:00",
+    "last_updated": "2026-10-16T09:20:05.342312+00:00",
     "method": "Outcome audit by validated signal, exit reason, market regime and option-contract liquidity. No self-modifying rule is allowed to silently change live criteria."
   },
   "data_quality": {
@@ -430,13 +423,5 @@
     "learning_engine": "ACTIVE",
     "decision_engine": "ACTIVE"
   },
-  "open_trade": null,
-  "nse_live": {
-    "source": "NSE CM Market MCP",
-    "status": "error",
-    "error": "HTTP Error 504: Gateway Time-out",
-    "retrieved_at": "2026-10-16T07:20:16Z"
-  },
-  "live_data_source": "NSE CM Market MCP",
-  "live_data_note": "NSE states CM Market Live is typically 1-3 minutes behind real-time."
+  "open_trade": null
 }
