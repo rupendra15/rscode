@@ -10,7 +10,7 @@
   "signal_strength": 1.4,
   "model_score": -4.4,
   "confidence": 0.014,
-  "reason": "NO TRADE \u2014 insufficient synchronized public market inputs; options chain unavailable/not fresh; no liquid option candidate; historical validation gate not met; elevated event risk; evidence confluence below trade threshold",
+  "reason": "NO TRADE — insufficient synchronized public market inputs; options chain unavailable/not fresh; no liquid option candidate; historical validation gate not met; elevated event risk; evidence confluence below trade threshold",
   "nifty": 22493.2,
   "vix": 16.91,
   "regime": "BEARISH",
@@ -220,7 +220,7 @@
   },
   "news": [
     {
-      "title": "India\u2019s Stock Market Slump: Oil, Fed and RBI Rate Hikes Explained - MarketExpress",
+      "title": "India’s Stock Market Slump: Oil, Fed and RBI Rate Hikes Explained - MarketExpress",
       "published": "Tue, 13 Oct 2026 07:00:00 GMT"
     },
     {
@@ -272,11 +272,11 @@
       "published": "Fri, 16 Oct 2026 10:41:42 GMT"
     },
     {
-      "title": "India: Waiting on the world to change \u2013 RBI Aug 2026 Meeting - 5 August 2026 - MUFG Research",
+      "title": "India: Waiting on the world to change – RBI Aug 2026 Meeting - 5 August 2026 - MUFG Research",
       "published": "Wed, 05 Aug 2026 07:00:00 GMT"
     },
     {
-      "title": "India\u2019s inflation hits near two-year high of 5.54% in September, backing RBI\u2019s rate hike - ThePrint",
+      "title": "India’s inflation hits near two-year high of 5.54% in September, backing RBI’s rate hike - ThePrint",
       "published": "Mon, 12 Oct 2026 15:29:24 GMT"
     }
   ],
@@ -422,5 +422,13 @@
     "learning_engine": "ACTIVE",
     "decision_engine": "ACTIVE"
   },
-  "open_trade": null
+  "open_trade": null,
+  "nse_live": {
+    "source": "NSE CM Market MCP",
+    "status": "error",
+    "error": "HTTP Error 404: Not Found",
+    "retrieved_at": "2026-10-23T10:21:28Z"
+  },
+  "live_data_source": "NSE CM Market MCP",
+  "live_data_note": "NSE states CM Market Live is typically 1-3 minutes behind real-time."
 }
