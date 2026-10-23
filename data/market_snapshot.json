@@ -1,8 +1,8 @@
 {
   "owner": "Rupendra",
   "engine_version": "7.0",
-  "timestamp": "2026-10-23T19:30:25.787312+00:00",
-  "ist_time": "2026-10-24T01:00:25.787304+05:30",
+  "timestamp": "2026-10-23T22:34:07.453364+00:00",
+  "ist_time": "2026-10-24T04:04:07.453354+05:30",
   "market_open": false,
   "market_status": "MARKET CLOSED",
   "decision": "MARKET CLOSED",
@@ -22,7 +22,7 @@
   },
   "learning": {
     "lessons": {},
-    "last_updated": "2026-10-23T19:30:26.381470+00:00",
+    "last_updated": "2026-10-23T22:34:07.888163+00:00",
     "method": "Outcome audit by validated signal, exit reason, market regime and option-contract liquidity. No self-modifying rule is allowed to silently change live criteria."
   },
   "research_state": {
@@ -36,13 +36,5 @@
   "data_quality": {
     "status": "SESSION_CLOSED"
   },
-  "open_trade": null,
-  "nse_live": {
-    "source": "NSE CM Market MCP",
-    "status": "error",
-    "error": "HTTP Error 404: Not Found",
-    "retrieved_at": "2026-10-23T22:12:25Z"
-  },
-  "live_data_source": "NSE CM Market MCP",
-  "live_data_note": "NSE states CM Market Live is typically 1-3 minutes behind real-time."
+  "open_trade": null
 }
