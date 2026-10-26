@@ -1,6 +1,6 @@
 {
   "source": "NSE CM Market MCP",
   "status": "error",
-  "error": "The read operation timed out",
-  "retrieved_at": "2026-10-26T08:04:45Z"
+  "error": "HTTP Error 404: Not Found",
+  "retrieved_at": "2026-10-26T15:06:50Z"
 }
