@@ -1,6 +1,6 @@
 {
   "source": "NSE CM Market MCP",
   "status": "error",
-  "error": "HTTP Error 404: Not Found",
-  "retrieved_at": "2026-10-29T00:21:03Z"
+  "error": "HTTP Error 400: Bad Request",
+  "retrieved_at": "2026-10-29T06:01:40Z"
 }
