@@ -10,7 +10,7 @@
   "signal_strength": 3.4,
   "model_score": -3.9,
   "confidence": 0.034,
-  "reason": "NO TRADE \u2014 insufficient synchronized public market inputs; options chain unavailable/not fresh; no liquid option candidate; historical validation gate not met; elevated event risk; evidence confluence below trade threshold; multi-timeframe direction is not aligned",
+  "reason": "NO TRADE — insufficient synchronized public market inputs; options chain unavailable/not fresh; no liquid option candidate; historical validation gate not met; elevated event risk; evidence confluence below trade threshold; multi-timeframe direction is not aligned",
   "nifty": 23010.0,
   "vix": 15.3,
   "regime": "BEARISH",
@@ -229,7 +229,7 @@
       "published": "Wed, 07 Oct 2026 07:00:00 GMT"
     },
     {
-      "title": "India\u2019s Stock Market Slump: Oil, Fed and RBI Rate Hikes Explained - MarketExpress",
+      "title": "India’s Stock Market Slump: Oil, Fed and RBI Rate Hikes Explained - MarketExpress",
       "published": "Tue, 13 Oct 2026 07:00:00 GMT"
     },
     {
@@ -261,7 +261,7 @@
       "published": "Tue, 13 Oct 2026 07:00:00 GMT"
     },
     {
-      "title": "Fed Pause May Give India\u2019s Central Bank Breathing Room - Bloomberg.com",
+      "title": "Fed Pause May Give India’s Central Bank Breathing Room - Bloomberg.com",
       "published": "Thu, 29 Oct 2026 07:57:38 GMT"
     },
     {
@@ -426,5 +426,13 @@
     "learning_engine": "ACTIVE",
     "decision_engine": "ACTIVE"
   },
-  "open_trade": null
+  "open_trade": null,
+  "nse_live": {
+    "source": "NSE CM Market MCP",
+    "status": "error",
+    "error": "HTTP Error 404: Not Found",
+    "retrieved_at": "2026-10-30T15:22:20Z"
+  },
+  "live_data_source": "NSE CM Market MCP",
+  "live_data_note": "NSE states CM Market Live is typically 1-3 minutes behind real-time."
 }
