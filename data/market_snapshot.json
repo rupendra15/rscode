@@ -10,7 +10,7 @@
   "signal_strength": 23.4,
   "model_score": -3.9,
   "confidence": 0.234,
-  "reason": "NO TRADE \u2014 insufficient synchronized public market inputs; options chain unavailable/not fresh; no liquid option candidate; elevated event risk; evidence confluence below trade threshold; multi-timeframe direction is not aligned",
+  "reason": "NO TRADE — insufficient synchronized public market inputs; options chain unavailable/not fresh; no liquid option candidate; elevated event risk; evidence confluence below trade threshold; multi-timeframe direction is not aligned",
   "nifty": 25286.3,
   "vix": 17.48,
   "regime": "BEARISH",
@@ -274,7 +274,7 @@
       "published": "Thu, 22 Oct 2026 07:00:00 GMT"
     },
     {
-      "title": "India: Waiting on the world to change \u2013 RBI Aug 2026 Meeting - 5 August 2026 - MUFG Research",
+      "title": "India: Waiting on the world to change – RBI Aug 2026 Meeting - 5 August 2026 - MUFG Research",
       "published": "Wed, 05 Aug 2026 07:00:00 GMT"
     },
     {
@@ -424,5 +424,13 @@
     "learning_engine": "ACTIVE",
     "decision_engine": "ACTIVE"
   },
-  "open_trade": null
+  "open_trade": null,
+  "nse_live": {
+    "source": "NSE CM Market MCP",
+    "status": "error",
+    "error": "HTTP Error 400: Bad Request",
+    "retrieved_at": "2026-11-11T15:00:23Z"
+  },
+  "live_data_source": "NSE CM Market MCP",
+  "live_data_note": "NSE states CM Market Live is typically 1-3 minutes behind real-time."
 }
