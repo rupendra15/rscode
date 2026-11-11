@@ -11,7 +11,7 @@
   },
   "learning_summary": {
     "lessons": {},
-    "last_updated": "2026-11-11T15:18:26.539140+00:00",
+    "last_updated": "2026-11-11T22:03:38.971925+00:00",
     "method": "Outcome audit by validated signal, exit reason, market regime and option-contract liquidity. No self-modifying rule is allowed to silently change live criteria."
   }
 }
