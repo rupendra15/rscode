@@ -1,16 +1,393 @@
 {
   "owner": "Rupendra",
-  "engine_version": "7.0",
-  "timestamp": "2026-11-13T23:55:44.562870+00:00",
-  "ist_time": "2026-11-14T05:25:44.562862+05:30",
-  "market_open": false,
-  "market_status": "MARKET CLOSED",
-  "decision": "MARKET CLOSED",
-  "decision_type": "SESSION_STATE",
-  "signal_strength": 0,
-  "model_score": null,
-  "confidence": null,
-  "reason": "Research continues outside session; final trade decision disabled.",
+  "engine_version": "6.0",
+  "timestamp": "2026-11-16T04:49:42.329446+00:00",
+  "ist_time": "2026-11-16T10:19:42.329437+05:30",
+  "market_open": true,
+  "market_status": "MARKET OPEN",
+  "decision": "NO TRADE",
+  "decision_type": "ABSTAIN",
+  "signal_strength": 38.4,
+  "model_score": 4.85,
+  "confidence": 0.384,
+  "reason": "NO TRADE \u2014 insufficient synchronized public market inputs; options chain unavailable/not fresh; no liquid option candidate; historical validation gate not met; elevated event risk; evidence confluence below trade threshold",
+  "nifty": 25302.0,
+  "vix": 15.76,
+  "regime": "BULLISH",
+  "market": {
+    "NIFTY": {
+      "price": 25302.0,
+      "change_pct": 0.01,
+      "ema20": 25251.04,
+      "ema50": 25197.79,
+      "rsi14": 78.83,
+      "atr14": 37.37,
+      "vwap": null,
+      "momentum5m_pct": 0.008,
+      "momentum15m_pct": 0.051,
+      "high_5d": 25424.35,
+      "low_5d": 24839.25,
+      "volume": 0,
+      "bars": 314,
+      "bar_epoch": 1794804581,
+      "age_seconds": 1.4,
+      "fresh": true
+    },
+    "VIX": {
+      "price": 15.76,
+      "change_pct": -0.02,
+      "ema20": 15.71,
+      "ema50": 15.83,
+      "rsi14": 60.89,
+      "atr14": 0.27,
+      "vwap": null,
+      "momentum5m_pct": -0.016,
+      "momentum15m_pct": 0.302,
+      "high_5d": 18.44,
+      "low_5d": 13.6,
+      "volume": 0,
+      "bars": 314,
+      "bar_epoch": 1794804581,
+      "age_seconds": 1.5,
+      "fresh": true
+    },
+    "SPX": {
+      "price": 7561.67,
+      "change_pct": 0.01,
+      "ema20": 7553.89,
+      "ema50": 7551.04,
+      "rsi14": 64.76,
+      "atr14": 6.2,
+      "vwap": 7544.09,
+      "momentum5m_pct": 0.011,
+      "momentum15m_pct": 0.088,
+      "high_5d": 7652.76,
+      "low_5d": 7376.86,
+      "volume": 0,
+      "bars": 391,
+      "bar_epoch": 1794603600,
+      "age_seconds": 200982.5,
+      "fresh": false
+    },
+    "NASDAQ": {
+      "price": 25136.27,
+      "change_pct": 0.02,
+      "ema20": 25122.59,
+      "ema50": 25112.84,
+      "rsi14": 57.43,
+      "atr14": 29.05,
+      "vwap": 25072.39,
+      "momentum5m_pct": 0.024,
+      "momentum15m_pct": 0.003,
+      "high_5d": 25649.47,
+      "low_5d": 24769.19,
+      "volume": 0,
+      "bars": 391,
+      "bar_epoch": 1794603600,
+      "age_seconds": 200982.6,
+      "fresh": false
+    },
+    "USDINR": {
+      "price": 94.11,
+      "change_pct": -0.01,
+      "ema20": 94.15,
+      "ema50": 94.18,
+      "rsi14": 38.26,
+      "atr14": 0.03,
+      "vwap": null,
+      "momentum5m_pct": -0.01,
+      "momentum15m_pct": 0.019,
+      "high_5d": 94.28,
+      "low_5d": 93.6,
+      "volume": 0,
+      "bars": 315,
+      "bar_epoch": 1794804577,
+      "age_seconds": 5.7,
+      "fresh": true
+    },
+    "CRUDE": {
+      "price": 88.35,
+      "change_pct": 0.01,
+      "ema20": 88.22,
+      "ema50": 88.23,
+      "rsi14": 75.56,
+      "atr14": 0.1,
+      "vwap": 88.43,
+      "momentum5m_pct": 0.011,
+      "momentum15m_pct": 0.045,
+      "high_5d": 89.64,
+      "low_5d": 83.88,
+      "volume": 0,
+      "bars": 1099,
+      "bar_epoch": 1794803954,
+      "age_seconds": 628.8,
+      "fresh": false
+    },
+    "GOLD": {
+      "price": 3875.6,
+      "change_pct": 0.0,
+      "ema20": 3875.78,
+      "ema50": 3878.28,
+      "rsi14": 71.65,
+      "atr14": 3.51,
+      "vwap": 3880.99,
+      "momentum5m_pct": 0.0,
+      "momentum15m_pct": -0.023,
+      "high_5d": 4136.4,
+      "low_5d": 3856.7,
+      "volume": 0,
+      "bars": 1097,
+      "bar_epoch": 1794803979,
+      "age_seconds": 603.8,
+      "fresh": false
+    }
+  },
+  "structure": {
+    "ema9": 25291.70307048018,
+    "ema20": 25251.037038500588,
+    "ema50": 25197.790873045753,
+    "ema200": 25175.21852598867,
+    "rsi14": 78.82983889396709,
+    "atr14": 37.367885044642854,
+    "macd": 47.60305954832074,
+    "adx14": 54.86551891862679,
+    "bb_upper": 25396.982214229032,
+    "bb_mid": 25241.17021484375,
+    "bb_lower": 25085.35821545847,
+    "momentum1m": 0.007905138339925344,
+    "momentum5": -0.07464343816145913,
+    "momentum15": 0.6473940153345792,
+    "momentum30": 0.8797389058462945,
+    "patterns": [
+      "doji",
+      "volatility_compression",
+      "triple_bottom_candidate",
+      "ascending_triangle_candidate"
+    ],
+    "support_20": 25097.099609375,
+    "resistance_20": 25337.599609375,
+    "support_50": 25054.44921875,
+    "resistance_50": 25337.599609375
+  },
+  "patterns": [
+    "doji",
+    "volatility_compression",
+    "triple_bottom_candidate",
+    "ascending_triangle_candidate"
+  ],
+  "option_data": {
+    "status": "BLOCKED_NO_RELIABLE_FREE_CHAIN",
+    "source": "public-free-fallback",
+    "calls": [],
+    "puts": [],
+    "pcr": null,
+    "max_pain": null,
+    "count": 0,
+    "fresh": false,
+    "errors": [
+      "query1.finance.yahoo.com: 401 Client Error: Unauthorized for url: https://query1.finance.yahoo.com/v7/finance/options/%5ENSEI",
+      "query2.finance.yahoo.com: 401 Client Error: Unauthorized for url: https://query2.finance.yahoo.com/v7/finance/options/%5ENSEI",
+      "nse_public: 404 Client Error: Not Found for url: https://www.nseindia.in/api/option-chain-indices?symbol=NIFTY"
+    ]
+  },
+  "option_intelligence": {
+    "status": "UNAVAILABLE"
+  },
+  "candidate": null,
+  "breadth": {
+    "status": "UNAVAILABLE",
+    "error": "404 Client Error: Not Found for url: https://www.nseindia.in/api/equity-stockIndices?index=NIFTY+50"
+  },
+  "sentiment": {
+    "bias": "BEARISH",
+    "positive_terms": 1,
+    "negative_terms": 8,
+    "risk_terms": [
+      "rbi",
+      "fed",
+      "inflation",
+      "war",
+      "rate hike",
+      "rate cut"
+    ],
+    "risk_level": "ELEVATED"
+  },
+  "fundamental": {
+    "status": "READY_PUBLIC_INDEX",
+    "valuation": "NOT_INFERRED",
+    "earnings": "NOT_INFERRED",
+    "macro": "HEADLINE_LAYER",
+    "last": 25301.6,
+    "pChange": 0.63
+  },
+  "news": [
+    {
+      "title": "FPIs Pump \u20b984,290 Cr into Indian Equities in Early Nov - Rediff MoneyWiz",
+      "published": "Sun, 15 Nov 2026 14:16:19 GMT"
+    },
+    {
+      "title": "Fed Rate Hike Impact on India: Why Oil and RBI Matter in October - NiftyTrader",
+      "published": "Wed, 23 Sep 2026 07:00:00 GMT"
+    },
+    {
+      "title": "Sensex, Nifty opening: Will markets rise or fall with RBI MPC decision today? - India Today",
+      "published": "Wed, 07 Oct 2026 07:00:00 GMT"
+    },
+    {
+      "title": "Markets Snap Rally: Sensex Drops, Nifty Below 25,150 on Inflation - Rediff MoneyWiz",
+      "published": "Fri, 13 Nov 2026 10:46:10 GMT"
+    },
+    {
+      "title": "India's stock benchmarks ascend towards new peaks on Fed, RBI rate cut optimism - Reuters",
+      "published": "Tue, 25 Nov 2025 08:00:00 GMT"
+    },
+    {
+      "title": "India's proposals to revamp derivatives settlement could alleviate expiry-day volatility, analysts say - Reuters",
+      "published": "Tue, 15 Sep 2026 07:00:00 GMT"
+    },
+    {
+      "title": "Options trading on Indian exchanges jumps over 40% in October as volatility returns - Moneycontrol.com",
+      "published": "Wed, 28 Oct 2026 07:00:00 GMT"
+    },
+    {
+      "title": "Indian market volatility eases as traders adapt to new closing auction - Yahoo Finance Singapore",
+      "published": "Thu, 06 Aug 2026 07:00:00 GMT"
+    },
+    {
+      "title": "Sebi looks to plug gaps in options trading during market volatility - Business Standard",
+      "published": "Mon, 25 May 2026 07:00:00 GMT"
+    },
+    {
+      "title": "Implied Volatility vs Realised Volatility: Key Differences - Groww",
+      "published": "Thu, 26 Mar 2026 07:00:00 GMT"
+    },
+    {
+      "title": "US-Iran deal uncertainty to weigh on rupee and bonds; Fed, RBI rate paths eyed - Reuters",
+      "published": "Mon, 16 Nov 2026 01:32:00 GMT"
+    },
+    {
+      "title": "Rupee slips with traders clinging to equity cues, awaiting inflation data - Reuters",
+      "published": "Thu, 12 Nov 2026 11:34:25 GMT"
+    },
+    {
+      "title": "India: Waiting on the world to change \u2013 RBI Aug 2026 Meeting - 5 August 2026 - MUFG Research",
+      "published": "Wed, 05 Aug 2026 07:00:00 GMT"
+    },
+    {
+      "title": "Inflation May Hit 6.3% in December Quarter, RBI Repo Rate to Reach 6.25% by April: Morgan Stanley - bfsi.economictimes.indiatimes.com",
+      "published": "Wed, 28 Oct 2026 07:00:00 GMT"
+    },
+    {
+      "title": "Inflation, Weak Rupee Keep RBI Rate Hikes in Play, Minutes Show - Bloomberg.com",
+      "published": "Wed, 21 Oct 2026 07:00:00 GMT"
+    }
+  ],
+  "validation": {
+    "samples": 156,
+    "hit_rate": 51.3,
+    "method": "rolling 5m EMA20/EMA50 + RSI; 3-bar forward direction"
+  },
+  "validation_detail": {
+    "5m": {
+      "samples": 156,
+      "hit_rate": 51.3
+    },
+    "15m": {
+      "samples": 123,
+      "hit_rate": 59.3
+    },
+    "combined": {
+      "samples": 279,
+      "hit_rate": 54.8,
+      "method": "walk-forward EMA20/EMA50 + RSI on 5m and 15m"
+    }
+  },
+  "multi_timeframe": {
+    "1m": {
+      "status": "READY",
+      "close": 25300.15,
+      "ema20": 25299.54,
+      "ema50": 25289.28,
+      "rsi": 44.2,
+      "macd": -0.6458,
+      "adx": 14.05,
+      "direction": "BULLISH",
+      "patterns": [
+        "doji",
+        "volatility_compression",
+        "descending_triangle_candidate"
+      ],
+      "bar_epoch": 1794804586
+    },
+    "5m": {
+      "status": "READY",
+      "close": 25300.15,
+      "ema20": 25250.86,
+      "ema50": 25197.72,
+      "rsi": 78.69,
+      "macd": 47.4555,
+      "adx": 54.87,
+      "direction": "BULLISH",
+      "patterns": [
+        "doji",
+        "volatility_compression",
+        "triple_bottom_candidate",
+        "ascending_triangle_candidate"
+      ],
+      "bar_epoch": 1794804586
+    },
+    "15m": {
+      "status": "READY",
+      "close": 25301.1,
+      "ema20": 25207.5,
+      "ema50": 25189.8,
+      "rsi": 79.02,
+      "macd": 31.0918,
+      "adx": 52.68,
+      "direction": "BULLISH",
+      "patterns": [
+        "doji",
+        "double_bottom_candidate",
+        "triple_bottom_candidate"
+      ],
+      "bar_epoch": 1794804585
+    },
+    "30m": {
+      "status": "READY",
+      "close": 25300.15,
+      "ema20": 25208.0,
+      "ema50": 25100.62,
+      "rsi": 58.39,
+      "macd": 20.8984,
+      "adx": 29.93,
+      "direction": "BULLISH",
+      "patterns": [
+        "doji",
+        "double_bottom_candidate",
+        "triple_bottom_candidate",
+        "descending_triangle_candidate"
+      ],
+      "bar_epoch": 1794804586
+    },
+    "confluence": {
+      "ready": 4,
+      "bullish": 4,
+      "bearish": 0,
+      "direction": "BULLISH"
+    }
+  },
+  "plan": {},
+  "evidence": [
+    "Structure: {'ema9': 25291.70307048018, 'ema20': 25251.037038500588, 'ema50': 25197.790873045753, 'ema200': 25175.21852598867, 'rsi14': 78.82983889396709, 'atr14': 37.367885044642854, 'macd': 47.60305954832074, 'adx14': 54.86551891862679, 'bb_upper': 25396.982214229032, 'bb_mid': 25241.17021484375, 'bb_lower': 25085.35821545847, 'momentum1m': 0.007905138339925344, 'momentum5': -0.07464343816145913, 'momentum15': 0.6473940153345792, 'momentum30': 0.8797389058462945, 'patterns': ['doji', 'volatility_compression', 'triple_bottom_candidate', 'ascending_triangle_candidate'], 'support_20': 25097.099609375, 'resistance_20': 25337.599609375, 'support_50': 25054.44921875, 'resistance_50': 25337.599609375}",
+    "Options: {'status': 'UNAVAILABLE'}",
+    "Breadth: {'status': 'UNAVAILABLE', 'error': '404 Client Error: Not Found for url: https://www.nseindia.in/api/equity-stockIndices?index=NIFTY+50'}",
+    "Sentiment: {'bias': 'BEARISH', 'positive_terms': 1, 'negative_terms': 8, 'risk_terms': ['rbi', 'fed', 'inflation', 'war', 'rate hike', 'rate cut'], 'risk_level': 'ELEVATED'}",
+    "Fundamental/background: {'status': 'READY_PUBLIC_INDEX', 'valuation': 'NOT_INFERRED', 'earnings': 'NOT_INFERRED', 'macro': 'HEADLINE_LAYER', 'last': 25301.6, 'pChange': 0.63}",
+    "Validation: {'samples': 156, 'hit_rate': 51.3, 'method': 'rolling 5m EMA20/EMA50 + RSI; 3-bar forward direction'}",
+    "Multi-timeframe: {'1m': {'status': 'READY', 'close': 25300.15, 'ema20': 25299.54, 'ema50': 25289.28, 'rsi': 44.2, 'macd': -0.6458, 'adx': 14.05, 'direction': 'BULLISH', 'patterns': ['doji', 'volatility_compression', 'descending_triangle_candidate'], 'bar_epoch': 1794804586}, '5m': {'status': 'READY', 'close': 25300.15, 'ema20': 25250.86, 'ema50': 25197.72, 'rsi': 78.69, 'macd': 47.4555, 'adx': 54.87, 'direction': 'BULLISH', 'patterns': ['doji', 'volatility_compression', 'triple_bottom_candidate', 'ascending_triangle_candidate'], 'bar_epoch': 1794804586}, '15m': {'status': 'READY', 'close': 25301.1, 'ema20': 25207.5, 'ema50': 25189.8, 'rsi': 79.02, 'macd': 31.0918, 'adx': 52.68, 'direction': 'BULLISH', 'patterns': ['doji', 'double_bottom_candidate', 'triple_bottom_candidate'], 'bar_epoch': 1794804585}, '30m': {'status': 'READY', 'close': 25300.15, 'ema20': 25208.0, 'ema50': 25100.62, 'rsi': 58.39, 'macd': 20.8984, 'adx': 29.93, 'direction': 'BULLISH', 'patterns': ['doji', 'double_bottom_candidate', 'triple_bottom_candidate', 'descending_triangle_candidate'], 'bar_epoch': 1794804586}, 'confluence': {'ready': 4, 'bullish': 4, 'bearish': 0, 'direction': 'BULLISH'}}",
+    "Option Greeks: {}",
+    "Global: {'SPX': 0.01, 'NASDAQ': 0.02, 'USDINR': -0.01, 'CRUDE': 0.01, 'GOLD': 0.0}"
+  ],
   "previous_decision": null,
   "journal_stats": {
     "closed": 0,
@@ -22,27 +399,31 @@
   },
   "learning": {
     "lessons": {},
-    "last_updated": "2026-11-13T23:55:44.916589+00:00",
+    "last_updated": "2026-11-16T04:49:47.808450+00:00",
     "method": "Outcome audit by validated signal, exit reason, market regime and option-contract liquidity. No self-modifying rule is allowed to silently change live criteria."
+  },
+  "data_quality": {
+    "fresh_sources": 3,
+    "public_data_only": true,
+    "tick_live": false,
+    "options_verified": false,
+    "trade_gate": false,
+    "multi_timeframe_verified": true,
+    "greeks_verified": false
   },
   "research_state": {
     "evidence_engine": "ACTIVE",
-    "pattern_engine": "ACTIVE",
+    "technical_engine": "ACTIVE",
+    "multi_timeframe_engine": "ACTIVE",
+    "chart_pattern_engine": "ACTIVE",
+    "greeks_engine": "ACTIVE",
+    "options_engine": "WAITING",
     "sentiment_engine": "ACTIVE",
     "fundamental_engine": "ACTIVE_PUBLIC_BACKGROUND",
+    "breadth_engine": "WAITING",
+    "validation_engine": "ACTIVE",
     "learning_engine": "ACTIVE",
-    "decision_engine": "OFF_OUTSIDE_SESSION"
+    "decision_engine": "ACTIVE"
   },
-  "data_quality": {
-    "status": "SESSION_CLOSED"
-  },
-  "open_trade": null,
-  "nse_live": {
-    "source": "NSE CM Market MCP",
-    "status": "error",
-    "error": "HTTP Error 400: Bad Request",
-    "retrieved_at": "2026-11-16T04:06:08Z"
-  },
-  "live_data_source": "NSE CM Market MCP",
-  "live_data_note": "NSE states CM Market Live is typically 1-3 minutes behind real-time."
+  "open_trade": null
 }
