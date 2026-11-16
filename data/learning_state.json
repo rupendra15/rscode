@@ -1,13 +1,45 @@
 {
-  "updated_at": null,
-  "status": "WAITING_FOR_FIRST_OVERNIGHT_RUN",
+  "updated_at": "2026-11-16T04:59:31.309668+00:00",
   "window": "1 month of 5-minute NIFTY data",
-  "pattern_stats": {},
-  "direction_stats": {},
+  "pattern_stats": {
+    "CLOSE": {
+      "samples": 211,
+      "wins": 118,
+      "hit_rate": 55.92
+    },
+    "OPEN": {
+      "samples": 41,
+      "wins": 24,
+      "hit_rate": 58.54
+    },
+    "MORNING": {
+      "samples": 262,
+      "wins": 116,
+      "hit_rate": 44.27
+    },
+    "MIDDAY": {
+      "samples": 386,
+      "wins": 225,
+      "hit_rate": 58.29
+    }
+  },
+  "direction_stats": {
+    "BEAR": {
+      "samples": 302,
+      "wins": 143,
+      "hit_rate": 47.35
+    },
+    "BULL": {
+      "samples": 598,
+      "wins": 340,
+      "hit_rate": 56.86
+    }
+  },
   "learning_rules": [
     "Do not trade during weak or contradictory regimes.",
     "Prefer independent confirmation across trend, momentum, volatility and options.",
     "Use historical hit-rate diagnostics to increase or decrease selectivity, never to guarantee an outcome.",
-    "Avoid optimizing rules on the same data used for validation."
-  ]
+    "Avoid blindly optimizing on the same data used for validation."
+  ],
+  "note": "Adaptive diagnostics only; the live engine does not self-modify into untested rules."
 }
