@@ -49,3 +49,30 @@ The growth diagnosis has two layers:
 For live AI diagnosis, create a local `.env.local` from `.env.example` and set `OPENAI_API_KEY`. Optionally set `OPENAI_MODEL` (default: `gpt-6-luna`). The API key is server-side only and is never exposed to the browser.
 
 The dashboard's **Re-run diagnosis** action re-scans the submitted business inputs and regenerates the diagnosis. A supplied Google/Maps URL is treated as business input; it is not represented as a verified listing unless independent evidence or connected Google data confirms it.
+
+## New laptop: fastest local setup (Windows)
+
+The repository includes Docker setup for PostgreSQL, the Java API, and the Next.js UI.
+
+Requirement: Docker Desktop.
+
+From PowerShell:
+
+    cd path\\to\\rscode\\vistaar-biz
+    .\\start-vistaar.ps1
+
+Then open:
+
+    http://localhost:3000
+
+API health:
+
+    http://localhost:8080/api/health
+
+Stop everything:
+
+    .\\stop-vistaar.ps1
+
+PostgreSQL data is persisted in the Docker volume vistaar_pgdata. Flyway runs automatically when the backend starts.
+
+For live AI diagnosis, create .env.local in vistaar-biz with OPENAI_API_KEY. Do not commit that file.
