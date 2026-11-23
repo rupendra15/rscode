@@ -404,5 +404,15 @@
     "score": 6.1,
     "confidence": 63.4,
     "option_status": "BLOCKED_NO_RELIABLE_FREE_CHAIN"
+  },
+  {
+    "timestamp": "2026-11-23T05:50:51.416718+00:00",
+    "ist_time": "2026-11-23T11:20:51.416710+05:30",
+    "nifty": 25598.75,
+    "decision": "NO TRADE",
+    "contract": null,
+    "score": -4.9,
+    "confidence": 19.4,
+    "option_status": "BLOCKED_NO_RELIABLE_FREE_CHAIN"
   }
 ]
