@@ -1,8 +1,8 @@
 {
   "owner": "Rupendra",
   "engine_version": "7.0",
-  "timestamp": "2026-11-23T16:35:45.912709+00:00",
-  "ist_time": "2026-11-23T22:05:45.912700+05:30",
+  "timestamp": "2026-11-24T03:02:12.237200+00:00",
+  "ist_time": "2026-11-24T08:32:12.237190+05:30",
   "market_open": false,
   "market_status": "MARKET CLOSED",
   "decision": "MARKET CLOSED",
@@ -22,7 +22,7 @@
   },
   "learning": {
     "lessons": {},
-    "last_updated": "2026-11-23T16:35:46.300074+00:00",
+    "last_updated": "2026-11-24T03:02:12.469479+00:00",
     "method": "Outcome audit by validated signal, exit reason, market regime and option-contract liquidity. No self-modifying rule is allowed to silently change live criteria."
   },
   "research_state": {
@@ -36,46 +36,5 @@
   "data_quality": {
     "status": "SESSION_CLOSED"
   },
-  "open_trade": null,
-  "nse_live": {
-    "source": "NSE CM Market MCP",
-    "retrieved_at": "2026-11-24T02:36:42Z",
-    "tool_count": 15,
-    "tools": [
-      "cm_get_live_market_data",
-      "cm_get_equity_stocks",
-      "nse_get_losers",
-      "cm_get_call_auction_stocks",
-      "cm_get_bond_stocks",
-      "cm_get_live_gainers",
-      "nse_get_gainers",
-      "cm_get_data_status",
-      "cm_get_stock_quote",
-      "cm_get_index_quote",
-      "cm_get_sme_stocks",
-      "cm_get_live_losers",
-      "cm_get_live_indices",
-      "nse_get_market_movers",
-      "cm_get_allstocks_status"
-    ],
-    "tool": "cm_get_live_market_data",
-    "arguments": {
-      "index": "NIFTY 50"
-    },
-    "response": {
-      "jsonrpc": "2.0",
-      "id": 3,
-      "result": {
-        "content": [
-          {
-            "type": "text",
-            "text": "{\"error\":\"Invalid index 'NIFTY 50'. Valid values: gainers, loosers\"}"
-          }
-        ],
-        "isError": false
-      }
-    }
-  },
-  "live_data_source": "NSE CM Market MCP",
-  "live_data_note": "NSE states CM Market Live is typically 1-3 minutes behind real-time."
+  "open_trade": null
 }
