@@ -1,39 +1,6 @@
 {
   "source": "NSE CM Market MCP",
-  "retrieved_at": "2026-11-25T05:04:00Z",
-  "tool_count": 15,
-  "tools": [
-    "cm_get_live_market_data",
-    "cm_get_equity_stocks",
-    "nse_get_losers",
-    "cm_get_call_auction_stocks",
-    "cm_get_bond_stocks",
-    "cm_get_live_gainers",
-    "nse_get_gainers",
-    "cm_get_data_status",
-    "cm_get_stock_quote",
-    "cm_get_index_quote",
-    "cm_get_sme_stocks",
-    "cm_get_live_losers",
-    "cm_get_live_indices",
-    "nse_get_market_movers",
-    "cm_get_allstocks_status"
-  ],
-  "tool": "cm_get_live_market_data",
-  "arguments": {
-    "index": "NIFTY 50"
-  },
-  "response": {
-    "jsonrpc": "2.0",
-    "id": 3,
-    "result": {
-      "content": [
-        {
-          "type": "text",
-          "text": "{\"error\":\"Invalid index 'NIFTY 50'. Valid values: gainers, loosers\"}"
-        }
-      ],
-      "isError": false
-    }
-  }
+  "status": "error",
+  "error": "HTTP Error 400: Bad Request",
+  "retrieved_at": "2026-11-25T15:28:28Z"
 }
