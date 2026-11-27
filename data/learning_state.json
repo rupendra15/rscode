@@ -1,38 +1,38 @@
 {
-  "updated_at": "2026-11-27T03:56:37.590989+00:00",
+  "updated_at": "2026-11-27T13:36:34.761329+00:00",
   "window": "1 month of 5-minute NIFTY data",
   "pattern_stats": {
+    "MIDDAY": {
+      "samples": 451,
+      "wins": 270,
+      "hit_rate": 59.87
+    },
     "CLOSE": {
-      "samples": 243,
-      "wins": 129,
-      "hit_rate": 53.09
+      "samples": 245,
+      "wins": 135,
+      "hit_rate": 55.1
     },
     "OPEN": {
-      "samples": 45,
-      "wins": 26,
-      "hit_rate": 57.78
+      "samples": 44,
+      "wins": 27,
+      "hit_rate": 61.36
     },
     "MORNING": {
-      "samples": 282,
-      "wins": 157,
-      "hit_rate": 55.67
-    },
-    "MIDDAY": {
-      "samples": 438,
-      "wins": 258,
-      "hit_rate": 58.9
+      "samples": 279,
+      "wins": 159,
+      "hit_rate": 56.99
     }
   },
   "direction_stats": {
-    "BEAR": {
-      "samples": 249,
-      "wins": 114,
-      "hit_rate": 45.78
-    },
     "BULL": {
-      "samples": 759,
-      "wins": 456,
-      "hit_rate": 60.08
+      "samples": 747,
+      "wins": 454,
+      "hit_rate": 60.78
+    },
+    "BEAR": {
+      "samples": 272,
+      "wins": 137,
+      "hit_rate": 50.37
     }
   },
   "learning_rules": [
